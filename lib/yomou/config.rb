@@ -12,6 +12,7 @@ module Yomou
         src = File.dirname(__FILE__) + "/../../examples/#{YOMOU_CONFIG}"
         FileUtils.cp(src, path)
       end
+      @keys = []
       load
     end
 
@@ -27,20 +28,34 @@ module Yomou
       File.join(directory, YOMOU_CONFIG)
     end
 
-    def load
+    def load(arg = nil)
       YAML.load_file(path).each do |key, value|
+        @keys << key
         instance_variable_set("@#{key}", value)
       end
     end
 
     def save
       config = {}
-      instance_variables.each do |symbol|
-        key = symbol.to_s.delete("@")
-        config[key] = instance_variable_get("@#{key}")
+      instance_variables.each do |var|
+        key = var.to_s.sub(/^@/, '')
+        unless key == "keys"
+          config[key] = instance_variable_get(var.to_s)
+        end
       end
       File.open(path, "w+") do |file|
         file.puts(YAML.dump(config))
+      end
+    end
+
+    def method_missing(method, *args)
+      method_name = method.to_s
+      if method_name.end_with?("=")
+        property = method_name.sub(/=$/, '')
+        @keys << property
+        instance_variable_set("@#{property}", *args)
+      else
+        instance_variable_get("@#{method_name}")
       end
     end
   end
