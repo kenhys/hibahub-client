@@ -22,6 +22,7 @@ module Yomou
         p options
         quarter if quarter?
         monthly if monthly?
+        weekly if weekly?
       end
 
       private
