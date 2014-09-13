@@ -12,7 +12,7 @@ module Yomou
         while date < Date.today
           rtype = date.strftime("%Y%m%d-w")
           path = Pathname.new(File.join(@conf.directory, "rankapi",
-                                        "#{rtype}.yaml.gz"))
+                                        date.strftime("weekly/%Y/#{rtype}.yaml.gz"))
           url = [
             "#{BASE_URL}/?rtype=#{rtype}",
             "gzip=#{@conf.gzip}",
