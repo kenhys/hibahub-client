@@ -1,3 +1,5 @@
+require "open-uri"
+
 module Yomou
   module Rankapi
 
@@ -16,9 +18,12 @@ module Yomou
             "gzip=#{@conf.gzip}",
             "out=#{@conf.out}"
           ].join("&")
-          p url
-          p path
           FileUtils.mkdir_p(path.dirname)
+          open(url) do |context|
+            File.open(path.to_s, "w+") do |file|
+                file.puts(context.read)
+            end
+          end
           date = date.next_month
         end
       end
