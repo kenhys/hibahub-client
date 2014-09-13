@@ -1,5 +1,16 @@
+require "thor"
 require "yomou/version"
+require "yomou/novelapi"
+require "yomou/rankapi"
+require "yomou/rankinapi"
 
 module Yomou
-  # Your code goes here...
+  module Novelapi
+    class Command < Thor
+
+      desc "init [SUBCOMMAND]", "Initialize cofiguration"
+      subcommand "init", Init
+
+    end
+  end
 end
