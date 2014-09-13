@@ -11,7 +11,7 @@ module Yomou
         date = Date.new(2013, 5, 1)
         while date < Date.today
           path = Pathname.new(File.join(@conf.directory, "rankapi",
-                                        date.strftime("%Y%m%d-q.yaml.gz")))
+                                        date.strftime("quarter/%Y%m%d-q.yaml.gz")))
           rtype = date.strftime("%Y%m%d-q")
           url = [
             "#{BASE_URL}/?rtype=#{rtype}",
