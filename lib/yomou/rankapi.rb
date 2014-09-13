@@ -21,6 +21,7 @@ module Yomou
         @conf = Yomou::Config.new
         p options
         quarter if quarter?
+        monthly if monthly?
       end
 
       private
