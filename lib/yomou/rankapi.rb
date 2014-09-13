@@ -1,4 +1,6 @@
+require "zlib"
 require "pathname"
+require "pp"
 require "yomou/rankapi/daily"
 require "yomou/rankapi/weekly"
 require "yomou/rankapi/monthly"
@@ -24,6 +26,29 @@ module Yomou
         monthly if monthly?
         weekly if weekly?
         daily if daily?
+      end
+
+      desc "download", ""
+      option :daily
+      option :weekly
+      option :monthly
+      option :quarter
+      def download
+        @conf = Yomou::Config.new
+        path = Pathname.new(File.join(@conf.directory,
+                                      "rankapi/quarter",
+                                      "#{options['quarter']}-q.yaml.gz"))
+        if path.exist?
+          Zlib::GzipReader.open(path.to_s) do |gz|
+            YAML.load(gz.read).each do |entry|
+              p entry["ncode"]
+              Dir.chdir(@conf.directory) do
+                system("narou download #{entry['ncode']}")
+                sleep 5
+              end
+            end
+          end
+        end
       end
 
       private
