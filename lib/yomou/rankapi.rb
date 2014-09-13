@@ -23,6 +23,7 @@ module Yomou
         quarter if quarter?
         monthly if monthly?
         weekly if weekly?
+        daily if daily?
       end
 
       private
