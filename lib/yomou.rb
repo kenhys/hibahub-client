@@ -14,5 +14,8 @@ module Yomou
     desc "rank [SUBCOMMAND]", "Get rank data"
     subcommand "rank", Rankapi::Rank
 
+    desc "novel [SUBCOMMAND]", "Get novel data"
+    subcommand "novel", Novelapi::Novel
+
   end
 end
