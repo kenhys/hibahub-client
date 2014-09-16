@@ -39,15 +39,19 @@ module Yomou
                                       "rankapi/quarter",
                                       "#{options['quarter']}-q.yaml.gz"))
         if path.exist?
+          entries = []
           Zlib::GzipReader.open(path.to_s) do |gz|
             YAML.load(gz.read).each do |entry|
-              Dir.chdir(@conf.directory) do
-                id = `narou list -u -g #{entry['ncode'].downcase}`.chomp
-                if id.empty?
-                  system("narou download --no-convert #{entry['ncode']}")
-                else
-                  puts "Already downloaded #{entry['ncode']}"
-                end
+              entries << entry['ncode'].downcase
+            end
+          end
+          Dir.chdir(@conf.directory) do
+            entries.each do |ncode|
+              id = `narou list -u -g #{ncode}`.chomp
+              if id.empty?
+                system("narou download --no-convert #{ncode}")
+              else
+                puts "Already downloaded #{ncode}"
               end
             end
           end
