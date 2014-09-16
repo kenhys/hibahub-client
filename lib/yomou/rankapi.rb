@@ -44,7 +44,7 @@ module Yomou
               Dir.chdir(@conf.directory) do
                 id = `narou list -u -g #{entry['ncode'].downcase}`.chomp
                 if id.empty?
-                  system("narou download #{entry['ncode']}")
+                  system("narou download --no-convert #{entry['ncode']}")
                 else
                   puts "Already downloaded #{entry['ncode']}"
                 end
