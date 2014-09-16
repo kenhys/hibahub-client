@@ -42,7 +42,7 @@ module Yomou
           Zlib::GzipReader.open(path.to_s) do |gz|
             YAML.load(gz.read).each do |entry|
               Dir.chdir(@conf.directory) do
-                id = `#{narou} list -u -g #{entry['ncode'].downcase}`.chomp
+                id = `narou list -u -g #{entry['ncode'].downcase}`.chomp
                 if id.empty?
                   system("narou download #{entry['ncode']}")
                 else
