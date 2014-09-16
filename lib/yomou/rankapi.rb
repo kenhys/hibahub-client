@@ -41,10 +41,13 @@ module Yomou
         if path.exist?
           Zlib::GzipReader.open(path.to_s) do |gz|
             YAML.load(gz.read).each do |entry|
-              p entry["ncode"]
               Dir.chdir(@conf.directory) do
-                system("narou download #{entry['ncode']}")
-                sleep 5
+                id = `#{narou} list -u -g #{entry['ncode'].downcase}`.chomp
+                if id.empty?
+                  system("narou download #{entry['ncode']}")
+                else
+                  puts "Already downloaded #{entry['ncode']}"
+                end
               end
             end
           end
