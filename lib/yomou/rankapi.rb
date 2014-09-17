@@ -57,14 +57,6 @@ module Yomou
               else
                 system("narou download --no-convert #{ncode}")
               end
-=begin
-              id = `narou list -u -g #{ncode}`.chomp
-              if id.empty?
-                system("narou download --no-convert #{ncode}")
-              else
-                puts "Already downloaded #{ncode}"
-              end
-=end
             end
           end
         end
