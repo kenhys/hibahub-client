@@ -42,7 +42,7 @@ module Yomou
           entries = []
           Zlib::GzipReader.open(path.to_s) do |gz|
             YAML.load(gz.read).each do |entry|
-              entries << entry['ncode'].downcase
+              entries << entry['ncode']
             end
           end
           Dir.chdir(@conf.directory) do
