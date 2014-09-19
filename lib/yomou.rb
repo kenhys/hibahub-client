@@ -1,6 +1,7 @@
 require "thor"
 require "yomou/version"
 require "yomou/init"
+require "yomou/import"
 require "yomou/novelapi"
 require "yomou/rankapi"
 require "yomou/rankinapi"
@@ -16,6 +17,9 @@ module Yomou
 
     desc "novel [SUBCOMMAND]", "Get novel data"
     subcommand "novel", Novelapi::Novel
+
+    desc "import [SUBCOMMAND]", "Import external data"
+    subcommand "import", Yomou::Import
 
   end
 end
