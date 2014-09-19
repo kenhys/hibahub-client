@@ -5,6 +5,7 @@ require "yomou/rankapi/daily"
 require "yomou/rankapi/weekly"
 require "yomou/rankapi/monthly"
 require "yomou/rankapi/quarter"
+require "yomou/rankapi/secondlist"
 
 module Yomou
   module Rankapi
@@ -61,6 +62,9 @@ module Yomou
           end
         end
       end
+
+      desc "secondlist [SUBCOMMAND]", ""
+      subcommand "secondlist", Yomou::Rankapi::SecondList
 
       private
 
