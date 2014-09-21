@@ -41,13 +41,16 @@ module Yomou
       def download_html(url, path)
         p url
         p path
-        if path.mtime > Time.now - 60 * 60 * 24
-          FileUtils.mkdir_p(path.dirname)
-          open(url) do |context|
-            p path
-            File.open(path.to_s, "w+") do |file|
-              file.puts(context.read)
-            end
+        if File.exists?(path.to_s)
+          if path.mtime > Time.now - 60 * 60 * 24
+            return
+          end
+        end
+        FileUtils.mkdir_p(path.dirname)
+        open(url) do |context|
+          p path
+          File.open(path.to_s, "w+") do |file|
+            file.puts(context.read)
           end
         end
       end
