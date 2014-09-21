@@ -35,5 +35,13 @@ module Yomou
       periods
     end
 
+    def yaml_gz(path)
+      entries = []
+      Zlib::GzipReader.open(path) do |gz|
+        entries = YAML.load(gz.read)
+      end
+      entries
+    end
+
   end
 end
