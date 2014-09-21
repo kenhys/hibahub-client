@@ -46,20 +46,7 @@ module Yomou
               entries << entry['ncode']
             end
           end
-          Dir.chdir(@conf.directory) do
-            downloaded = []
-            Dir.glob("#{@conf.narou_novel}/n*/") do |dir|
-              ncode = Pathname.new(dir).basename.to_s.split(' ')[0]
-              downloaded << ncode
-            end
-            entries.each do |ncode|
-              if downloaded.include?(ncode)
-                puts "Already downloaded #{ncode}"
-              else
-                system("narou download --no-convert #{ncode}")
-              end
-            end
-          end
+          Yomou::Narou::Downloader.new.download(entries)
         end
       end
 
