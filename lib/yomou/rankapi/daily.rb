@@ -5,6 +5,8 @@ module Yomou
 
     class Rank < Thor
 
+      include Yomou::Helper
+
       private
 
       def daily
@@ -19,14 +21,14 @@ module Yomou
             "gzip=#{@conf.gzip}",
             "out=#{@conf.out}"
           ].join("&")
-          FileUtils.mkdir_p(path.dirname)
-          p url
-          p path.to_s
-          open(url) do |context|
-            File.open(path.to_s, "w+") do |file|
-              file.puts(context.read)
-            end
+          if File.exists?(path.to_s)
+            date = date.next_day
+            next
           end
+
+          p url
+          p path
+          save_as(url, path)
           date = date.next_day
         end
       end
