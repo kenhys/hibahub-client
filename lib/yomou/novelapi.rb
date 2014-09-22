@@ -7,6 +7,10 @@ module Yomou
 
     class Novel < Thor
 
+      BASE_URL = "http://api.syosetu.com/novelapi/api/"
+
+      include Yomou::Helper
+
       desc "novel [SUBCOMMAND]", "Get novel data"
       option :ncode
       def get
@@ -19,6 +23,54 @@ module Yomou
             io.puts
             io.close_write
             puts io.read
+          end
+        end
+      end
+
+      desc "genre", "Get metadata about genre code"
+      def genre(arg)
+        @conf = Yomou::Config.new
+        url = BASE_URL + [
+          "gzip=#{@conf.gzip}",
+          "out=#{@conf.out}"
+        ].join("&")
+        genre_codes.each do |code|
+          [
+            "favnovelcnt",
+            "reviewcnt",
+            "hyoka",
+            "impressioncnt",
+            "hyokacnt"
+          ].each do |order|
+            first = true
+            offset = 1
+            limit = 500
+            allcount = 10
+            p code
+
+            while offset < 2000
+
+              of = "of=n"
+              url = sprintf("%s?genre=%d&gzip=%d&out=%s&lim=%d&st=%d&%s&order=%s",
+                            BASE_URL, code, @conf.gzip, @conf.out, limit, offset, of, order)
+              path = Pathname.new(File.join(@conf.directory,
+                                            "novelapi",
+                                            "genre_#{code}_#{order}_#{offset}-.yaml"))
+              p url
+              p path
+              save_as(url, path)
+              yaml = YAML.load_file(path.to_s)
+              if first
+                allcount = yaml.first["allcount"]
+              end
+              p allcount
+              #pp yaml
+              ncodes = yaml[1..-1].collect do |entry|
+                entry["ncode"]
+              end
+              Yomou::Narou::Downloader.new.download(ncodes)
+              offset += 500
+            end
           end
         end
       end
