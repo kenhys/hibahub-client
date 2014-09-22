@@ -1,3 +1,5 @@
+require "open-uri"
+
 module Yomou
   module Helper
 
@@ -41,6 +43,19 @@ module Yomou
         entries = YAML.load(gz.read)
       end
       entries
+    end
+
+    def genre_codes
+      (1..15).to_a
+    end
+
+    def save_as(url, path)
+      FileUtils.mkdir_p(path.dirname)
+      open(url) do |context|
+        File.open(path.to_s, "w+") do |file|
+          file.puts(context.read)
+        end
+      end
     end
 
   end
