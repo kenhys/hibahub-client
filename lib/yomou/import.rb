@@ -1,4 +1,5 @@
 require "grn_mini"
+require "yomou/const"
 require "yomou/config"
 require "yomou/helper"
 require "groonga"
@@ -10,28 +11,34 @@ module Yomou
     include Yomou::Helper
 
     desc "blacklist", "Import missing ncode as blacklist"
-    option :log
-    option :quarter
-    def blacklist
+    def blacklist(yaml)
       @conf = Yomou::Config.new
-      p options
-      return unless File.exist?(options['log'])
+      p yaml
+      return unless File.exist?(yaml)
 
-      p "now"
-      deleted = []
-      open(options['log'], "r") do |file|
-        file.read.each_line do |line|
-          if line =~ /.+syosetu\.com\/(.+)\//
-            deleted << $1
-          end
-        end
-      end
-      p deleted
-      path = Pathname.new(File.join(@conf.directory,
-                                    "rankapi/quarter",
-                                    "#{options['quarter']}-q.yaml.gz"))
+      path = Pathname.new(yaml)
       p path
-      entries = yaml_gz(path.to_s)
+
+      entries = {}
+      if path.exist?
+        entries = YAML.load_file(path.to_s)
+      end
+
+      Groonga::Context.default_options = {:encoding => :utf8}
+      return unless File.exist?(@conf.database)
+      Groonga::Database.open(@conf.database)
+
+      novels = Groonga["NarouNovels"]
+      p novels.size
+      entries["ncodes"].each do |ncode|
+        next if novels.has_key?(ncode)
+        p ncode
+        novels.add(ncode,
+                   :yomou_status => YOMOU_NOVEL_DELETED,
+                   :yomou_sync_interval => YOMOU_SYNC_NONE,
+                   :yomou_sync_schedule => Time.new(0))
+      end
+
     end
 
     desc "rank", "Import ranking data"
