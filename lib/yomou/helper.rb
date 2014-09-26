@@ -40,9 +40,9 @@ module Yomou
     def yaml_gz(path)
       entries = []
       begin
-      Zlib::GzipReader.open(path) do |gz|
-        entries = YAML.load(gz.read)
-      end
+        Zlib::GzipReader.open(path) do |gz|
+          entries = YAML.load(gz.read)
+        end
       rescue Zlib::GzipFile::Error
       end
       entries
