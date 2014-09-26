@@ -38,5 +38,43 @@ module Yomou
       end
     end
 
+    desc "downloaded", ""
+    def downloaded
+      @conf = Yomou::Config.new
+
+      ncodes = []
+      Dir.chdir(@conf.directory) do
+        `find . -maxdepth 3 -name 'n[0-9]*'`.split.each do |entry|
+          if entry =~ /\/(n.+)$/
+            ncode = $1
+            p ncode
+            ncodes << ncode
+          end
+        end
+      end
+
+      return if ncodes.empty?
+
+      Groonga::Context.default_options = {:encoding => :utf8}
+      return unless File.exist?(@conf.database)
+      Groonga::Database.open(@conf.database)
+
+      novels = Groonga["NarouNovels"]
+      p novels.size
+
+      ncodes.each do |ncode|
+        if novels.has_key?(ncode)
+          p "update #{ncode}"
+          novels[ncode].yomou_status = YOMOU_NOVEL_DOWNLOADED
+          novels[ncode].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
+        else
+          novels.add(ncode,
+                     :yomou_status => YOMOU_NOVEL_DOWNLOADED,
+                     :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
+                     :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
+        end
+      end
+    end
+
   end
 end
