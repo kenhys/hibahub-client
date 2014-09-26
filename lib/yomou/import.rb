@@ -79,6 +79,7 @@ module Yomou
         path = Pathname.new(File.join(@conf.directory,
                                       relative_path))
         p path
+        next unless path.exist?
         entries = yaml_gz(path.to_s)
         next if entries.empty?
 
