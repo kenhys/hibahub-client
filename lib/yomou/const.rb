@@ -7,4 +7,10 @@ module Yomou
     "database" => "~/.yomou/db/yomou.db"
   }
 
+  YOMOU_SYNC_NONE = -1
+
+  YOMOU_NOVEL_DELETED = -1
+  YOMOU_NOVEL_NONE = 0
+  YOMOU_NOVEL_DOWNLOADED = 1
+
 end
