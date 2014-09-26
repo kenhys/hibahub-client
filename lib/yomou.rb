@@ -6,6 +6,7 @@ require "yomou/downloader"
 require "yomou/novelapi"
 require "yomou/rankapi"
 require "yomou/rankinapi"
+require "yomou/update"
 
 module Yomou
   class Command < Thor
@@ -21,6 +22,9 @@ module Yomou
 
     desc "import [SUBCOMMAND]", "Import external data"
     subcommand "import", Yomou::Import
+
+    desc "update [SUBCOMMAND]", "Update external data"
+    subcommand "update", Yomou::Update
 
   end
 end
