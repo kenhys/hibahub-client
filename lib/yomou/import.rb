@@ -1,6 +1,7 @@
 require "grn_mini"
 require "yomou/config"
 require "yomou/helper"
+require "groonga"
 
 module Yomou
 
@@ -52,6 +53,16 @@ module Yomou
         periods = daily_periods
       end
 
+      path = Pathname.new(@conf.database)
+      FileUtils.mkdir_p(path.dirname)
+      p @conf.database
+
+      Groonga::Context.default_options = {:encoding => :utf8}
+      return unless File.exist?(@conf.database)
+      Groonga::Database.open(@conf.database)
+
+      table = Groonga["Narou#{term.capitalize}Ranking"]
+
       periods.each do |period|
         relative_path = ""
         ymd = period.strftime("%Y%m%d")
@@ -71,27 +82,20 @@ module Yomou
         entries = yaml_gz(path.to_s)
         next if entries.empty?
 
-        path = Pathname.new(@conf.database)
-        FileUtils.mkdir_p(path.dirname)
-        GrnMini::create_or_open(@conf.database)
-        table = "#{term.capitalize}Ranking"
-        p table
-        array = GrnMini::Array.new(table)
-        p array.size
-
-        next if array.size > 0 and array.select("date:#{ymd}").size > 0
-
-        p period
-        entries.each do |entry|
-          array << {
-            date: ymd,
-            ncode: entry["ncode"],
-            pt: entry["pt"],
-            rank: entry["rank"],
-            delete: false
-          }
+        records = table.select do |record|
+          record.date == Time.parse(ymd)
         end
-        p array.size
+        p records.size
+        p ymd
+        next if records.size > 0
+
+        entries.each do |entry|
+          pp entry
+          table.add(:ncode => entry["ncode"],
+                    :pt => entry["pt"],
+                    :rank => entry["rank"],
+                    :date => Time.parse(ymd))
+        end
       end
     end
   end
