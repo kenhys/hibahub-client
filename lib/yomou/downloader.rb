@@ -16,6 +16,8 @@ module Yomou
       end
 
       def download(ncodes)
+        succeeded = []
+        failed = []
         Dir.chdir(@conf.directory) do
           ncodes.each do |ncode|
             if @downloaded.include?(ncode)
@@ -25,6 +27,10 @@ module Yomou
             end
           end
         end
+        {
+          :succeeded => succeeded,
+          :failed => failed
+        }
       end
     end
 
