@@ -1,4 +1,5 @@
 require "open-uri"
+require "yomou/userapi/command"
 
 module Yomou
   module Userapi
@@ -17,29 +18,32 @@ module Yomou
         base_url = "http://mypage.syosetu.com/mypage/novellist/userid"
 
         url = base_url + "/#{id}/"
-=begin
-        path = Pathname.new(File.join(@conf.directory,
-                                      "userapi",
-                                      id,
-                                      "novellist.html"))
-
-        save_as(url, path)
-=end
-        p url
-        ncodes = []
+        novels = {}
         open(url) do |context|
           doc = Nokogiri::HTML.parse(context.read)
           doc.xpath("//div[@id='novellist']/ul").each do |ul|
+            title = ""
+            ncode = nil
             ul.xpath("li[@class='title']/a").each do |a|
-              p a.attribute("href").text
+              title = a.text
               if a.attribute("href").text =~ /.+\/(n.+)\//
-                ncodes << $1
+                ncode = $1
+                novels[ncode] = {
+                  :ncode => ncode,
+                  :title => title,
+                }
               end
+            end
+            ul.xpath("li[@class='date1']").each do |li|
+              li.text =~ /(\d+)/
+              novels[ncode][:elements] = $1
             end
           end
         end
-        p ncodes
-        Yomou::Narou::Downloader.new.download(ncodes)
+        novels.each do |key,novel|
+          printf("%8s: %s (%d)\n",
+                 novel[:ncode], novel[:title], novel[:elements])
+        end
       end
 
     end
