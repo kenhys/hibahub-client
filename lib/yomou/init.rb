@@ -92,14 +92,22 @@ module Yomou
                           all_hyoka_cnt: -1,
                           novelupdated_at: Time.new(0))
 
+      accounts = GrnMini::Hash.new("YomouUsers")
+      accounts.setup_columns(name: "",
+                             mail: "",
+                             password: "",
+                             admin: false,
+                             update_time: Time.new(0),
+                             login_time: Time.new(0),
+                             login_from: "")
+
       users = GrnMini::Hash.new("NarouUsers")
       users.setup_columns(name: "",
-                          mail: "",
-                          password: "",
-                          admin: false,
-                          update_time: Time.new(0),
-                          login_time: Time.new(0),
-                          login_from: "")
+                          novel: [novels],
+                          bookmark: [novels],
+                          favuser: [users],
+                          novelassess: [novels],
+                          reviewlist: [novels])
 
       logs = GrnMini::Array.new("NarouUserLogs")
       logs.setup_columns(user: users,
