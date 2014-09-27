@@ -41,6 +41,9 @@ module Yomou
           end
         end
         p codes
+
+        downloader = Yomou::Narou::Downloader.new
+
         codes.each do |code|
           [
             "favnovelcnt",
@@ -75,7 +78,7 @@ module Yomou
               ncodes = yaml[1..-1].collect do |entry|
                 entry["ncode"]
               end
-              Yomou::Narou::Downloader.new.download(ncodes)
+              downloader.download(ncodes)
               offset += 500
             end
           end
