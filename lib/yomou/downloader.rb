@@ -4,15 +4,19 @@ module Yomou
     class Downloader
 
       def initialize
+      end
+
+      def glob_downloaded_ncodes
         @conf = Yomou::Config.new
 
+        downloaded = []
         Dir.chdir(@conf.directory) do
-          @downloaded = []
           Dir.glob("#{@conf.narou_novel}/n*/") do |dir|
             ncode = Pathname.new(dir).basename.to_s.split(' ')[0]
-            @downloaded << ncode
+            downloaded << ncode
           end
         end
+        downloaded
       end
 
       def download(ncodes)
