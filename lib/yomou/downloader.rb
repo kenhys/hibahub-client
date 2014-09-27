@@ -48,6 +48,17 @@ module Yomou
               puts "Already downloaded #{ncode}"
             else
               system("narou download --no-convert #{ncode}")
+
+              novels = Groonga["NarouNovels"]
+              if novels.has_key?(ncode)
+                novels[ncode].yomou_status = YOMOU_NOVEL_DOWNLOADED
+                novels[ncode].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
+              else
+                novels.add(ncode,
+                           :yomou_status => YOMOU_NOVEL_DOWNLOADED,
+                           :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
+                           :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
+              end
             end
           end
         end
