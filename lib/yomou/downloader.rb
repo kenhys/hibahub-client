@@ -5,6 +5,11 @@ module Yomou
 
       def initialize
         @conf = Yomou::Config.new
+
+        Groonga::Context.default_options = {:encoding => :utf8}
+        if File.exist?(@conf.database)
+          Groonga::Database.open(@conf.database)
+        end
       end
 
       def glob_downloaded_ncodes
@@ -19,9 +24,7 @@ module Yomou
       end
 
       def downloaded_ncodes
-        Groonga::Context.default_options = {:encoding => :utf8}
         return [] unless File.exist?(@conf.database)
-        Groonga::Database.open(@conf.database)
 
         novels = Groonga["NarouNovels"]
         p novels.size
