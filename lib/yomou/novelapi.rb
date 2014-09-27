@@ -28,13 +28,20 @@ module Yomou
       end
 
       desc "genre", "Get metadata about genre code"
-      def genre(arg)
+      def genre(arg = nil)
         @conf = Yomou::Config.new
         url = BASE_URL + [
           "gzip=#{@conf.gzip}",
           "out=#{@conf.out}"
         ].join("&")
-        genre_codes.each do |code|
+        codes = arg || genre_codes
+        if codes.is_a?(String)
+          codes = arg.split(",").collect do |code|
+            code.to_i
+          end
+        end
+        p codes
+        codes.each do |code|
           [
             "favnovelcnt",
             "reviewcnt",
