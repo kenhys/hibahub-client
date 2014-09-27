@@ -7,6 +7,7 @@ require "yomou/novelapi"
 require "yomou/rankapi"
 require "yomou/rankinapi"
 require "yomou/update"
+require "yomou/userapi"
 
 module Yomou
   class Command < Thor
@@ -25,6 +26,9 @@ module Yomou
 
     desc "update [SUBCOMMAND]", "Update external data"
     subcommand "update", Yomou::Update
+
+    desc "user [SUBCOMMAND]", ""
+    subcommand "user", Userapi::User
 
   end
 end
