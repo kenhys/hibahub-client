@@ -60,7 +60,7 @@ module Yomou
 
             while offset < 2000
 
-              of = "of=n"
+              of = "of=n-u-g-f-r-a-ah-sa-ka"
               url = sprintf("%s?genre=%d&gzip=%d&out=%s&lim=%d&st=%d&%s&order=%s",
                             BASE_URL, code, @conf.gzip, @conf.out, limit, offset, of, order)
               path = Pathname.new(File.join(@conf.directory,
