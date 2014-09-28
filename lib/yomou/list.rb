@@ -18,7 +18,7 @@ module Yomou
       end
 
       records.each do |record|
-        printf("%5d %s:%s\n", record._id, record._key, record.title)
+        printf("%7d %s:%s\n", record._id, record._key, record.title)
       end
     end
 
