@@ -44,7 +44,7 @@ module Yomou
         downloaded = downloaded_ncodes
         Dir.chdir(@conf.directory) do
           ncodes.each do |ncode|
-            if downloaded.include?(ncode)
+            if downloaded.include?(ncode.upcase)
               puts "Already downloaded #{ncode}"
             else
               system("narou download --no-convert #{ncode}")
@@ -54,7 +54,7 @@ module Yomou
                 novels[ncode].yomou_status = YOMOU_NOVEL_DOWNLOADED
                 novels[ncode].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
               else
-                novels.add(ncode,
+                novels.add(ncode.upcase,
                            :yomou_status => YOMOU_NOVEL_DOWNLOADED,
                            :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
                            :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
