@@ -19,6 +19,11 @@ module Yomou
         Yomou::Userapi::Novellist.show(id)
       end
 
+      desc "bookmark USER_ID", ""
+      def bookmark(id, arg = nil)
+        Yomou::Userapi::Bookmark.show(id)
+      end
+
     end
   end
 end

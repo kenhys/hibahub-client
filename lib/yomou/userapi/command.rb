@@ -6,7 +6,7 @@ module Yomou
 
     class Command < Thor
 
-      desc "bookmark [SUBCOMMAND]", ""
+      desc "bookmark USER_ID", ""
       subcommand "bookmark", Yomou::Userapi::Bookmark
 
       desc "novellist [SUBCOMMAND]", ""
