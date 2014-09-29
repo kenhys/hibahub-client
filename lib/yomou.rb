@@ -9,6 +9,7 @@ require "yomou/rankapi"
 require "yomou/rankinapi"
 require "yomou/update"
 require "yomou/userapi"
+require "yomou/secondrank"
 
 module Yomou
   class Command < Thor
@@ -18,6 +19,9 @@ module Yomou
 
     desc "rank [SUBCOMMAND]", "Get rank data"
     subcommand "rank", Rankapi::Rank
+
+    desc "secondrank [SUBCOMMAND]", ""
+    subcommand "secondrank", SecondRankapi::SecondRank
 
     desc "novel [SUBCOMMAND]", "Get novel data"
     subcommand "novel", Novelapi::Novel
