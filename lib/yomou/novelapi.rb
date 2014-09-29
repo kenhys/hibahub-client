@@ -36,8 +36,14 @@ module Yomou
         ].join("&")
         codes = arg || genre_codes
         if codes.is_a?(String)
-          codes = arg.split(",").collect do |code|
-            code.to_i
+          if codes =~ /(\d+)\.\.(\d+)/
+            codes = eval("#{$1}.upto(#{$2})").each.collect do |i|
+              i
+            end
+          else
+            codes = arg.split(",").collect do |code|
+              code.to_i
+            end
           end
         end
         p codes
