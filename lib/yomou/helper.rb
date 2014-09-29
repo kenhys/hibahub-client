@@ -37,11 +37,20 @@ module Yomou
       periods
     end
 
-    def yaml_gz(path)
+    def yaml_gz(path_or_url)
       entries = []
       begin
-        Zlib::GzipReader.open(path) do |gz|
-          entries = YAML.load(gz.read)
+        if File.exists?(path_or_url)
+          Zlib::GzipReader.open(path_or_url) do |gz|
+            entries = YAML.load(gz.read)
+          end
+        else
+          open(path_or_url) do |context|
+            io = StringIO.new(context.read)
+            Zlib::GzipReader.wrap(io) do |gz|
+              entries = YAML.load(gz.read)
+            end
+          end
         end
       rescue Zlib::GzipFile::Error
       end
