@@ -3,10 +3,6 @@ module Yomou
 
     class Novellist < Thor
 
-      desc "", ""
-      def novellist
-      end
-
       def self.show(user_id)
         collect_novellist(user_id).each do |key,novel|
           printf("%8s: %s (%d)\n",
