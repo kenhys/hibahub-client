@@ -75,5 +75,10 @@ module Yomou
       end
     end
 
+    def open_database(path)
+      Groonga::Context.default_options = {:encoding => :utf8}
+      Groonga::Database.open(path)
+    end
+
   end
 end
