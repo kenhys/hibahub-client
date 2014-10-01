@@ -55,9 +55,7 @@ module Yomou
 
       return if ncodes.empty?
 
-      Groonga::Context.default_options = {:encoding => :utf8}
-      return unless File.exist?(@conf.database)
-      Groonga::Database.open(@conf.database)
+      open_database(@conf.database)
 
       novels = Groonga["NarouNovels"]
       p novels.size
