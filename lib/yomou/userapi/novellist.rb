@@ -3,12 +3,35 @@ module Yomou
 
     class Novellist < Thor
 
+      extend Yomou::Helper
+
       def self.show(user_id)
         collect_novellist(user_id).each do |key,novel|
           printf("%8s: %s (%d)\n",
                  novel[:ncode], novel[:title], novel[:elements])
         end
 
+      end
+
+      def self.download(user_id)
+        @conf = Yomou::Config.new
+
+        open_database(@conf.database)
+
+        downloader = Narou::Downloader.new
+
+        novels = Groonga["NarouNovels"]
+        collect_novellist(user_id).each do |key,novel|
+          records = novels.select do |record|
+            record._key == key.downcase
+          end
+          if records.empty?
+            downloader.download([key])
+          else
+            printf("%8s: %s (%d)\n",
+                   novel[:ncode], novel[:title], novel[:elements])
+          end
+        end
       end
 
       def self.collect_novellist(user_id, option = nil)
