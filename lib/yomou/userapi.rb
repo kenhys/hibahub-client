@@ -15,13 +15,19 @@ module Yomou
       subcommand "get", Yomou::Userapi::Command
 
       desc "novellist USER_ID", ""
+      option :download
       def novellist(id, arg = nil)
-        Yomou::Userapi::Novellist.show(id)
+        if options["download"]
+          Novellist.download(id)
+        else
+          Novellist.show(id)
+        end
       end
 
       desc "bookmark USER_ID", ""
+      option :download
       def bookmark(id, arg = nil)
-        Yomou::Userapi::Bookmark.show(id)
+        Bookmark.show(id)
       end
 
     end
