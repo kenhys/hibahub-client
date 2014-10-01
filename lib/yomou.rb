@@ -10,6 +10,7 @@ require "yomou/rankinapi"
 require "yomou/update"
 require "yomou/userapi"
 require "yomou/secondrank"
+require "yomou/atomapi"
 
 module Yomou
   class Command < Thor
@@ -34,6 +35,9 @@ module Yomou
 
     desc "user [SUBCOMMAND]", ""
     subcommand "user", Userapi::User
+
+    desc "atom [OPTIONS]", ""
+    subcommand "atom", Yomou::Atomapi::Atom
 
   end
 end
