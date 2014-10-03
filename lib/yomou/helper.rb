@@ -62,7 +62,7 @@ module Yomou
     end
 
     def save_as(url, path)
-      if pathd.exist?
+      if path.exist?
         if path.mtime > Time.now - 60 * 60 * 24
           return
         end
