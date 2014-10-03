@@ -90,6 +90,60 @@ module Yomou
           end
         end
       end
+
+      desc "keyword", ""
+      def keyword(arg)
+        case arg
+        when "list"
+          keywordlist
+        end
+      end
+
+      desc "keywordlist", ""
+      option :download
+      def keywordlist
+        keywords = []
+        open("http://yomou.syosetu.com/search/classified/") do |context|
+          doc = Nokogiri::HTML.parse(context.read)
+          doc.xpath("//div[@class='word']/a").each do |a|
+            keywords << a.text
+          end
+        end
+
+        downloader = Narou::Downloader.new
+        p downloader
+        keywords.each_with_index do |keyword, index|
+          puts "#{index+1}/#{keywords.size}"
+          page = 1
+          total = nil
+          p keyword
+          while page <= 100 do
+            url = sprintf("%s?word=%s&order=hyoka&p=%d",
+                          "http://yomou.syosetu.com/search.php",
+                          URI.escape(keyword),
+                          page)
+            p url
+            ncodes = []
+            open(url) do |context|
+              doc = Nokogiri::HTML.parse(context.read)
+              unless not total
+                doc.xpath("//div[@id='main2']/b").each do |b|
+                  b.text =~ /([\d,]+)/
+                  pages = $1.delete(",").to_i / 20
+                end
+              end
+              doc.xpath("//div[@class='novel_h']/a").each do |a|
+                a.attribute("href").text =~ /.+\/(n.+)\//
+                ncode = $1
+                ncodes << ncode
+              end
+            end
+            downloader.download(ncodes)
+            break if page >= 100
+            page = page + 1
+          end
+        end
+      end
     end
 
   end
