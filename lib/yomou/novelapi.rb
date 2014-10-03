@@ -138,6 +138,7 @@ module Yomou
                 ncodes << ncode
               end
             end
+            p keyword
             downloader.download(ncodes)
             break if page >= 100
             page = page + 1
