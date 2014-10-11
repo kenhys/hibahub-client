@@ -38,31 +38,23 @@ module Yomou
       end
     end
 
-    desc "status", ""
+    desc "novel [status]", ""
     def novel(arg = nil)
       @conf = Yomou::Config.new
+
+      bookshelf = Yomou::Bookshelf.new
 
       case arg
       when "status"
         ncodes = bookshelf.ncodes_from_realpath
-      end
+        return if ncodes.empty?
 
-      return if ncodes.empty?
-
-      bookshelf = Yomou::Bookshelf.new
-      novels = Groonga["NarouNovels"]
-      p novels.size
-
-      ncodes.each do |ncode|
-        if novels.has_key?(ncode)
-          p "update #{ncode}"
-          novels[ncode].yomou_status = YOMOU_NOVEL_DOWNLOADED
-          novels[ncode].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
-        else
-          novels.add(ncode.upcase,
-                     :yomou_status => YOMOU_NOVEL_DOWNLOADED,
-                     :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
-                     :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
+        ncodes.each do |ncode|
+          if bookshelf.ncode_exist?(ncode)
+            bookshelf.update_status(ncode, YOMOU_NOVEL_DOWNLOADED)
+          else
+            bookshelf.register_ncode(ncode, {:status => YOMOU_NOVEL_DOWNLOADED})
+          end
         end
       end
     end
