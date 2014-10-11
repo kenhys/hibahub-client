@@ -141,6 +141,7 @@ module Yomou
               downloader.download(ncodes)
             else
               bookshelf.register_ncode(ncodes)
+              sleep YOMOU_REQUEST_INTERVAL_MSEC
             end
 
             break if page >= 100
