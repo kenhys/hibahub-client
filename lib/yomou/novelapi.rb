@@ -39,6 +39,7 @@ module Yomou
         p codes
 
         downloader = Yomou::Narou::Downloader.new
+        bookshelf = Yomou::BookShelf.new
 
         codes.each do |code|
           [
