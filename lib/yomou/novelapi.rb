@@ -167,7 +167,7 @@ module Yomou
                                                        "keyword",
                                                        filename)))
         FileUtils.mkdir_p(path.dirname)
-        open(path.to_s) do |file|
+        open(path.to_s, "w+") do |file|
           file.puts(YAML.dump(assoc))
         end
       end
