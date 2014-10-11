@@ -15,6 +15,7 @@ module Yomou
     end
 
     def ncodes_from_realpath
+      ncodes = []
       Dir.chdir(File.expand_path(@conf.directory)) do
         `find . -maxdepth 3 -name 'n[0-9]*'`.split.each do |entry|
           if entry =~ /\/(n.+)$/
@@ -24,6 +25,7 @@ module Yomou
           end
         end
       end
+      ncodes
     end
 
     def register_ncode(ncode, options = {})
