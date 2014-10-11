@@ -28,6 +28,7 @@ module Yomou
       end
 
       desc "genre", "Get metadata about genre code"
+      option :download
       def genre(arg = nil)
         @conf = Yomou::Config.new
         url = BASE_URL + [
@@ -84,7 +85,9 @@ module Yomou
               ncodes = yaml[1..-1].collect do |entry|
                 entry["ncode"]
               end
-              downloader.download(ncodes)
+              if options["download"]
+                downloader.download(ncodes)
+              end
               offset += 500
             end
           end
