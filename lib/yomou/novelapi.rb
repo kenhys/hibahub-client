@@ -76,6 +76,8 @@ module Yomou
               end
               if options["download"]
                 downloader.download(ncodes)
+              else
+                bookshelf.register_ncode(ncodes)
               end
               offset += 500
             end
