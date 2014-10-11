@@ -16,12 +16,13 @@ module Yomou
       @conf = Yomou::Config.new
       if options.has_key?("force")
         p @conf.database
-        path = Pathname.new(@conf.database)
+        p File.expand_path(@conf.database)
+        path = Pathname.new(File.expand_path(@conf.database))
         FileUtils.rm_rf(path.dirname)
         FileUtils.mkdir_p(path.dirname)
       end
 
-      GrnMini::create_or_open(@conf.database)
+      GrnMini::create_or_open(path.to_s)
 
       master = GrnMini::Hash.new("NarouMaster")
       master.setup_columns(uid: -1)
