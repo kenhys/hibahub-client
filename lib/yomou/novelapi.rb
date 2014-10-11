@@ -163,6 +163,7 @@ module Yomou
         path = Pathname.new(File.expand_path(File.join(@conf.directory,
                                                        "keyword",
                                                        filename)))
+        FileUtils.mkdir_p(path.dirname)
         open(path.to_s) do |file|
           file.puts(YAML.dump(assoc))
         end
