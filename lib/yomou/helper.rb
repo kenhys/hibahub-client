@@ -61,6 +61,22 @@ module Yomou
       (1..15).to_a
     end
 
+    def extract_codes_from_argument(arg)
+      codes = arg || genre_codes
+      if codes.is_a?(String)
+        if codes =~ /(\d+)\.\.(\d+)/
+          codes = eval("#{$1}.upto(#{$2})").each.collect do |i|
+            i
+          end
+        else
+          codes = arg.split(",").collect do |code|
+            code.to_i
+          end
+        end
+      end
+      codes
+    end
+
     def save_as(url, path)
       if path.exist?
         if path.mtime > Time.now - 60 * 60 * 24
