@@ -62,9 +62,9 @@ module Yomou
               of = "of=n-u-g-f-r-a-ah-sa-ka"
               url = sprintf("%s?genre=%d&gzip=%d&out=%s&lim=%d&st=%d&%s&order=%s",
                             BASE_URL, code, @conf.gzip, @conf.out, limit, offset, of, order)
-              path = Pathname.new(File.join(@conf.directory,
-                                            "novelapi",
-                                            "genre_#{code}_#{order}_#{offset}-.yaml.gz"))
+              path = pathname_expanded([@conf.directory,
+                                         "novelapi",
+                                         "genre_#{code}_#{order}_#{offset}-.yaml.gz"])
               p url
               p path
               save_as(url, path)
@@ -130,10 +130,10 @@ module Yomou
                           page)
             p url
             filename = "#{URI.escape(keyword)}_hyoka_#{page}.html"
-            path = Pathname.new(File.expand_path(File.join(@conf.directory,
-                                                           "keyword",
-                                                           URI.escape(keyword),
-                                                           filename)))
+            path = pathname_expanded([@conf.directory,
+                                       "keyword",
+                                       URI.escape(keyword),
+                                       filename])
             ncodes = []
             save_as(url, path)
             open(path.to_s) do |context|
@@ -166,10 +166,9 @@ module Yomou
         end
 
         filename = "keywords.yaml"
-        path = Pathname.new(File.expand_path(File.join(@conf.directory,
-                                                       "keyword",
-                                                       filename)))
-        FileUtils.mkdir_p(path.dirname)
+        path = pathname_expanded([@conf.directory,
+                                   "keyword",
+                                   filename])
         open(path.to_s, "w+") do |file|
           file.puts(YAML.dump(assoc))
         end

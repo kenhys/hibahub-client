@@ -36,9 +36,9 @@ module Yomou
       private
 
       def quarter_path
-        Pathname.new(File.join(@conf.directory,
-                               "rankapi",
-                               "secondlist/quarter_total.html"))
+        pathname_expanded([@conf.directory,
+                            "rankapi",
+                            "secondlist/quarter_total.html"])
       end
 
     end

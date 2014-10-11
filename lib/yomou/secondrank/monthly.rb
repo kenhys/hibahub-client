@@ -37,9 +37,9 @@ module Yomou
       private
 
       def monthly_path
-        Pathname.new(File.join(@conf.directory,
-                               "rankapi",
-                               "secondlist/monthly_total.html"))
+        pathname_expanded([@conf.directory,
+                            "rankapi",
+                            "secondlist/monthly_total.html"])
       end
     end
   end
