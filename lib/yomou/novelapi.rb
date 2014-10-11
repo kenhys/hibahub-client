@@ -98,6 +98,8 @@ module Yomou
       desc "keywordlist", ""
       option :download
       def keywordlist
+        @conf = Yomou::Config.new
+
         keywords = []
         open("http://yomou.syosetu.com/search/classified/") do |context|
           doc = Nokogiri::HTML.parse(context.read)
