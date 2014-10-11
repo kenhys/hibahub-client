@@ -173,6 +173,66 @@ module Yomou
           file.puts(YAML.dump(assoc))
         end
       end
+
+      desc "nopointlist", ""
+      option :download
+      def nopointlist
+        @conf = Yomou::Config.new
+
+        page = 1
+        bookmark = 1
+        n = 1
+
+        downloader = Narou::Downloader.new
+        bookshelf = Yomou::Bookshelf.new
+
+        until bookmark == 0
+          path = pathname_expanded([@conf.directory,
+                                     "nopointlist",
+                                     "nopointlist_#{page}.html"])
+          url = sprintf("%s?p=%d",
+                        "http://yomou.syosetu.com/nolist/nopointlist/index.php",
+                        page)
+          save_as(url, path)
+          open(path.to_s) do |context|
+            doc = Nokogiri::HTML.parse(context.read)
+
+            doc.xpath("div[@class='site_h2']").each do |div|
+              div.text =~ /.+?(\d+)/
+              novels = $1
+              p novels
+            end
+
+            doc.xpath("//div[@class='newreview']").each do |div|
+              ncode = ""
+              title = ""
+              count = 1
+              div.xpath("div[@class='review_title']/a").each do |a|
+                ncode = extract_ncode_from_url(a.attribute("href").text)
+                title, bracket, status, count_label, _ = a.text.split("\n")
+                count_label =~ /.+?(\d+)/
+                count = $1.to_i
+              end
+              bookmark = 0
+              div.xpath("div[3]").each do |div|
+                items = div.text.split("\n").reject do |item|
+                  not item.include?("：")
+                end
+                items[1] =~ /.+?(\d+)/
+                bookmark = $1
+              end
+              printf("%7d: %s: %s (%d) bookmark:%d\n", n, ncode, title, count, bookmark)
+
+              unless bookshelf.ncode_exist?(ncode)
+                bookshelf.register_ncode(ncode)
+              end
+              n = n + 1
+            end
+          end
+          page = page + 1
+        end
+      end
+
     end
 
   end
