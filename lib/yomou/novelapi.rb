@@ -35,17 +35,7 @@ module Yomou
           "gzip=#{@conf.gzip}",
           "out=#{@conf.out}"
         ].join("&")
-        codes = arg || genre_codes
-        if codes.is_a?(String)
-          if codes =~ /(\d+)\.\.(\d+)/
-            codes = eval("#{$1}.upto(#{$2})").each.collect do |i|
-              i
-            end
-          else
-            codes = arg.split(",").collect do |code|
-              code.to_i
-            end
-          end
+        codes = extract_codes_from_argument(arg)
         end
         p codes
 
