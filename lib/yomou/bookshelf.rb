@@ -1,6 +1,6 @@
 module Yomou
 
-  class BookShelf
+  class Bookshelf
 
     def initialize
       @conf = Yomou::Config.new
