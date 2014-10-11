@@ -156,7 +156,7 @@ module Yomou
             page = page + 1
           end
 
-          assoc[keyword] = all_nocdes
+          assoc[keyword] = all_ncodes
         end
 
         filename = "keywords.yaml"
