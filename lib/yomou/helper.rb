@@ -89,6 +89,7 @@ module Yomou
           file.puts(context.read)
         end
       end
+      sleep YOMOU_REQUEST_INTERVAL_MSEC
     end
 
     def open_database(path)
