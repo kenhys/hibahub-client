@@ -126,9 +126,10 @@ module Yomou
                           URI.escape(keyword),
                           page)
             p url
-            filename = "hyoka_#{URI.escape(keyword)}_#{page}.html"
+            filename = "#{URI.escape(keyword)}_hyoka_#{page}.html"
             path = Pathname.new(File.expand_path(File.join(@conf.directory,
                                                            "keyword",
+                                                           URI.escape(keyword),
                                                            filename)))
             ncodes = []
             save_as(url, path)
