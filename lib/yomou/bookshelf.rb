@@ -6,7 +6,7 @@ module Yomou
       @conf = Yomou::Config.new
 
       Groonga::Context.default_options = {:encoding => :utf8}
-      Groonga::Database.open(@conf.database)
+      Groonga::Database.open(File.expand_path(@conf.database))
     end
 
     def ncode_exist?(ncode)
