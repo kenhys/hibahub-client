@@ -47,5 +47,12 @@ module Yomou
       end
     end
 
+    def update_status(ncode, status)
+      p "update #{ncode}"
+      novels = Groonga["NarouNovels"]
+      novels[ncode].yomou_status = status
+      novels[ncode].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
+    end
+
   end
 end
