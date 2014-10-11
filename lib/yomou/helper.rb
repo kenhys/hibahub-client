@@ -37,6 +37,11 @@ module Yomou
       periods
     end
 
+    def extract_ncode_from_url(url)
+      url =~ /.+\/(n.+)\//
+      $1
+    end
+
     def pathname_expanded(paths)
       path = Pathname.new(File.expand_path(File.join(paths)))
       FileUtils.mkdir_p(path.dirname)
