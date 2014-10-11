@@ -102,7 +102,10 @@ module Yomou
         @conf = Yomou::Config.new
 
         keywords = []
-        open("http://yomou.syosetu.com/search/classified/") do |context|
+        path = pathname_expanded([@conf.directory, "keyword", "classified.html"])
+        url = "http://yomou.syosetu.com/search/classified/"
+        save_as(url, path)
+        open(path.to_s) do |context|
           doc = Nokogiri::HTML.parse(context.read)
           doc.xpath("//div[@class='word']/a").each do |a|
             keywords << a.text
