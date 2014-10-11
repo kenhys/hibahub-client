@@ -14,6 +14,18 @@ module Yomou
       novels.has_key?(ncode.upcase)
     end
 
+    def ncodes_from_realpath
+      Dir.chdir(File.expand_path(@conf.directory)) do
+        `find . -maxdepth 3 -name 'n[0-9]*'`.split.each do |entry|
+          if entry =~ /\/(n.+)$/
+            ncode = $1
+            p ncode
+            ncodes << ncode
+          end
+        end
+      end
+    end
+
     def register_ncode(ncode)
       novels = Groonga["NarouNovels"]
       ncodes = []
