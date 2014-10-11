@@ -38,25 +38,18 @@ module Yomou
       end
     end
 
-    desc "downloaded", ""
-    def downloaded
+    desc "status", ""
+    def novel(arg = nil)
       @conf = Yomou::Config.new
 
-      ncodes = []
-      Dir.chdir(@conf.directory) do
-        `find . -maxdepth 3 -name 'n[0-9]*'`.split.each do |entry|
-          if entry =~ /\/(n.+)$/
-            ncode = $1
-            p ncode
-            ncodes << ncode
-          end
-        end
+      case arg
+      when "status"
+        ncodes = bookshelf.ncodes_from_realpath
       end
 
       return if ncodes.empty?
 
-      open_database(@conf.database)
-
+      bookshelf = Yomou::Bookshelf.new
       novels = Groonga["NarouNovels"]
       p novels.size
 
