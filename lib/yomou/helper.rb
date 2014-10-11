@@ -37,6 +37,12 @@ module Yomou
       periods
     end
 
+    def pathname_expanded(paths)
+      path = Pathname.new(File.expand_path(File.join(paths)))
+      FileUtils.mkdir_p(path.dirname)
+      path
+    end
+
     def yaml_gz(path_or_url)
       entries = []
       begin
