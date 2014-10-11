@@ -26,7 +26,7 @@ module Yomou
       end
     end
 
-    def register_ncode(ncode)
+    def register_ncode(ncode, options = {})
       novels = Groonga["NarouNovels"]
       ncodes = []
       if ncode.kind_of?(String)
@@ -37,8 +37,10 @@ module Yomou
       ncodes.each do |ncode|
         unless novels.has_key?(ncode.upcase)
           p "register ncode:#{ncode.upcase}"
+          status = YOMOU_NOVEL_NONE
+          status = options[:status] if options.has_key?(:status)
           novels.add(ncode.upcase,
-                     :yomou_status => YOMOU_NOVEL_NONE,
+                     :yomou_status => status,
                      :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
                      :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
         else
