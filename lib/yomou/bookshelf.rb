@@ -19,6 +19,8 @@ module Yomou
       ncodes = []
       if ncode.kind_of?(String)
         ncodes = [ncode]
+      else
+        ncodes = ncode
       end
       ncodes.each do |ncode|
         unless novels.has_key?(ncode.upcase)
