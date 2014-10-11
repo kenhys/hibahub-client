@@ -36,7 +36,6 @@ module Yomou
           "out=#{@conf.out}"
         ].join("&")
         codes = extract_codes_from_argument(arg)
-        end
         p codes
 
         downloader = Yomou::Narou::Downloader.new
