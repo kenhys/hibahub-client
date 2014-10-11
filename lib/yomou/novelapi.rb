@@ -110,19 +110,26 @@ module Yomou
         bookshelf = Yomou::Bookshelf.new
 
         p downloader
+        assoc = {}
         keywords.each_with_index do |keyword, index|
           puts "#{index+1}/#{keywords.size}"
           page = 1
           total = nil
           p keyword
+          all_ncodes = []
           while page <= 100 do
             url = sprintf("%s?word=%s&order=hyoka&p=%d",
                           "http://yomou.syosetu.com/search.php",
                           URI.escape(keyword),
                           page)
             p url
+            filename = "hyoka_#{URI.escape(keyword)}_#{page}.html"
+            path = Pathname.new(File.expand_path(File.join(@conf.directory,
+                                                           "keyword",
+                                                           filename)))
             ncodes = []
-            open(url) do |context|
+            save_as(url, path)
+            open(path.to_s) do |context|
               doc = Nokogiri::HTML.parse(context.read)
               unless not total
                 doc.xpath("//div[@id='main2']/b").each do |b|
@@ -144,9 +151,20 @@ module Yomou
               sleep YOMOU_REQUEST_INTERVAL_MSEC
             end
 
+            all_ncodes.concat(ncodes)
             break if page >= 100
             page = page + 1
           end
+
+          assoc[keyword] = all_nocdes
+        end
+
+        filename = "keywords.yaml"
+        path = Pathname.new(File.expand_path(File.join(@conf.directory,
+                                                       "keyword",
+                                                       filename)))
+        open(path.to_s) do |file|
+          file.puts(YAML.dump(assoc))
         end
       end
     end
