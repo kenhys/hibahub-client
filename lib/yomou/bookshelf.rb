@@ -16,11 +16,18 @@ module Yomou
 
     def register_ncode(ncode)
       novels = Groonga["NarouNovels"]
-      unless novels.has_key?(ncode.upcase)
-        novels.add(ncode.upcase,
-                   :yomou_status => YOMOU_NOVEL_NONE,
-                   :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
-                   :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
+      ncodes = []
+      if ncode.kind_of?(String)
+        ncodes = [ncode]
+      end
+      ncodes.each do |ncode|
+        unless novels.has_key?(ncode.upcase)
+          p "register ncode:#{ncode.upcase}"
+          novels.add(ncode.upcase,
+                     :yomou_status => YOMOU_NOVEL_NONE,
+                     :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
+                     :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
+        end
       end
     end
 
