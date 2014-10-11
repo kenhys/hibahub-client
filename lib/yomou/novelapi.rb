@@ -1,6 +1,7 @@
 require "thor"
 require "open3"
 require "yomou/novelapi/ncode"
+require "yomou/bookshelf"
 
 module Yomou
   module Novelapi
@@ -106,6 +107,8 @@ module Yomou
         end
 
         downloader = Narou::Downloader.new
+        bookshelf = Yomou::Bookshelf.new
+
         p downloader
         keywords.each_with_index do |keyword, index|
           puts "#{index+1}/#{keywords.size}"
@@ -134,7 +137,12 @@ module Yomou
               end
             end
             p keyword
-            downloader.download(ncodes)
+            if options["download"]
+              downloader.download(ncodes)
+            else
+              bookshelf.register_ncode(ncodes)
+            end
+
             break if page >= 100
             page = page + 1
           end
