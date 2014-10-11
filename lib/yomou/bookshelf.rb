@@ -29,6 +29,8 @@ module Yomou
                      :yomou_status => YOMOU_NOVEL_NONE,
                      :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
                      :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
+        else
+          print "skip #{ncode.upcase}"
         end
       end
     end
