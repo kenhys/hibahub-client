@@ -141,20 +141,7 @@ module Yomou
                                        filename])
             ncodes = []
             save_as(url, path)
-            open(path.to_s) do |context|
-              doc = Nokogiri::HTML.parse(context.read)
-              unless not total
-                doc.xpath("//div[@id='main2']/b").each do |b|
-                  b.text =~ /([\d,]+)/
-                  pages = $1.delete(",").to_i / 20
-                end
-              end
-              doc.xpath("//div[@class='novel_h']/a").each do |a|
-                a.attribute("href").text =~ /.+\/(n.+)\//
-                ncode = $1
-                ncodes << ncode
-              end
-            end
+            ncodes = extract_ncode_from_each_page_with_keyword(path)
             if options["verbose"]
               p keyword
             else
@@ -240,6 +227,27 @@ module Yomou
           end
           page = page + 1
         end
+      end
+
+      private
+
+      def extract_ncode_from_each_page_with_keyword(path)
+        ncodes = []
+        open(path.to_s) do |context|
+          doc = Nokogiri::HTML.parse(context.read)
+          unless not total
+            doc.xpath("//div[@id='main2']/b").each do |b|
+              b.text =~ /([\d,]+)/
+              pages = $1.delete(",").to_i / 20
+            end
+          end
+          doc.xpath("//div[@class='novel_h']/a").each do |a|
+            a.attribute("href").text =~ /.+\/(n.+)\//
+            ncode = $1
+            ncodes << ncode
+          end
+        end
+        ncodes
       end
 
     end
