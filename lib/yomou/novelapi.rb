@@ -117,7 +117,11 @@ module Yomou
         downloader = Narou::Downloader.new
         bookshelf = Yomou::Bookshelf.new
 
-        assoc = {}
+        filename = "keywords.yaml"
+        path = pathname_expanded([@conf.directory,
+                                   "keyword",
+                                   filename])
+        assoc = YAML.load_file(path.to_s)
         keywords.each_with_index do |keyword, index|
           puts "#{index+1}/#{keywords.size}"
           page = 1
@@ -175,10 +179,6 @@ module Yomou
           assoc[keyword] = all_ncodes
         end
 
-        filename = "keywords.yaml"
-        path = pathname_expanded([@conf.directory,
-                                   "keyword",
-                                   filename])
         open(path.to_s, "w+") do |file|
           file.puts(YAML.dump(assoc))
         end
