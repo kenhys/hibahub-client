@@ -163,11 +163,11 @@ module Yomou
           end
 
           assoc[keyword] = all_ncodes
+          open(keywords_path.to_s, "w+") do |file|
+            file.puts(YAML.dump(assoc))
+          end
         end
 
-        open(path.to_s, "w+") do |file|
-          file.puts(YAML.dump(assoc))
-        end
       end
 
       desc "nopointlist", ""
