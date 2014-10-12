@@ -123,11 +123,10 @@ module Yomou
                                    filename])
         assoc = YAML.load_file(path.to_s)
         keywords.each_with_index do |keyword, index|
-          puts "#{index+1}/#{keywords.size}"
           page = 1
           total = nil
           next if options["nth"].to_i > index + 1
-          p keyword
+          puts "#{index+1}/#{keywords.size} #{keyword}"
           all_ncodes = []
           while page <= 100 do
             url = sprintf("%s?word=%s&order=hyoka&p=%d",
