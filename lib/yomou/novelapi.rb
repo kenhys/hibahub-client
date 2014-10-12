@@ -145,7 +145,9 @@ module Yomou
             if options["verbose"]
               p keyword
             else
-              if page % 10 == 0
+              if page == 100
+                puts page
+              elsif page % 10 == 0
                 print page
               else
                 print "."
