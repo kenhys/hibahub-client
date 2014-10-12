@@ -99,6 +99,7 @@ module Yomou
       desc "keywordlist", ""
       option :download
       option :verbose
+      option :nth
       def keywordlist
         @conf = Yomou::Config.new
 
@@ -121,6 +122,7 @@ module Yomou
           puts "#{index+1}/#{keywords.size}"
           page = 1
           total = nil
+          next if options["nth"].to_i > index + 1
           p keyword
           all_ncodes = []
           while page <= 100 do
