@@ -98,6 +98,7 @@ module Yomou
 
       desc "keywordlist", ""
       option :download
+      option :verbose
       def keywordlist
         @conf = Yomou::Config.new
 
@@ -115,7 +116,6 @@ module Yomou
         downloader = Narou::Downloader.new
         bookshelf = Yomou::Bookshelf.new
 
-        p downloader
         assoc = {}
         keywords.each_with_index do |keyword, index|
           puts "#{index+1}/#{keywords.size}"
@@ -128,7 +128,7 @@ module Yomou
                           "http://yomou.syosetu.com/search.php",
                           URI.escape(keyword),
                           page)
-            p url
+            p url if options["verbose"]
             filename = "#{URI.escape(keyword)}_hyoka_#{page}.html"
             path = pathname_expanded([@conf.directory,
                                        "keyword",
@@ -150,7 +150,15 @@ module Yomou
                 ncodes << ncode
               end
             end
-            p keyword
+            if options["verbose"]
+              p keyword
+            else
+              if page % 10 == 0
+                p page
+              else
+                p "."
+              end
+            end
             if options["download"]
               downloader.download(ncodes)
             else
