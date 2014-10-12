@@ -154,9 +154,9 @@ module Yomou
               p keyword
             else
               if page % 10 == 0
-                p page
+                print page
               else
-                p "."
+                print "."
               end
             end
             if options["download"]
