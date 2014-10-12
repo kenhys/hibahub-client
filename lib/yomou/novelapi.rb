@@ -249,7 +249,7 @@ module Yomou
               if path.exist?
                 ncodes = extract_ncode_from_each_page_with_keyword(path)
                 if assoc[keyword]
-                assoc[keyword] = assoc[keyword].concat(ncodes)
+                  assoc[keyword].concat(ncodes)
                 else
                   assoc[keyword] = ncodes
                 end
