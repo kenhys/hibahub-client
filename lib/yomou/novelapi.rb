@@ -118,10 +118,10 @@ module Yomou
         bookshelf = Yomou::Bookshelf.new
 
         filename = "keywords.yaml"
-        path = pathname_expanded([@conf.directory,
-                                   "keyword",
-                                   filename])
-        assoc = YAML.load_file(path.to_s)
+        keywords_path = pathname_expanded([@conf.directory,
+                                            "keyword",
+                                            filename])
+        assoc = load_keywords_yaml(keywords_path, keywords)
         keywords.each_with_index do |keyword, index|
           page = 1
           total = nil
@@ -231,7 +231,35 @@ module Yomou
 
       private
 
-      def extract_ncode_from_each_page_with_keyword(path)
+      def load_keywords_yaml(path, keywords)
+        assoc = {}
+        if path.exist?
+          assoc = YAML.load_file(path.to_s)
+        else
+          keywords.each_with_index do |keyword, index|
+            page = 1
+            while page <= 100 do
+              filename = "#{URI.escape(keyword)}_hyoka_#{page}.html"
+              path = pathname_expanded([@conf.directory,
+                                         "keyword",
+                                         URI.escape(keyword),
+                                         filename])
+              if path.exist?
+                ncodes = extract_ncode_from_each_page_with_keyword(path)
+                if assoc[keyword]
+                assoc[keyword] = assoc[keyword].concat(ncodes)
+                else
+                  assoc[keyword] = ncodes
+                end
+              end
+              page = page + 1
+            end
+          end
+        end
+        assoc
+      end
+
+      def extract_ncode_from_each_page_with_keyword(path, total = nil)
         ncodes = []
         open(path.to_s) do |context|
           doc = Nokogiri::HTML.parse(context.read)
