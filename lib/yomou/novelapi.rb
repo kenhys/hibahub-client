@@ -196,10 +196,12 @@ module Yomou
           open(path.to_s) do |context|
             doc = Nokogiri::HTML.parse(context.read)
 
-            doc.xpath("div[@class='site_h2']").each do |div|
-              div.text =~ /.+?(\d+)/
-              novels = $1
-              p novels
+            if page == 1
+              doc.xpath("div[@class='site_h2']").each do |div|
+                div.text =~ /.+?(\d+)/
+                total = $1
+                p total
+              end
             end
 
             doc.xpath("//div[@class='newreview']").each do |div|
