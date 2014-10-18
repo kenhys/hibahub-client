@@ -1,4 +1,5 @@
 require "open-uri"
+require "zlib"
 
 module Yomou
   module Helper
