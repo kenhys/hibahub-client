@@ -88,7 +88,8 @@ module Yomou
       codes
     end
 
-    def save_as(url, path, within_seconds = YOMOU_SYNC_INTERVAL_WEEK)
+    def save_as(url, path,
+                options = {:within_seconds => YOMOU_SYNC_INTERVAL_WEEK})
       if path.exist?
         if path.mtime > Time.now - within_seconds
           return
@@ -97,7 +98,12 @@ module Yomou
       FileUtils.mkdir_p(path.dirname)
       open(url) do |context|
         File.open(path.to_s, "w+") do |file|
-          file.puts(context.read)
+          if options[:gzip]
+            gz = Zlib.GzipWriter.new(file)
+            gz.puts(context.read)
+          else
+            file.puts(context.read)
+          end
         end
       end
       sleep YOMOU_REQUEST_INTERVAL_MSEC
