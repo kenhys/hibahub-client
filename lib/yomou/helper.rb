@@ -102,8 +102,9 @@ module Yomou
       open(url) do |context|
         File.open(path.to_s, "w+") do |file|
           if options[:gzip]
-            gz = Zlib.GzipWriter.new(file)
+            gz = Zlib::GzipWriter.new(file)
             gz.puts(context.read)
+            gz.close
           else
             file.puts(context.read)
           end
