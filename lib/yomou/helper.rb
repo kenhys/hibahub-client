@@ -92,7 +92,7 @@ module Yomou
     def save_as(url, path,
                 options = {:within_seconds => YOMOU_SYNC_INTERVAL_WEEK})
       within_seconds = YOMOU_SYNC_INTERVAL_WEEK
-      within_seconds = option[:within_seconds] if option[:within_seconds]
+      within_seconds = options[:within_seconds] if options[:within_seconds]
       if path.exist?
         if path.mtime > Time.now - within_seconds
           return
