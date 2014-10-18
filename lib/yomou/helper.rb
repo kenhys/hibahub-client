@@ -49,6 +49,20 @@ module Yomou
       path
     end
 
+    def html_gz(path_or_url)
+      if File.exists?(path_or_url)
+        if path.end_with?(".gz")
+          Zlib::GzipReader.open(path_or_url) do |gz|
+            yield(Nokogiri::HTML.parse(gz.read))
+          end
+        else
+          open(path_or_url) do |context|
+            yield(Nokogiri::HTML.parse(context.read))
+          end
+        end
+      end
+    end
+
     def yaml_gz(path_or_url)
       entries = []
       begin
