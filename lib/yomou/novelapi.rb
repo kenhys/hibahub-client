@@ -180,11 +180,12 @@ module Yomou
         page = 1
         bookmark = 1
         n = 1
+        total = 20
 
         downloader = Narou::Downloader.new
         bookshelf = Yomou::Bookshelf.new
 
-        until bookmark == 0
+        until bookmark == 0 or n > total
           path = pathname_expanded([@conf.directory,
                                      "nopointlist",
                                      "nopointlist_#{page}.html"])
