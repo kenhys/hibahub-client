@@ -51,7 +51,7 @@ module Yomou
 
     def html_gz(path_or_url)
       if File.exists?(path_or_url)
-        if path.end_with?(".gz")
+        if path_or_url.end_with?(".gz")
           Zlib::GzipReader.open(path_or_url) do |gz|
             yield(Nokogiri::HTML.parse(gz.read))
           end
