@@ -1,6 +1,6 @@
 require "open-uri"
 require "zlib"
-require "lz4-ruby"
+require "extlz4"
 
 module Yomou
   module Helper
@@ -89,7 +89,9 @@ module Yomou
       begin
         if File.exists?(path_or_url)
           open(path_or_url) do |context|
-            entries = YAML.load(LZ4::uncompress(context.read))
+            LZ4.decode(context) do |lz4|
+              entries = YAML.load(lz4.read)
+            end
           end
         end
       end
@@ -134,7 +136,7 @@ module Yomou
               gz.puts(context.read)
               gz.close
             elsif path.to_s.end_with?(".lz4")
-              file.puts(LZ4::compress(context.read))
+              file.puts(LZ4.encode(context.read))
             end
           else
             file.puts(context.read)
