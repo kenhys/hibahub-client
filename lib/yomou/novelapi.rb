@@ -104,9 +104,9 @@ module Yomou
         @conf = Yomou::Config.new
 
         keywords = []
-        path = pathname_expanded([@conf.directory, "keyword", "classified.html"])
+        path = pathname_expanded([@conf.directory, "keyword", "classified.html.lz4"])
         url = "http://yomou.syosetu.com/search/classified/"
-        save_as(url, path)
+        save_as(url, path, {:compress => true})
         open(path.to_s) do |context|
           doc = Nokogiri::HTML.parse(context.read)
           doc.xpath("//div[@class='word']/a").each do |a|
@@ -117,7 +117,7 @@ module Yomou
         downloader = Narou::Downloader.new
         bookshelf = Yomou::Bookshelf.new
 
-        filename = "keywords.yaml"
+        filename = "keywords.yaml.lz4"
         keywords_path = pathname_expanded([@conf.directory,
                                             "keyword",
                                             filename])
@@ -134,13 +134,13 @@ module Yomou
                           URI.escape(keyword),
                           page)
             p url if options["verbose"]
-            filename = "#{URI.escape(keyword)}_hyoka_#{page}.html"
+            filename = "#{URI.escape(keyword)}_hyoka_#{page}.html.lz4"
             path = pathname_expanded([@conf.directory,
                                        "keyword",
                                        URI.escape(keyword),
                                        filename])
             ncodes = []
-            save_as(url, path)
+            save_as(url, path, {:compress => true})
             ncodes = extract_ncode_from_each_page_with_keyword(path)
             if options["verbose"]
               p keyword
@@ -297,7 +297,7 @@ module Yomou
       def load_keywords_yaml(path, keywords)
         assoc = {}
         if path.exist?
-          assoc = YAML.load_file(path.to_s)
+          assoc = yaml_lz4(path.to_s)
         else
           keywords.each_with_index do |keyword, index|
             page = 1
