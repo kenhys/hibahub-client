@@ -1,5 +1,6 @@
 require "open-uri"
 require "zlib"
+require "lz4-ruby"
 
 module Yomou
   module Helper
@@ -115,10 +116,14 @@ module Yomou
       FileUtils.mkdir_p(path.dirname)
       open(url) do |context|
         File.open(path.to_s, "w+") do |file|
-          if options[:gzip]
-            gz = Zlib::GzipWriter.new(file, Zlib::BEST_COMPRESSION)
-            gz.puts(context.read)
-            gz.close
+          if options[:compress]
+            if path.end_with?(".gz")
+              gz = Zlib::GzipWriter.new(file, Zlib::BEST_COMPRESSION)
+              gz.puts(context.read)
+              gz.close
+            elsif path.end_with?(".lz4")
+              file.puts(LZ4::compress(context.read))
+            end
           else
             file.puts(context.read)
           end
