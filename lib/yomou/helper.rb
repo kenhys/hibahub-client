@@ -89,7 +89,7 @@ module Yomou
       begin
         if File.exists?(path_or_url)
           open(path_or_url) do |context|
-            entries = YAML.load(LZ4::decompress(context.read))
+            entries = YAML.load(LZ4::uncompress(context.read))
           end
         end
       end
