@@ -1,4 +1,3 @@
-require "grn_mini"
 require "yomou/const"
 require "yomou/config"
 require "yomou/helper"

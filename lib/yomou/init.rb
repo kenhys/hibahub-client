@@ -1,5 +1,4 @@
 require "yomou/config"
-require "grn_mini"
 
 module Yomou
 
@@ -14,6 +13,7 @@ module Yomou
     option :force
     def database
       @conf = Yomou::Config.new
+      path = ""
       if options.has_key?("force")
         p @conf.database
         p File.expand_path(@conf.database)
@@ -22,107 +22,122 @@ module Yomou
         FileUtils.mkdir_p(path.dirname)
       end
 
-      GrnMini::create_or_open(path.to_s)
+      if path.exist?
+        Groonga::Database.open(path.to_s)
+      else
+        Groonga::Database.create(:path => path.to_s)
+        Groonga::Schema.define do |schema|
+          schema.create_table("NarouMaster") do |table|
+            table.int32("uid")
+          end
 
-      master = GrnMini::Hash.new("NarouMaster")
-      master.setup_columns(uid: -1)
+          schema.create_table("NarouNovelKeywords") do |table|
+            table.time("date")
+          end
 
-      keywords = GrnMini::Hash.new("NarouNovelKeywords")
-      keywords.setup_columns(date: Time.new(0))
+          schema.create_table("NarouNovels") do |table|
+            table.text("title")
+            table.int32("userid")
+            table.text("writer")
+            table.text("story")
+            table.int32("genre")
+            table.text("gensaku")
+            table.reference("keyword", "NarouNovelKeywords")
+            table.time("general_firstup")
+            table.time("general_lastup")
+            table.int8("novel_type")
+            table.int8("end")
+            table.int8("general_all_no")
+            table.int32("length")
+            table.time("time")
+            table.int8("isstop")
+            table.int8("pc_or_k")
+            table.int32("global_point")
+            table.int32("fav_novel_cnt")
+            table.int32("review_cnt")
+            table.int32("all_point")
+            table.int32("all_hyoka_cnt")
+            table.int32("sasie_cnt")
+            table.int32("kaiwaritu")
+            table.time("novelupdated_at")
+            table.time("updated_at")
+            table.text("toc_url")
+            table.int8("yomou_status")
+            table.int8("yomou_sync_interval")
+            table.time("yomou_sync_schedule")
+          end
 
-      novels = GrnMini::Hash.new("NarouNovels")
-      novels.setup_columns(title: "",
-                           userid: -1,
-                           writer: "",
-                           story: "",
-                           genre: -1,
-                           gensaku: "",
-                           keyword: [keywords],
-                           general_firstup: Time.new(0),
-                           general_lastup: Time.new(0),
-                           novel_type: -1,
-                           end: -1,
-                           general_all_no: -1,
-                           length: -1,
-                           time: -1,
-                           isstop: -1,
-                           pc_or_k: -1,
-                           global_point: -1,
-                           fav_novel_cnt: -1,
-                           review_cnt: -1,
-                           all_point: -1,
-                           all_hyoka_cnt: -1,
-                           sasie_cnt: -1,
-                           kaiwaritu: -1,
-                           novelupdated_at: Time.new(0),
-                           updated_at: Time.new(0),
-                           toc_url: "",
-                           yomou_status: -1,
-                           yomou_sync_interval: -1,
-                           yomou_sync_schedule: Time.new(0))
+          schema.create_table("NarouNovel") do |table|
+            table.int32("index")
+            table.text("href")
+            table.text("chapter")
+            table.text("subtitle")
+            table.text("file_subtitle")
+            table.time("subdate")
+            table.time("subupdate")
+            table.time("download_time")
+            table.text("introduction")
+            table.text("body")
+            table.text("postscript")
+            table.text("data_type")
+          end
 
-      novel = GrnMini::Hash.new("NarouNovel")
-      novel.setup_columns(index: -1,
-                          href: "",
-                          chapter: "",
-                          subtitle: "",
-                          file_subtitle: "",
-                          subdate: Time.new(0),
-                          subupdate: Time.new(0),
-                          download_time: Time.new(0),
-                          introduction: "",
-                          body: "",
-                          postscript: "",
-                          data_type: "")
+          ["Quarter", "Monthly", "Weekly", "Daily"].each do |type|
+            schema.create_table("Narou#{type}Ranking") do |table|
+              table.reference("ncode", "NarouNovels")
+              table.time("date")
+              table.int32("pt")
+              table.int32("rank")
+            end
+          end
 
-      ["Quarter", "Monthly", "Weekly", "Daily"].each do |type|
-        table = GrnMini::Array.new("Narou#{type}Ranking")
-        table.setup_columns(ncode: novels,
-                            date: Time.new(0),
-                            pt: 0,
-                            rank: 0)
+          schema.create_table("NarouNovelUpdateEvents") do |table|
+            table.reference("ncode", "NarouNovels")
+            table.time("date")
+            table.int32("global_point")
+            table.int32("fav_novel_cnt")
+            table.int32("review_cnt")
+            table.int32("all_point")
+            table.int32("all_hyoka_cnt")
+            table.time("novelupdated_at")
+          end
+
+          schema.create_table("YomouUsers") do |table|
+            table.text("name")
+            table.text("mail")
+            table.text("password")
+            table.boolean("admin")
+            table.time("update_time")
+            table.time("login_time")
+            table.text("login_from")
+          end
+
+          schema.create_table("NarouUsers") do |table|
+            table.text("name")
+            table.reference("novel", "NarouNovels", :type => :vector)
+            table.reference("bookmark", "NarouNovels", :type => :vector)
+            table.reference("favuser", "NarouUsers", :type => :vector)
+            table.reference("novelassess", "NarouNovels", :type => :vector)
+            table.reference("reviewlist", "NarouNovels", :type => :vector)
+          end
+
+          schema.create_table("NarouUserLogs") do |table|
+            table.reference("user", "NarouUsers")
+            table.int32("action")
+            table.int32("status")
+            table.text("message")
+            table.time("update_time")
+          end
+
+          schema.create_table("NarouNovelReviews") do |table|
+            table.reference("user", "NarouUsers")
+            table.int32("point")
+            table.reference("favorite_keywords", "NarouNovelKeywords", :type => :vector)
+            table.text("memo")
+            table.time("update_time")
+          end
+        end
       end
-
-      table = GrnMini::Array.new("NarouNovelUpdateEvents")
-      table.setup_columns(ncode: novels,
-                          date: Time.new(0),
-                          global_point: -1,
-                          fav_novel_cnt: -1,
-                          review_cnt: -1,
-                          all_point: -1,
-                          all_hyoka_cnt: -1,
-                          novelupdated_at: Time.new(0))
-
-      accounts = GrnMini::Hash.new("YomouUsers")
-      accounts.setup_columns(name: "",
-                             mail: "",
-                             password: "",
-                             admin: false,
-                             update_time: Time.new(0),
-                             login_time: Time.new(0),
-                             login_from: "")
-
-      users = GrnMini::Hash.new("NarouUsers")
-      users.setup_columns(name: "",
-                          novel: [novels],
-                          bookmark: [novels],
-                          favuser: [users],
-                          novelassess: [novels],
-                          reviewlist: [novels])
-
-      logs = GrnMini::Array.new("NarouUserLogs")
-      logs.setup_columns(user: users,
-                         action: -1,
-                         status: -1,
-                         message: "",
-                         update_time: Time.new(0))
-
-      reviews = GrnMini::Array.new("NarouNovelReviews")
-      reviews.setup_columns(user: users,
-                            point: -1,
-                            favorite_keywords: [keywords],
-                            memo: "",
-                            update_time: Time.new(0))
     end
   end
 end

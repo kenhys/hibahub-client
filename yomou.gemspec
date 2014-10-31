@@ -19,7 +19,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "thor", "~> 0.19"
-  spec.add_runtime_dependency "grn_mini", "~> 0.5"
   spec.add_runtime_dependency "rroonga", "~> 4.0.4"
   spec.add_runtime_dependency "feedjira", "~> 1.4.0"
 
