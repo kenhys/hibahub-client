@@ -21,7 +21,7 @@ module Yomou
         end
       end
 
-      desc "download [OPTIONS]", ""
+      desc "download [--since YYYYMMDD]", ""
       option :since
       def download
         @conf = Yomou::Config.new
