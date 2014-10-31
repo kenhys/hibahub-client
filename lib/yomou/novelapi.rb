@@ -234,6 +234,64 @@ module Yomou
         end
       end
 
+      desc "noimplessionlist [--download]", ""
+      option :download
+      def noimpressionlist
+        @conf = Yomou::Config.new
+
+        page = 1
+        bookmark = 1
+        n = 1
+        total = 20
+
+        downloader = Narou::Downloader.new
+        bookshelf = Yomou::Bookshelf.new
+
+        until bookmark == 0 or n > total
+          path = pathname_expanded([@conf.directory,
+                                     "noimpressionlist",
+                                     "noimpressionlist_#{page}.html.gz"])
+          url = sprintf("%s?p=%d",
+                        "http://yomou.syosetu.com/nolist/noimpressionlist/index.php",
+                        page)
+          p path
+          p url
+          save_as(url, path, {:gzip => true})
+          html_gz(path.to_s) do |doc|
+            if page == 1
+              total = extract_total_novels_from_each_page(doc)
+            end
+
+            doc.xpath("//div[@class='newreview']").each do |div|
+              ncode = ""
+              title = ""
+              count = 1
+              div.xpath("div[@class='review_title']/a").each do |a|
+                ncode = extract_ncode_from_url(a.attribute("href").text)
+                title, bracket, status, count_label, _ = a.text.split("\n")
+                count_label =~ /.+?(\d+)/
+                count = $1.to_i
+              end
+              bookmark = 0
+              div.xpath("div[3]").each do |div|
+                items = div.text.split("\n").reject do |item|
+                  not item.include?("：")
+                end
+                items[1] =~ /.+?(\d+)/
+                bookmark = $1
+              end
+              printf("%7d: %s: %s (%d) bookmark:%d\n", n, ncode, title, count, bookmark)
+
+              unless bookshelf.ncode_exist?(ncode)
+                bookshelf.register_ncode(ncode)
+              end
+              n = n + 1
+            end
+          end
+          page = page + 1
+        end
+      end
+
       private
 
       def load_keywords_yaml(path, keywords)
@@ -262,6 +320,15 @@ module Yomou
           end
         end
         assoc
+      end
+
+      def extract_total_novels_from_each_page(doc)
+        total = 0
+        doc.xpath("//div[@class='site_h2']").each do |div|
+          div.text =~ /.+?(\d+)/
+          total = $1.to_i
+        end
+        total
       end
 
       def extract_ncode_from_each_page_with_keyword(path, total = nil)
