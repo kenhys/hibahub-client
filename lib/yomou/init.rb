@@ -35,7 +35,7 @@ module Yomou
             table.time("date")
           end
 
-          schema.create_table("NarouNovels") do |table|
+          schema.create_table("NarouNovels", :type => :hash) do |table|
             table.text("title")
             table.int32("userid")
             table.text("writer")
@@ -45,9 +45,9 @@ module Yomou
             table.reference("keyword", "NarouNovelKeywords")
             table.time("general_firstup")
             table.time("general_lastup")
-            table.int8("novel_type")
-            table.int8("end")
-            table.int8("general_all_no")
+            table.int32("novel_type")
+            table.int32("end")
+            table.int32("general_all_no")
             table.int32("length")
             table.time("time")
             table.int8("isstop")
@@ -67,7 +67,7 @@ module Yomou
             table.time("yomou_sync_schedule")
           end
 
-          schema.create_table("NarouNovel") do |table|
+          schema.create_table("NarouNovel", :type => :hash) do |table|
             table.int32("index")
             table.text("href")
             table.text("chapter")
@@ -83,7 +83,7 @@ module Yomou
           end
 
           ["Quarter", "Monthly", "Weekly", "Daily"].each do |type|
-            schema.create_table("Narou#{type}Ranking") do |table|
+            schema.create_table("Narou#{type}Ranking", :type => :array) do |table|
               table.reference("ncode", "NarouNovels")
               table.time("date")
               table.int32("pt")
@@ -91,7 +91,7 @@ module Yomou
             end
           end
 
-          schema.create_table("NarouNovelUpdateEvents") do |table|
+          schema.create_table("NarouNovelUpdateEvents", :type => :array) do |table|
             table.reference("ncode", "NarouNovels")
             table.time("date")
             table.int32("global_point")
@@ -102,7 +102,7 @@ module Yomou
             table.time("novelupdated_at")
           end
 
-          schema.create_table("YomouUsers") do |table|
+          schema.create_table("YomouUsers", :type => :hash) do |table|
             table.text("name")
             table.text("mail")
             table.text("password")
@@ -112,7 +112,7 @@ module Yomou
             table.text("login_from")
           end
 
-          schema.create_table("NarouUsers") do |table|
+          schema.create_table("NarouUsers", :type => :hash) do |table|
             table.text("name")
             table.reference("novel", "NarouNovels", :type => :vector)
             table.reference("bookmark", "NarouNovels", :type => :vector)
@@ -121,7 +121,7 @@ module Yomou
             table.reference("reviewlist", "NarouNovels", :type => :vector)
           end
 
-          schema.create_table("NarouUserLogs") do |table|
+          schema.create_table("NarouUserLogs", :type => :hash) do |table|
             table.reference("user", "NarouUsers")
             table.int32("action")
             table.int32("status")
@@ -129,7 +129,7 @@ module Yomou
             table.time("update_time")
           end
 
-          schema.create_table("NarouNovelReviews") do |table|
+          schema.create_table("NarouNovelReviews", :type => :hash) do |table|
             table.reference("user", "NarouUsers")
             table.int32("point")
             table.reference("favorite_keywords", "NarouNovelKeywords", :type => :vector)
