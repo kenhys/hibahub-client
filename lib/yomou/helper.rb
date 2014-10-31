@@ -129,11 +129,11 @@ module Yomou
       open(url) do |context|
         File.open(path.to_s, "w+") do |file|
           if options[:compress]
-            if path.end_with?(".gz")
+            if path.to_s.end_with?(".gz")
               gz = Zlib::GzipWriter.new(file, Zlib::BEST_COMPRESSION)
               gz.puts(context.read)
               gz.close
-            elsif path.end_with?(".lz4")
+            elsif path.to_s.end_with?(".lz4")
               file.puts(LZ4::compress(context.read))
             end
           else
