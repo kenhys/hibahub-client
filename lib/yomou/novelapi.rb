@@ -30,6 +30,23 @@ module Yomou
         end
       end
 
+      desc "download [SUBCOMMAND]", "Download novel data"
+      option :ncode
+      def download
+        @conf = Yomou::Config.new
+        downloader = Narou::Downloader.new
+        bookshelf = Yomou::Bookshelf.new
+
+        novels = Groonga["NarouNovels"]
+        records = novels.select("yomou_status:#{YOMOU_NOVEL_NONE}")
+        ncodes = []
+        records.each do |record|
+          ncodes << record._key
+        end
+        p ncodes
+        downloader.download(ncodes)
+      end
+
       desc "genre", "Get metadata about genre code"
       option :download
       def genre(arg = nil)
