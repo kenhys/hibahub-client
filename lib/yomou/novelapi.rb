@@ -2,6 +2,7 @@ require "thor"
 require "open3"
 require "fileutils"
 require "yomou/novelapi/ncode"
+require "yomou/novelapi/nopointlist"
 require "yomou/bookshelf"
 
 module Yomou
@@ -177,61 +178,18 @@ module Yomou
       def nopointlist
         @conf = Yomou::Config.new
 
-        page = 1
-        bookmark = 1
-        n = 1
-        total = 20
-
         downloader = Narou::Downloader.new
         bookshelf = Yomou::Bookshelf.new
+        nopointlist = Yomou::Novelapi::NoPointList.new
 
-        until bookmark == 0 or n > total
-          path = pathname_expanded([@conf.directory,
-                                     "nopointlist",
-                                     "nopointlist_#{page}.html"])
-          url = sprintf("%s?p=%d",
-                        "http://yomou.syosetu.com/nolist/nopointlist/index.php",
-                        page)
-          save_as(url, path)
-          open(path.to_s) do |context|
-            doc = Nokogiri::HTML.parse(context.read)
+        nopointlist.conf = @conf
+        nopointlist.bookshelf = bookshelf
+        nopointlist.downloader = downloader
 
-            if page == 1
-              doc.xpath("//div[@class='site_h2']").each do |div|
-                div.text =~ /.+?(\d+)/
-                total = $1.to_i
-                p total
-              end
-            end
-
-            doc.xpath("//div[@class='newreview']").each do |div|
-              ncode = ""
-              title = ""
-              count = 1
-              div.xpath("div[@class='review_title']/a").each do |a|
-                ncode = extract_ncode_from_url(a.attribute("href").text)
-                title, bracket, status, count_label, _ = a.text.split("\n")
-                count_label =~ /.+?(\d+)/
-                count = $1.to_i
-              end
-              bookmark = 0
-              div.xpath("div[3]").each do |div|
-                items = div.text.split("\n").reject do |item|
-                  not item.include?("：")
-                end
-                items[1] =~ /.+?(\d+)/
-                bookmark = $1
-              end
-              printf("%7d: %s: %s (%d) bookmark:%d\n", n, ncode, title, count, bookmark)
-
-              unless bookshelf.ncode_exist?(ncode)
-                bookshelf.register_ncode(ncode)
-              end
-              n = n + 1
-            end
-          end
-          page = page + 1
-        end
+        options = {
+          :min_page => 1,
+        }
+        nopointlist.download(options)
       end
 
       desc "noimplessionlist [--download]", ""
@@ -256,7 +214,7 @@ module Yomou
                         page)
           p path
           p url
-          save_as(url, path, {:gzip => true})
+          save_as(url, path, {:compress => true})
           html_gz(path.to_s) do |doc|
             if page == 1
               total = extract_total_novels_from_each_page(doc)
@@ -322,35 +280,6 @@ module Yomou
         assoc
       end
 
-      def extract_total_novels_from_each_page(doc)
-        total = 0
-        doc.xpath("//div[@class='site_h2']").each do |div|
-          div.text =~ /.+?(\d+)/
-          total = $1.to_i
-        end
-        total
-      end
-
-      def extract_ncode_from_each_page_with_keyword(path, total = nil)
-        ncodes = []
-        html_gz(path.to_s) do |context|
-          doc = Nokogiri::HTML.parse(context.read)
-          unless not total
-            doc.xpath("//div[@id='main2']/b").each do |b|
-              b.text =~ /([\d,]+)/
-              pages = $1.delete(",").to_i / 20
-            end
-          end
-          doc.xpath("//div[@class='novel_h']/a").each do |a|
-            a.attribute("href").text =~ /.+\/(n.+)\//
-            ncode = $1
-            ncodes << ncode
-          end
-        end
-        ncodes
-      end
-
     end
-
   end
 end
