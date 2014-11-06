@@ -40,13 +40,27 @@ module Yomou
           url = sprintf("%s?p=%d",
                         "http://yomou.syosetu.com/nolist/nopointlist/index.php",
                         page)
+          p url
+          p path
           save_as(url, path, {:compress => true})
-          html_gz(path.to_s) do |doc|
-            if page == min_page
+          if page == min_page
+            html_gz(path.to_s) do |doc|
               total = extract_total_novels_from_each_page(doc)
               max_page = (total / 20) + 1 unless options[:max_page]
             end
+          end
+          n = n + 20
+          page = page + 1
+        end
+      end
 
+      def makecache
+        lists = Pathname.glob("#{@conf.directory}/nopointlist/nopointlist_*.html.gz")
+        lists.each do |path|
+          # TODO
+          html_gz(path.to_s) do |doc|
+            dat = {}
+            n = 1
             doc.xpath("//div[@class='newreview']").each do |div|
               ncode = ""
               title = ""
@@ -65,22 +79,27 @@ module Yomou
                 items[1] =~ /.+?(\d+)/
                 bookmark = $1.to_i
               end
+              dat[ncode.upcase] = {
+                :ncode => ncode.upcase,
+                :title => title,
+                :bookmark => bookmark,
+                :count => count
+              }
               printf("%7d: %s: %s (%d) bookmark:%d\n", n, ncode, title, count, bookmark)
-
-              unless @bookshelf and @bookshelf.ncode_exist?(ncode)
-                @bookshelf.register_ncode(ncode)
-              end
               n = n + 1
             end
+            yaml_path  = path.to_s.sub(".html.gz", ".yaml.lz4")
+            p yaml_path
+            open(yaml_path, "w+") do |file|
+              file.puts(LZ4.encode(YAML.dump(dat)))
+            end
           end
-          page = page + 1
         end
       end
 
-      def makecache
-        lists = Pathname.glob("#{@conf.directory}/nopointlist/nopointlist_*.html.gz")
-        lists.each do |path|
-          # TODO
+      def load
+        unless @bookshelf and @bookshelf.ncode_exist?(ncode)
+          @bookshelf.register_ncode(ncode)
         end
       end
 
