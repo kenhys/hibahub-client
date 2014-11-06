@@ -173,7 +173,7 @@ module Yomou
 
       end
 
-      desc "nopointlist", ""
+      desc "nopointlist [--download|--makecache]", ""
       option :download
       def nopointlist
         @conf = Yomou::Config.new
