@@ -186,10 +186,10 @@ module Yomou
         nopointlist.bookshelf = bookshelf
         nopointlist.downloader = downloader
 
-        options = {
+        parameters = {
           :min_page => 1,
         }
-        nopointlist.download(options)
+        nopointlist.download(parameters)
       end
 
       desc "noimplessionlist [--download]", ""
