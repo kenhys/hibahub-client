@@ -175,6 +175,7 @@ module Yomou
 
       desc "nopointlist [--download|--makecache]", ""
       option :download
+      option :makecache
       def nopointlist
         @conf = Yomou::Config.new
 
@@ -186,10 +187,15 @@ module Yomou
         nopointlist.bookshelf = bookshelf
         nopointlist.downloader = downloader
 
-        parameters = {
-          :min_page => 1,
-        }
-        nopointlist.download(parameters)
+        if options[:download]
+          parameters = {
+            :min_page => 1,
+          }
+          nopointlist.download(parameters)
+        end
+        if options[:makecache]
+          nopointlist.makecache
+        end
       end
 
       desc "noimplessionlist [--download]", ""

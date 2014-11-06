@@ -76,6 +76,14 @@ module Yomou
           page = page + 1
         end
       end
+
+      def makecache
+        lists = Pathname.glob("#{@conf.directory}/nopointlist/nopointlist_*.html.gz")
+        lists.each do |path|
+          # TODO
+        end
+      end
+
     end
   end
 end
