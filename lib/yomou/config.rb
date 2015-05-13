@@ -18,6 +18,9 @@ module Yomou
 
     def directory
       directory = File.join(ENV['HOME'], DOT_YOMOU)
+      if ENV['YOMOU_HOME']
+        directory = ENV['YOMOU_HOME']
+      end
       unless Dir.exist?(directory)
         Dir.mkdir(directory)
       end
