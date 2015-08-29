@@ -223,26 +223,30 @@ module Yomou
       def noimpressionlist
         @conf = Yomou::Config.new
 
-        downloader = Narou::Downloader.new
-        bookshelf = Yomou::Bookshelf.new
         noimpressionlist = Yomou::Novelapi::NoImpressionList.new
 
-        noimpressionlist.conf = @conf
-        noimpressionlist.bookshelf = bookshelf
-        noimpressionlist.downloader = downloader
+        no_common_action(noimpressionlist, options)
+      end
+
+      private
+
+      def no_common_action(object, options)
+        object.conf = @conf
+        downloader = Narou::Downloader.new
+        bookshelf = Yomou::Bookshelf.new
+        object.bookshelf = bookshelf
+        object.downloader = downloader
 
         if options[:download]
           parameters = {
             :min_page => 1,
           }
-          noimpressionlist.download(parameters)
+          object.download(parameters)
         end
         if options[:makecache]
-          noimpressionlist.makecache
+          object.makecache
         end
       end
-
-      private
 
       def load_keywords_yaml(path, keywords)
         assoc = {}
