@@ -27,15 +27,17 @@ module Yomou
         if options.has_key?("since")
           date = Date.parse(options["since"])
         else
-          date = Date.new(2013, 5, 7)
+          date = Date.new(2013, 5, 1)
         end
         while date < Date.today
           url = daily_url(date)
           path = daily_path(date)
-          p url
-          p path
           unless path.exist?
-            save_as(url, path)
+            if date >= Date.new(2013, 5, 1)
+              p url
+              p path
+              save_as(url, path)
+            end
           end
           date = date.next_day
         end
