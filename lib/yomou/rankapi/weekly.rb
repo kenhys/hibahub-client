@@ -41,7 +41,9 @@ module Yomou
           path = weekly_path(date)
           p url
           p path
-          save_as(url, path)
+          unless File.exist?(path)
+            save_as(url, path)
+          end
           date = date.next_day(7)
         end
       end
