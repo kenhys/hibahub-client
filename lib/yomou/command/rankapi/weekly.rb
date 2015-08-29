@@ -33,16 +33,18 @@ module Yomou
             date = date.next_day(1)
           end
         else
-          date = Date.new(2013, 5, 7)
+          date = Date.new(2013, 5, 1)
         end
         while date < Date.today
           rtype = date.strftime("%Y%m%d-w")
           url = weekly_url(date)
           path = weekly_path(date)
-          p url
-          p path
           unless path.exist?
-            save_as(url, path)
+            if date >= Date.new(2013, 5, 1)
+              p url
+              p path
+              save_as(url, path)
+            end
           end
           date = date.next_day(7)
         end
