@@ -45,7 +45,9 @@ module Yomou
           path = monthly_path(date)
           p url
           p path.to_s
-          save_as(url, path)
+          unless path.exist?(path)
+            save_as(url, path)
+          end
           date = date.next_month
         end
       end

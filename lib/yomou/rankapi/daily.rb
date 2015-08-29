@@ -32,14 +32,11 @@ module Yomou
         while date < Date.today
           url = daily_url(date)
           path = daily_path(date)
-          if path.exist?
-            date = date.next_day
-            next
-          end
-
           p url
           p path
-          save_as(url, path)
+          unless path.exist?
+            save_as(url, path)
+          end
           date = date.next_day
         end
       end
