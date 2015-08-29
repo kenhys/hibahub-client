@@ -4,6 +4,7 @@ module Yomou
   module Rankapi
 
     class Weekly < Thor
+      namespace "rank weekly"
 
       include Yomou::Helper
 

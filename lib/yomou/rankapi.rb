@@ -12,6 +12,8 @@ module Yomou
     BASE_URL = "http://api.syosetu.com/rank/rankget"
 
     class Rank < Thor
+      namespace :rank
+
       desc "daily [OPTIONS]", ""
       subcommand "daily", Yomou::Rankapi::Daily
 

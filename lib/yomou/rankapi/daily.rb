@@ -4,6 +4,7 @@ module Yomou
   module Rankapi
 
     class Daily < Thor
+      namespace "rank daily"
 
       include Yomou::Helper
 

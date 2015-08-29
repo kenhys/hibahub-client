@@ -4,6 +4,7 @@ module Yomou
   module Rankapi
 
     class Quarter < Thor
+      namespace "rank quarter"
 
       include Yomou::Helper
 

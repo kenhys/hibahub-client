@@ -5,6 +5,7 @@ module Yomou
   module Rankapi
 
     class Monthly < Thor
+      namespace "rank monthly"
 
       include Yomou::Helper
 
