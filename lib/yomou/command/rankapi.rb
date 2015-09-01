@@ -1,10 +1,10 @@
 require "zlib"
 require "pathname"
 require "pp"
-require "yomou/rankapi/daily"
-require "yomou/rankapi/weekly"
-require "yomou/rankapi/monthly"
-require "yomou/rankapi/quarter"
+require "yomou/command/rankapi/daily"
+require "yomou/command/rankapi/weekly"
+require "yomou/command/rankapi/monthly"
+require "yomou/command/rankapi/quarter"
 
 module Yomou
   module Rankapi

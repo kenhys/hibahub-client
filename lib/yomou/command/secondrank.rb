@@ -1,11 +1,11 @@
 require "open-uri"
 require "nokogiri"
 
-require "yomou/secondrank/daily"
-require "yomou/secondrank/weekly"
-require "yomou/secondrank/monthly"
-require "yomou/secondrank/quarter"
-require "yomou/secondrank/yearly"
+require "yomou/command/secondrank/daily"
+require "yomou/command/secondrank/weekly"
+require "yomou/command/secondrank/monthly"
+require "yomou/command/secondrank/quarter"
+require "yomou/command/secondrank/yearly"
 
 module Yomou
   module SecondRankapi

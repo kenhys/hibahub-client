@@ -1,6 +1,6 @@
 require "open-uri"
 
-require "yomou/secondrank/common"
+require "yomou/command/secondrank/common"
 
 module Yomou
   module SecondRankapi
