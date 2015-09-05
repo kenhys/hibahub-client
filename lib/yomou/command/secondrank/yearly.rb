@@ -13,7 +13,6 @@ module Yomou
       def list
         @conf = Yomou::Config.new
 
-        url = "#{BASE_URL}/yearly_total"
         save_as(url, yearly_path)
 
         entries = extract_rank_h(yearly_path)
@@ -27,19 +26,20 @@ module Yomou
       desc "download [OPTIONS]", ""
       def download
         @conf = Yomou::Config.new
-        entries = extract_rank_h(yearly_path)
-        ncodes = entries.collect do |entry|
-          entry["ncode"]
-        end
-        Yomou::Narou::Downloader.new.download(ncodes)
+        entries = extract_rank_h(yearly_url)
+        p yearly_path
+        archive(entries, yearly_path)
       end
 
       private
 
+      def yearly_url
+        "#{BASE_URL}/yearly_total"
+      end
+
       def yearly_path
         pathname_expanded([@conf.directory,
-                            "rankapi",
-                            "secondlist/yearly_total.html"])
+                           "secondlist/yearly/#{yyyymmdd}.yaml.gz"])
       end
 
     end
