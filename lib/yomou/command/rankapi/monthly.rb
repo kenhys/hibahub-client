@@ -43,10 +43,12 @@ module Yomou
         while date < Date.today
           url = monthly_url(date)
           path = monthly_path(date)
-          p url
-          p path.to_s
           unless path.exist?
-            save_as(url, path)
+            if date >= Date.new(2013, 5, 1)
+              p url
+              p path.to_s
+              save_as(url, path)
+            end
           end
           date = date.next_month
         end
