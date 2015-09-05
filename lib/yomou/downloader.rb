@@ -15,7 +15,7 @@ module Yomou
       def glob_downloaded_ncodes
         downloaded = []
         Dir.chdir(@conf.directory) do
-          Dir.glob("#{@conf.narou_novel}/n*/") do |dir|
+          Dir.glob("#{@conf.narou_novel}/**/n*/") do |dir|
             ncode = Pathname.new(dir).basename.to_s.split(' ')[0]
             downloaded << ncode
           end
@@ -42,8 +42,12 @@ module Yomou
         succeeded = []
         failed = []
         downloaded = downloaded_ncodes
-        Dir.chdir(@conf.directory) do
-          ncodes.each do |ncode|
+        ncodes.each do |ncode|
+          if ncode.downcase =~ /n(\d\d).+/
+            sub_directory = $1
+          end
+          path = "#{@conf.directory}/narou/#{sub_directory}"
+          Dir.chdir(path) do
             if downloaded.include?(ncode.upcase)
               puts "Already downloaded #{ncode}"
             else
