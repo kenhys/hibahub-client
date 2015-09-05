@@ -40,7 +40,7 @@ module Yomou
           doc.xpath("//table[@class='rank_table']").each do |table|
             table.xpath("tr[1]/td[1]").each do |td|
               td.xpath("span[@class='attention']").each do |span|
-                entries[rank]["pt"] = span.text.delete("pt").to_i
+                entries[rank]["pt"] = span.text.delete("pt").delete(",").to_i
                 entries[rank]["rank"] = rank + 1
               end
             end
