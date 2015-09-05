@@ -29,11 +29,9 @@ module Yomou
       desc "download [OPTIONS]", ""
       def download
         @conf = Yomou::Config.new
-        entries = extract_rank_h(daily_path)
-        ncodes = entries.collect do |entry|
-          entry["ncode"]
-        end
-        Yomou::Narou::Downloader.new.download(ncodes)
+        entries = extract_rank_h(daily_url)
+        p daily_path
+        archive(entries, daily_path)
       end
 
       private
@@ -45,7 +43,6 @@ module Yomou
       def daily_path
         yyyymmdd = Date.today.strftime("%Y%m%d")
         pathname_expanded([@conf.directory,
-                           "rankapi",
                            "secondlist/daily/#{yyyymmdd}.yaml.gz"])
       end
     end
