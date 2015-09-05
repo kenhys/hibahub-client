@@ -1,6 +1,6 @@
 module Yomou
-
-  class Command < Thor
+  module Command
+    class Bootstrap < Thor
 
     include Yomou::Helper
 
@@ -22,5 +22,6 @@ module Yomou
       end
     end
 
+    end
   end
 end

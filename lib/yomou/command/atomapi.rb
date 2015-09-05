@@ -1,7 +1,7 @@
 require "feedjira"
 
 module Yomou
-  module Atomapi
+  module Command
 
     class Atom < Thor
 
@@ -18,7 +18,7 @@ module Yomou
       desc "user USER_ID", ""
       def user(user_id)
         url = "http://api.syosetu.com/writernovel/#{user_id}.Atom"
-          feed = Feedjira::Feed.fetch_and_parse(url)
+        feed = Feedjira::Feed.fetch_and_parse(url)
         feed.entries.each_with_index do |entry, index|
           ncode = extract_ncode(entry.links[0])
           printf("%4d %s: %s\n", index+1, ncode, entry.title)

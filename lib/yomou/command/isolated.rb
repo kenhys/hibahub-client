@@ -1,12 +1,9 @@
-require "nokogiri"
+require "yomou/command/isolated/nopoint"
+require "yomou/command/isolated/noimpression"
 
 module Yomou
-  module Novelapi
-
-    class NoList
-
-      def initialize
-      end
+  module Command
+    module Isolated
 
       def extract_total_novels_from_each_page(doc)
         total = 0

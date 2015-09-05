@@ -6,7 +6,7 @@ require "yomou/command/genrerank/quarter"
 require "yomou/command/genrerank/yearly"
 
 module Yomou
-  module GenreRankapi
+  module Command
 
     class GenreRank < Thor
       namespace :genrerank

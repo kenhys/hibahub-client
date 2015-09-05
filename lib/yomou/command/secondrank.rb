@@ -8,25 +8,25 @@ require "yomou/command/secondrank/quarter"
 require "yomou/command/secondrank/yearly"
 
 module Yomou
-  module SecondRankapi
+  module Command
 
     class SecondRank < Thor
       namespace :secondrank
 
       desc "daily [OPTIONS]", ""
-      subcommand "daily", Yomou::SecondRankapi::Daily
+      subcommand "daily", SecondRankapi::Daily
 
       desc "weekly [OPTIONS]", ""
-      subcommand "weekly", Yomou::SecondRankapi::Weekly
+      subcommand "weekly", SecondRankapi::Weekly
 
       desc "monthly [OPTIONS]", ""
-      subcommand "monthly", Yomou::SecondRankapi::Monthly
+      subcommand "monthly", SecondRankapi::Monthly
 
       desc "quarter [OPTIONS]", ""
-      subcommand "quarter", Yomou::SecondRankapi::Quarter
+      subcommand "quarter", SecondRankapi::Quarter
 
       desc "yearly [OPTIONS]", ""
-      subcommand "yearly", Yomou::SecondRankapi::Yearly
+      subcommand "yearly", SecondRankapi::Yearly
 
     end
   end
