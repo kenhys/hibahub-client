@@ -5,6 +5,7 @@ module Yomou
   module SecondRankapi
 
     class Monthly < Thor
+      namespace "secondrank monthly"
 
       include Yomou::Helper
       include Yomou::SecondRankapi::Common

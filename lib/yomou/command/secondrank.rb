@@ -11,6 +11,7 @@ module Yomou
   module SecondRankapi
 
     class SecondRank < Thor
+      namespace :secondrank
 
       desc "daily [OPTIONS]", ""
       subcommand "daily", Yomou::SecondRankapi::Daily

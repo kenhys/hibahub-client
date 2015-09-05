@@ -6,6 +6,7 @@ module Yomou
   module SecondRankapi
 
     class Daily < Thor
+      namespace "secondrank daily"
 
       include Yomou::Helper
       include Yomou::SecondRankapi::Common

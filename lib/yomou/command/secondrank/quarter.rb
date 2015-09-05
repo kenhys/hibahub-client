@@ -4,6 +4,7 @@ module Yomou
   module SecondRankapi
 
     class Quarter < Thor
+      namespace "secondrank quarter"
 
       include Yomou::Helper
       include Yomou::SecondRankapi::Common

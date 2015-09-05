@@ -4,6 +4,7 @@ module Yomou
   module SecondRankapi
 
     class Yearly < Thor
+      namespace "secondrank yearly"
 
       include Yomou::Helper
       include Yomou::SecondRankapi::Common

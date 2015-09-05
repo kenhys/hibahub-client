@@ -4,6 +4,7 @@ module Yomou
   module SecondRankapi
 
     class Weekly < Thor
+      namespace "secondrank weekly"
 
       include Yomou::Helper
       include Yomou::SecondRankapi::Common
