@@ -44,6 +44,12 @@ module Yomou
                 entries[rank]["rank"] = rank + 1
               end
             end
+            table.xpath("tr[2]/td[@class='s']").each do |td|
+              keywords = td.xpath("a").collect do |a|
+                a.text
+              end
+              entries[rank]["keywords"] = keywords
+            end
             rank = rank + 1
           end
 
