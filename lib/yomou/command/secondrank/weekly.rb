@@ -27,19 +27,21 @@ module Yomou
       desc "download [OPTIONS]", ""
       def download
         @conf = Yomou::Config.new
-        entries = extract_rank_h(weekly_path)
-        ncodes = entries.collect do |entry|
-          entry["ncode"]
-        end
-        Yomou::Narou::Downloader.new.download(ncodes)
+        entries = extract_rank_h(weekly_url)
+        p weekly_path
+        archive(entries, weekly_path)
       end
 
       private
 
+      def weekly_url
+        "#{BASE_URL}/weekly_total"
+      end
+
       def weekly_path
+        yyyymmdd = Date.today.strftime("%Y%m%d")
         pathname_expanded([@conf.directory,
-                            "rankapi",
-                            "secondlist/weekly_total.html"])
+                           "secondlist/weekly/#{yyyymmdd}.yaml.gz"])
       end
     end
   end
