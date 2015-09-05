@@ -10,6 +10,7 @@ require "yomou/command/rankingapi"
 require "yomou/update"
 require "yomou/userapi"
 require "yomou/command/secondrank"
+require "yomou/command/genrerank"
 require "yomou/atomapi"
 
 module Yomou
@@ -23,6 +24,9 @@ module Yomou
 
     desc "secondrank [SUBCOMMAND]", ""
     subcommand "secondrank", SecondRankapi::SecondRank
+
+    desc "genrerank [SUBCOMMAND]", ""
+    subcommand "genrerank", GenreRankapi::GenreRank
 
     desc "novel [SUBCOMMAND]", "Get novel data"
     subcommand "novel", Novelapi::Novel
