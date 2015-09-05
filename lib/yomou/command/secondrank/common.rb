@@ -6,8 +6,8 @@ module Yomou
 
       def extract_rank_h(path)
         entries = []
-        File.open(path.to_s, "r") do |file|
-          doc = Nokogiri::HTML.parse(file.read, nil, nil)
+        open(path) do |context|
+          doc = Nokogiri::HTML.parse(context.read, nil, nil)
           doc.xpath("//div[@class='rank_h']").each do |div|
             node = div.xpath("a[@class='tl']")
             title = node.text
