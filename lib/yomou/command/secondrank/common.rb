@@ -44,6 +44,16 @@ module Yomou
                 entries[rank]["rank"] = rank + 1
               end
             end
+            properties = table.xpath("tr[1]/td[@class='left']").text.split
+            case properties.count
+            when 2
+              episodes = 1
+            when 3
+              if properties[2] =~ /(\d+)/
+                episodes = $1.to_i
+              end
+            end
+            entries[rank]["episodes"] = episodes
             table.xpath("tr[2]/td[@class='s']").each do |td|
               keywords = td.xpath("a").collect do |a|
                 a.text
