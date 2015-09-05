@@ -38,6 +38,10 @@ module Yomou
 
       private
 
+      def daily_url
+        "#{BASE_URL}/daily_total"
+      end
+
       def daily_path
         yyyymmdd = Date.today.strftime("%Y%m%d")
         pathname_expanded([@conf.directory,
