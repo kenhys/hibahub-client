@@ -67,12 +67,6 @@ module Yomou
         entries
       end
 
-      def archive(data, path)
-        FileUtils.mkdir_p(path.dirname)
-        Zlib::GzipWriter.open(path.to_s) do |gzip|
-          gzip.write(YAML.dump(data))
-        end
-      end
     end
   end
 end
