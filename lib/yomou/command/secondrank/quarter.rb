@@ -27,19 +27,20 @@ module Yomou
       desc "download [OPTIONS]", ""
       def download
         @conf = Yomou::Config.new
-        entries = extract_rank_h(quarter_path)
-        ncodes = entries.collect do |entry|
-          entry["ncode"]
-        end
-        Yomou::Narou::Downloader.new.download(ncodes)
+        entries = extract_rank_h(quarter_url)
+        p quarter_path
+        archive(entries, quarter_path)
       end
 
       private
 
+      def quarter_url
+        "#{BASE_URL}/quarter_total"
+      end
+
       def quarter_path
         pathname_expanded([@conf.directory,
-                            "rankapi",
-                            "secondlist/quarter_total.html"])
+                           "secondlist/quarter/#{yyyymmdd}.yaml.gz"])
       end
 
     end
