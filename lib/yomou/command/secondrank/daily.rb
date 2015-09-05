@@ -39,9 +39,10 @@ module Yomou
       private
 
       def daily_path
+        yyyymmdd = Date.today.strftime("%Y%m%d")
         pathname_expanded([@conf.directory,
                             "rankapi",
-                            "secondlist/daily_total.html"])
+                            "secondlist/daily/#{yyyymmdd}.yaml.gz"])
       end
     end
   end
