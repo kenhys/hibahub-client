@@ -153,7 +153,17 @@ module Yomou
 
     def archive(data, path)
       FileUtils.mkdir_p(path.dirname)
-      Zlib::GzipWriter.open(path.to_s) do |gzip|
+      if path.to_s.end_with?(".gz")
+        archive_gzip(data, path.to_s)
+      else
+        File.open(path.to_s, "w+") do |file|
+          file.puts(YAML.dump(data))
+        end
+      end
+    end
+
+    def archive_gzip(data, path)
+      Zlib::GzipWriter.open(path) do |gzip|
         gzip.write(YAML.dump(data))
       end
     end
