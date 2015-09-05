@@ -167,5 +167,9 @@ module Yomou
         gzip.write(YAML.dump(data))
       end
     end
+
+    def yyyymmdd
+      Date.today.strftime("%Y%m%d")
+    end
   end
 end
