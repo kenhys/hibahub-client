@@ -1,3 +1,4 @@
+# coding: utf-8
 module Yomou
   module SecondRankapi
     module Common
@@ -18,10 +19,20 @@ module Yomou
             end
             next unless ncode
 
+            node = div.xpath("span[@class='name']")
+            name = node.text.split("：")[1]
+            mypage = node.xpath("a").attribute("href").text
+
+            if div.xpath("a[2]").attribute("href").text =~ /genre=(\d+)/
+              genre = $1.to_i
+            end
             entries << {
-              "ncode" => ncode.upcase,
+              "ncode" => ncode.downcase,
               "url" => url,
               "title" => title,
+              "name" => name,
+              "mypage" => mypage,
+              "genre" => genre
             }
           end
 
