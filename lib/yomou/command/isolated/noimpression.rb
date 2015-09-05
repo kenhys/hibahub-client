@@ -4,6 +4,7 @@ module Yomou
     module Isolated
 
       class NoImpression < Thor
+        namespace :noimpression
 
         attr_accessor :conf
         attr_accessor :bookshelf

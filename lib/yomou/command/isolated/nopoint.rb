@@ -4,6 +4,7 @@ module Yomou
     module Isolated
 
       class NoPoint < Thor
+        namespace :nopoint
 
         include Yomou::Helper
 
