@@ -42,17 +42,7 @@ module Yomou
         succeeded = []
         failed = []
         downloaded = downloaded_ncodes
-        ncode_group = {}
-        ncodes.sort.each do |ncode|
-          if ncode.downcase =~ /n(\d\d).+/
-            sub_directory = $1
-          end
-          if ncode_group.has_key?(sub_directory)
-            ncode_group[sub_directory] = ncode_group[sub_directory].push(ncode)
-          else
-            ncode_group[sub_directory] = [ncode]
-          end
-        end
+        ncode_group = ncode_groups(ncodes)
         100.times do |i|
           path = "#{@conf.directory}/narou/#{i}"
           group = nil
@@ -82,6 +72,19 @@ module Yomou
           :succeeded => succeeded,
           :failed => failed
         }
+      end
+
+      def ncode_groups(ncodes)
+        ncodes.sort.each do |ncode|
+          if ncode.downcase =~ /n(\d\d).+/
+            sub_directory = $1
+          end
+          if ncode_group.has_key?(sub_directory)
+            ncode_group[sub_directory] = ncode_group[sub_directory].push(ncode)
+          else
+            ncode_group[sub_directory] = [ncode]
+          end
+        end
       end
     end
 
