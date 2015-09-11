@@ -56,7 +56,20 @@ module Yomou
           novels = Groonga["NarouNovels"]
           Dir.chdir(path) do
             system("echo #{target.join(' ')} | xargs narou download --no-convert")
-
+            code = $?
+            if code == 0
+              succeeded = target
+            else
+              count = 0
+              target.each do |ncode|
+                system("narou download --no-convert #{ncode}")
+                if $? == 0
+                  succeeded << ncode
+                else
+                  failed << ncode
+                end
+              end
+            end
             if novels.has_key?(ncode)
               novels[ncode].yomou_status = YOMOU_NOVEL_DOWNLOADED
               novels[ncode].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
