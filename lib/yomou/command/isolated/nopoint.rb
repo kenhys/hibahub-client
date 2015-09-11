@@ -68,6 +68,12 @@ module Yomou
                   count_label =~ /.+?(\d+)/
                   count = $1.to_i
                 end
+                mypage = nil
+                writer = nil
+                div.xpath("a[1]").each do |a|
+                  mypage = a.attribute("href").text
+                  writer = a.text
+                end
                 bookmark = 0
                 chars = 0
                 review = 0
@@ -107,6 +113,8 @@ module Yomou
                   :genre => genre,
                   :keywords => keywords,
                   :title => title,
+                  :mypage => mypage,
+                  :writer => writer,
                   :bookmark => bookmark,
                   :chars => chars,
                   :review => review,
