@@ -80,7 +80,7 @@ module Yomou
             p path
             entries = []
             if path.exist?
-              entries = YAML.load_file(path.to_s)
+              entries = yaml_gz(path.to_s)
               entries.merge!(group[key])
             else
               entries = group[key]
