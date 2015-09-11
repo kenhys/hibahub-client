@@ -55,80 +55,7 @@ module Yomou
           lists.each do |path|
             # TODO
             html_gz(path.to_s) do |doc|
-              dat = {}
-              n = 1
-              doc.xpath("//div[@class='newreview']").each do |div|
-                ncode = ""
-                title = ""
-                count = 1
-                status = nil
-                div.xpath("div[@class='review_title']/a").each do |a|
-                  ncode = extract_ncode_from_url(a.attribute("href").text)
-                  title, bracket, status, count_label, _ = a.text.split("\n")
-                  count_label =~ /.+?(\d+)/
-                  count = $1.to_i
-                end
-                mypage = nil
-                writer = nil
-                div.xpath("a[1]").each do |a|
-                  mypage = a.attribute("href").text
-                  writer = a.text
-                end
-                bookmark = 0
-                chars = 0
-                review = 0
-                impression = 0
-                genre = ""
-                keywords = []
-                div.xpath("div[2]").each do |div|
-                  div.text.split("\n").each do |entry|
-                    case entry
-                    when /^ジャンル：(.+)/
-                      genre = $1
-                    when /^キーワード：(.+)\s*$/
-                      keywords = $1.split
-                    end
-                  end
-                end
-                div.xpath("div[3]").each do |div|
-                  items = div.text.split("\n").reject do |item|
-                    not item.include?("：")
-                  end
-                  items.each do |item|
-                    case item
-                    when /文字数：([0-9,]+)/
-                      chars = $1.delete(',').to_i
-                    when /ブックマーク：(\d+)/
-                      bookmark = $1.to_i
-                    when /レビュー：(\d+)/
-                      review = $1.to_i
-                    when /感想：(\d+)/
-                      impression = $1.to_i
-                    end
-                  end
-                end
-                dat[ncode.downcase] = {
-                  :ncode => ncode.downcase,
-                  :status => status,
-                  :genre => genre,
-                  :keywords => keywords,
-                  :title => title,
-                  :mypage => mypage,
-                  :writer => writer,
-                  :bookmark => bookmark,
-                  :chars => chars,
-                  :review => review,
-                  :impression => impression,
-                  :count => count
-                }
-                printf("%7d: %s: %s (%d) bookmark:%d\n", n, ncode, title, count, bookmark)
-                n = n + 1
-              end
-              yaml_path  = path.to_s.sub(".html.gz", ".yaml.lz4")
-              p yaml_path
-              open(yaml_path, "w+") do |file|
-                file.puts(LZ4.encode(YAML.dump(dat)))
-              end
+              dat = extract_newreview(doc)
             end
           end
         end
@@ -140,6 +67,77 @@ module Yomou
           end
         end
 
+        private
+
+        def extract_newreview(doc)
+          dat = {}
+          doc.xpath("//div[@class='newreview']").each_with_index do |div, n|
+            ncode = ""
+            title = ""
+            count = 1
+            status = nil
+            div.xpath("div[@class='review_title']/a").each do |a|
+              ncode = extract_ncode_from_url(a.attribute("href").text)
+              title, bracket, status, count_label, _ = a.text.split("\n")
+              count_label =~ /.+?(\d+)/
+              count = $1.to_i
+            end
+            mypage = nil
+            writer = nil
+            div.xpath("a[1]").each do |a|
+              mypage = a.attribute("href").text
+              writer = a.text
+            end
+            bookmark = 0
+            chars = 0
+            review = 0
+            impression = 0
+            genre = ""
+            keywords = []
+            div.xpath("div[2]").each do |div|
+              div.text.split("\n").each do |entry|
+                case entry
+                when /^ジャンル：(.+)/
+                  genre = $1
+                when /^キーワード：(.+)\s*$/
+                  keywords = $1.split
+                end
+              end
+            end
+            div.xpath("div[3]").each do |div|
+              items = div.text.split("\n").reject do |item|
+                not item.include?("：")
+              end
+              items.each do |item|
+                case item
+                when /文字数：([0-9,]+)/
+                  chars = $1.delete(',').to_i
+                when /ブックマーク：(\d+)/
+                  bookmark = $1.to_i
+                when /レビュー：(\d+)/
+                  review = $1.to_i
+                when /感想：(\d+)/
+                  impression = $1.to_i
+                end
+              end
+            end
+            dat[ncode.downcase] = {
+              :ncode => ncode.downcase,
+              :status => status,
+              :genre => genre,
+              :keywords => keywords,
+              :title => title,
+              :mypage => mypage,
+              :writer => writer,
+              :bookmark => bookmark,
+              :chars => chars,
+              :review => review,
+              :impression => impression,
+              :count => count
+            }
+            printf("%7d: %s: %s (%d) bookmark:%d\n", n + 1, ncode, title, count, bookmark)
+          end
+        end
       end
     end
   end
