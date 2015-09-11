@@ -5,6 +5,7 @@ module Yomou
 
       def initialize
         @conf = Yomou::Config.new
+        @bookshelf = Yomou::Bookshelf.new
 
         Groonga::Context.default_options = {:encoding => :utf8}
         if File.exist?(@conf.database)
@@ -53,12 +54,14 @@ module Yomou
             group = ncode_group["#{i}"]
           end
           target = group - downloaded
-          novels = Groonga["NarouNovels"]
           Dir.chdir(path) do
             system("echo #{target.join(' ')} | xargs narou download --no-convert")
             code = $?
             if code == 0
               succeeded = target
+              target.each do |ncode|
+                @bookshelf.update_status(ncode, YOMOU_NOVEL_DOWNLOADED)
+              end
             else
               count = 0
               target.each do |ncode|
@@ -69,15 +72,6 @@ module Yomou
                   failed << ncode
                 end
               end
-            end
-            if novels.has_key?(ncode)
-              novels[ncode].yomou_status = YOMOU_NOVEL_DOWNLOADED
-              novels[ncode].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
-            else
-              novels.add(ncode.upcase,
-                         :yomou_status => YOMOU_NOVEL_DOWNLOADED,
-                         :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
-                         :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
             end
           end
         end
