@@ -89,7 +89,7 @@ module Yomou
           if ncode.downcase =~ /n(\d\d).+/
             sub_directory = $1
           end
-          if ncode_group.has_key?(sub_directory)
+          if groups.has_key?(sub_directory)
             groups[sub_directory] = groups[sub_directory].push(ncode)
           else
             groups[sub_directory] = [ncode]
