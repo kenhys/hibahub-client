@@ -63,10 +63,10 @@ module Yomou
             group = ncode_group["#{i}"]
           end
           target = group - downloaded
+          novels = Groonga["NarouNovels"]
           Dir.chdir(path) do
             system("echo #{target.join(' ')} | xargs narou download --no-convert")
 
-            novels = Groonga["NarouNovels"]
             if novels.has_key?(ncode)
               novels[ncode].yomou_status = YOMOU_NOVEL_DOWNLOADED
               novels[ncode].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
