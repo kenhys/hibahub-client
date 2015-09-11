@@ -40,6 +40,7 @@ module Yomou
       end
 
       def download(ncodes)
+        @bookshelf = Yomou::Bookshelf.new
         succeeded = []
         failed = []
         downloaded = downloaded_ncodes
