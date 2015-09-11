@@ -55,10 +55,10 @@ module Yomou
       p "update #{ncode}"
       novels = Groonga["NarouNovels"]
       if novels.has_key?(ncode)
-        novels[ncode.upcase].yomou_status = status
-        novels[ncode.upcase].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
+        novels[ncode.downcase].yomou_status = status
+        novels[ncode.downcase].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
       else
-        novels.add(ncode.upcase,
+        novels.add(ncode.downcase,
                    :yomou_status => status,
                    :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
                    :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
