@@ -76,7 +76,7 @@ module Yomou
           group.keys.sort.each do |key|
             path = pathname_expanded([@conf.directory,
                                       "nopointlist",
-                                      "n#{key}.yaml"])
+                                      "n#{key}.yaml.gz"])
             p path
             entries = []
             if path.exist?
@@ -85,9 +85,7 @@ module Yomou
             else
               entries = group[key]
             end
-            File.open(path, "w+") do |file|
-              file.puts(YAML.dump(entries))
-            end
+            archive(entries, path)
           end
           lists.each do |path|
             path.delete
