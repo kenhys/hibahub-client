@@ -84,16 +84,18 @@ module Yomou
       end
 
       def ncode_groups(ncodes)
+        groups = {}
         ncodes.sort.each do |ncode|
           if ncode.downcase =~ /n(\d\d).+/
             sub_directory = $1
           end
           if ncode_group.has_key?(sub_directory)
-            ncode_group[sub_directory] = ncode_group[sub_directory].push(ncode)
+            groups[sub_directory] = groups[sub_directory].push(ncode)
           else
-            ncode_group[sub_directory] = [ncode]
+            groups[sub_directory] = [ncode]
           end
         end
+        groups
       end
     end
 
