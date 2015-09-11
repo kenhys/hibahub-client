@@ -51,11 +51,35 @@ module Yomou
         desc "makecache", ""
         def makecache
           @conf = Yomou::Config.new
-          lists = Pathname.glob("#{@conf.directory}/nopointlist/nopointlist_*.html.gz")
+          lists = Pathname.glob("#{@conf.directory}/nopointlist/nopointlist_*.html.gz").sort
+          data = {}
           lists.each do |path|
             # TODO
+            p path
             html_gz(path.to_s) do |doc|
               dat = extract_newreview(doc)
+              data.merge!(dat)
+            end
+          end
+          group = {}
+          data.keys.each do |ncode|
+            ncode =~ /n(\d\d).+/
+            sub_directory = $1
+            if group.has_key?(sub_directory)
+              group[sub_directory] = group[sub_directory].push(data[ncode])
+            else
+              group[sub_directory] = [
+                data[ncode]
+              ]
+            end
+          end
+          group.keys.each do |key|
+            path = pathname_expanded([@conf.directory,
+                                      "nopointlist",
+                                      "n#{key}.yaml"])
+            p path
+            File.open(path, "w+") do |file|
+              file.puts(YAML.dump(group[key]))
             end
           end
         end
