@@ -42,16 +42,29 @@ module Yomou
         succeeded = []
         failed = []
         downloaded = downloaded_ncodes
-        ncodes.each do |ncode|
+        ncode_group = {}
+        ncodes.sort.each do |ncode|
           if ncode.downcase =~ /n(\d\d).+/
             sub_directory = $1
           end
-          path = "#{@conf.directory}/narou/#{sub_directory}"
+          if ncode_group.has_key?(sub_directory)
+            ncode_group[sub_directory] = ncode_group[sub_directory].push(ncode)
+          else
+            ncode_group[sub_directory] = [ncode]
+          end
+        end
+        100.times do |i|
+          path = "#{@conf.directory}/narou/#{i}"
+          group = nil
+          if i < 10
+            group = ncode_group["0#{i}"]
+            path = "#{@conf.directory}/narou/0#{i}"
+          else
+            group = ncode_group["#{i}"]
+          end
+          target = group - downloaded
           Dir.chdir(path) do
-            if downloaded.include?(ncode.upcase)
-              puts "Already downloaded #{ncode}"
-            else
-              system("narou download --no-convert #{ncode}")
+              system("echo #{target.join(' ')} | xargs narou download --no-convert")
 
               novels = Groonga["NarouNovels"]
               if novels.has_key?(ncode)
