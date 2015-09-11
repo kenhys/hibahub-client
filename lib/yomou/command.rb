@@ -3,6 +3,7 @@ require "yomou/command/secondrank"
 require "yomou/command/genrerank"
 require "yomou/command/atomapi"
 require "yomou/command/rankapi"
+require "yomou/command/list"
 
 module Yomou
   module Command
