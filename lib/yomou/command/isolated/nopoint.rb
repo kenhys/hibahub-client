@@ -89,6 +89,9 @@ module Yomou
               file.puts(YAML.dump(entries))
             end
           end
+          lists.each do |path|
+            path.delete
+          end
         end
 
         desc "load", ""
