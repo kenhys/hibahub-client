@@ -8,7 +8,7 @@ module Yomou
 
         include Yomou::Helper
 
-        desc "", ""
+        desc "download", ""
         def download(options)
           min_page = 1
           max_page = 100000
