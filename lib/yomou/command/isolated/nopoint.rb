@@ -75,8 +75,8 @@ module Yomou
                   items[1] =~ /.+?(\d+)/
                   bookmark = $1.to_i
                 end
-                dat[ncode.upcase] = {
-                  :ncode => ncode.upcase,
+                dat[ncode.downcase] = {
+                  :ncode => ncode.downcase,
                   :title => title,
                   :bookmark => bookmark,
                   :count => count
