@@ -68,8 +68,10 @@ module Yomou
                 system("narou download --no-convert #{ncode}")
                 if $? == 0
                   succeeded << ncode
+                  @bookshelf.update_status(ncode, YOMOU_NOVEL_DOWNLOADED)
                 else
                   failed << ncode
+                  @bookshelf.update_status(ncode, YOMOU_NOVEL_DELETED)
                 end
               end
             end
