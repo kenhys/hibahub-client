@@ -55,7 +55,7 @@ module Yomou
           end
           target = group - downloaded
           Dir.chdir(path) do
-            system("echo #{target.join(' ')} | xargs narou download --no-convert")
+            system("echo #{target.join(' ')} | narou download --no-convert --backtrace")
             code = $?
             if code == 0
               succeeded = target
