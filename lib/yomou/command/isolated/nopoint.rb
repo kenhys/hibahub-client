@@ -48,8 +48,7 @@ module Yomou
           end
         end
 
-        private
-
+        desc "makecache", ""
         def makecache
           lists = Pathname.glob("#{@conf.directory}/nopointlist/nopointlist_*.html.gz")
           lists.each do |path|
@@ -93,6 +92,7 @@ module Yomou
           end
         end
 
+        desc "load", ""
         def load
           unless @bookshelf and @bookshelf.ncode_exist?(ncode)
             @bookshelf.register_ncode(ncode)
