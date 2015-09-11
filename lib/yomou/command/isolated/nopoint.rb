@@ -72,6 +72,18 @@ module Yomou
                 chars = 0
                 review = 0
                 impression = 0
+                genre = ""
+                keywords = []
+                div.xpath("div[2]").each do |div|
+                  div.text.split("\n").each do |entry|
+                    case entry
+                    when /^ジャンル：(.+)/
+                      genre = $1
+                    when /^キーワード：(.+)\s*$/
+                      keywords = $1.split
+                    end
+                  end
+                end
                 div.xpath("div[3]").each do |div|
                   items = div.text.split("\n").reject do |item|
                     not item.include?("：")
@@ -92,6 +104,8 @@ module Yomou
                 dat[ncode.downcase] = {
                   :ncode => ncode.downcase,
                   :status => status,
+                  :genre => genre,
+                  :keywords => keywords,
                   :title => title,
                   :bookmark => bookmark,
                   :chars => chars,
