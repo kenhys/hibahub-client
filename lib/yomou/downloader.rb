@@ -64,18 +64,17 @@ module Yomou
           end
           target = group - downloaded
           Dir.chdir(path) do
-              system("echo #{target.join(' ')} | xargs narou download --no-convert")
+            system("echo #{target.join(' ')} | xargs narou download --no-convert")
 
-              novels = Groonga["NarouNovels"]
-              if novels.has_key?(ncode)
-                novels[ncode].yomou_status = YOMOU_NOVEL_DOWNLOADED
-                novels[ncode].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
-              else
-                novels.add(ncode.upcase,
-                           :yomou_status => YOMOU_NOVEL_DOWNLOADED,
-                           :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
-                           :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
-              end
+            novels = Groonga["NarouNovels"]
+            if novels.has_key?(ncode)
+              novels[ncode].yomou_status = YOMOU_NOVEL_DOWNLOADED
+              novels[ncode].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
+            else
+              novels.add(ncode.upcase,
+                         :yomou_status => YOMOU_NOVEL_DOWNLOADED,
+                         :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
+                         :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
             end
           end
         end
