@@ -1,4 +1,5 @@
 # coding: utf-8
+
 module Yomou
   module Command
     module Isolated
@@ -6,10 +7,15 @@ module Yomou
       class NoPoint < Thor
         namespace :nopoint
 
+        include Yomou::Command::Isolated
         include Yomou::Helper
 
         desc "download", ""
-        def download(options)
+        option :min_page
+        option :max_page
+        option :min_bookmark
+        def download
+          @conf = Yomou::Config.new
           min_page = 1
           max_page = 100000
           min_bookmark = 1
