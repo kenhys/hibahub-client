@@ -135,8 +135,8 @@ module Yomou
               :impression => impression,
               :count => count
             }
-            printf("%7d: %s: %s (%d) bookmark:%d\n", n + 1, ncode, title, count, bookmark)
           end
+          dat
         end
       end
     end
