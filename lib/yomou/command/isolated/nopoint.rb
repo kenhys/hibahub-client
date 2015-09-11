@@ -66,11 +66,11 @@ module Yomou
             ncode =~ /n(\d\d).+/
             sub_directory = $1
             if group.has_key?(sub_directory)
-              group[sub_directory] = group[sub_directory].push(data[ncode])
+              group[sub_directory][ncode] = data[ncode]
             else
-              group[sub_directory] = [
-                data[ncode]
-              ]
+              group[sub_directory] = {
+                ncode => data[ncode]
+              }
             end
           end
           group.keys.each do |key|
@@ -78,8 +78,15 @@ module Yomou
                                       "nopointlist",
                                       "n#{key}.yaml"])
             p path
+            entries = []
+            if path.exist?
+              entries = YAML.load_file(path.to_s)
+              entries.merge!(group[key])
+            else
+              entries = group[key]
+            end
             File.open(path, "w+") do |file|
-              file.puts(YAML.dump(group[key]))
+              file.puts(YAML.dump(entries))
             end
           end
         end
