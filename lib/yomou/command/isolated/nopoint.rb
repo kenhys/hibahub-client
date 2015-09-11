@@ -73,7 +73,7 @@ module Yomou
               }
             end
           end
-          group.keys.each do |key|
+          group.keys.sort.each do |key|
             path = pathname_expanded([@conf.directory,
                                       "nopointlist",
                                       "n#{key}.yaml"])
