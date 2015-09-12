@@ -76,7 +76,7 @@ module Yomou
           status = nil
           div.xpath("div[@class='review_title']/a").each do |a|
             ncode = extract_ncode_from_url(a.attribute("href").text)
-            title, bracket, status, count_label, _ = a.text.split("\n")
+            title, bracket, status, count_label, _ = a.text.split("\r\n")
             count_label =~ /.+?(\d+)/
             count = $1.to_i
           end
