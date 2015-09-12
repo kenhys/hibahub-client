@@ -15,7 +15,7 @@ module Yomou
             group[sub_directory][ncode] = hash[ncode]
           else
             group[sub_directory] = {
-              ncode => data[ncode]
+              ncode => hash[ncode]
             }
           end
         end
