@@ -67,7 +67,7 @@ module Yomou
         ncodes
       end
 
-      def extract_newreview(doc)
+      def extract_newreview(doc, category)
         dat = {}
         doc.xpath("//div[@class='newreview']").each_with_index do |div, n|
           ncode = ""
