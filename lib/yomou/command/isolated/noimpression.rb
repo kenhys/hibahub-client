@@ -18,6 +18,7 @@ module Yomou
         option :max_page
         option :min_bookmark
         def download
+          @conf = Yomou::Config.new
           min_page = 1
           max_page = 100000
           min_bookmark = 1
