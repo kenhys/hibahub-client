@@ -68,6 +68,7 @@ module Yomou
               data.merge!(dat)
             end
           end
+          group = group_by_sub_directory(data)
         end
 
         desc "load", ""
