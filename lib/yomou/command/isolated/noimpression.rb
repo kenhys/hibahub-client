@@ -62,7 +62,7 @@ module Yomou
           @conf = Yomou::Config.new
           lists = Pathname.glob("#{@conf.directory}/noimpressionlist/noimpressionlist_*.html.gz")
           data = {}
-          lists.each do |path|
+          lists.sort.each do |path|
             html_gz(path.to_s) do |doc|
               dat = extract_newreview(doc)
               data.merge!(dat)
