@@ -40,6 +40,21 @@ module Yomou
         ncodes
       end
 
+      def deleted_ncodes
+        return [] unless File.exist?(@conf.database)
+
+        novels = Groonga["NarouNovels"]
+        p novels.size
+        ncodes = []
+        records = novels.select do |record|
+          record.yomou_status == YOMOU_NOVEL_DELETED
+        end
+        records.each do |record|
+          ncodes << record._key
+        end
+        ncodes
+      end
+
       def download(ncodes)
         @bookshelf = Yomou::Bookshelf.new
         succeeded = []
@@ -56,7 +71,7 @@ module Yomou
             group = ncode_group["#{i}"] || []
           end
           next if group.empty?
-          target = group - downloaded
+          target = group - downloaded - deleted_ncodes
           next if target.empty?
           Dir.chdir(path) do
             system("echo #{target.join(' ')} | narou download --no-convert --backtrace")
