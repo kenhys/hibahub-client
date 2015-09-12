@@ -21,6 +21,23 @@ module Yomou
         group
       end
 
+      def archive_no_group(category, group)
+        group.keys.sort.each do |key|
+          path = pathname_expanded([@conf.directory,
+                                    category,
+                                    "n#{key}.yaml.gz"])
+          p path
+          entries = []
+          if path.exist?
+            entries = yaml_gz(path.to_s)
+            entries.merge!(group[key])
+          else
+            entries = group[key]
+          end
+          archive(entries, path)
+        end
+      end
+
       def extract_total_novels_from_each_page(doc)
         total = 0
         doc.xpath("//div[@class='site_h2']").each do |div|

@@ -68,20 +68,7 @@ module Yomou
             end
           end
           group = group_by_sub_directory(data)
-          group.keys.sort.each do |key|
-            path = pathname_expanded([@conf.directory,
-                                      "nopointlist",
-                                      "n#{key}.yaml.gz"])
-            p path
-            entries = []
-            if path.exist?
-              entries = yaml_gz(path.to_s)
-              entries.merge!(group[key])
-            else
-              entries = group[key]
-            end
-            archive(entries, path)
-          end
+          archive_no_group("nopointlist", group)
           lists.each do |path|
             path.delete
           end
