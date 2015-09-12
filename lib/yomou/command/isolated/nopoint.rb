@@ -63,7 +63,7 @@ module Yomou
             # TODO
             p path
             html_gz(path.to_s) do |doc|
-              dat = extract_newreview(doc)
+              dat = extract_newreview(doc, "nopointlist")
               data.merge!(dat)
             end
           end
