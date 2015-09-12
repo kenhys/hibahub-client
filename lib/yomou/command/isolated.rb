@@ -90,6 +90,9 @@ module Yomou
           chars = 0
           review = 0
           impression = 0
+          global_point = nil
+          all_point = nil
+          all_hyoka_count = nil
           genre = ""
           keywords = []
           div.xpath("div[2]").each do |div|
@@ -102,24 +105,7 @@ module Yomou
               end
             end
           end
-          div.xpath("div[3]").each do |div|
-            items = div.text.split("\r\n").reject do |item|
-              not item.include?("：")
-            end
-            items.each do |item|
-              case item
-              when /文字数：([0-9,]+)/
-                chars = $1.delete(',').to_i
-              when /ブックマーク：(\d+)/
-                bookmark = $1.to_i
-              when /レビュー：(\d+)/
-                review = $1.to_i
-              when /感想：(\d+)/
-                impression = $1.to_i
-              end
-            end
-          end
-          dat[ncode.downcase] = {
+          entry = {
             :ncode => ncode.downcase,
             :status => status,
             :genre => genre,
@@ -128,13 +114,44 @@ module Yomou
             :mypage => mypage,
             :writer => writer,
             :bookmark => bookmark,
-            :chars => chars,
-            :review => review,
-            :impression => impression,
             :count => count
           }
+          entry.merge!(send("extract_#{category}_properties", div))
+          dat[ncode.downcase] = entry
         end
         dat
+      end
+
+      def extract_noimpressionlist_properties(div)
+        data = {}
+        div.xpath("div[3]").each do |div|
+          div.text.split("\r\n").each do |item|
+            case item
+            when /文字数：([0-9,]+)/
+              data[:chars] = $1.delete(',').to_i
+            end
+          end
+          div.children.map do |element|
+            p element.text.delete("\r\n")
+            case element.text.delete("\r\n")
+            when /文字数：([0-9,]+)/
+              data[:chars] = $1.delete(',').to_i
+            when /ブックマーク：(\d+)/
+              data[:bookmark] = $1.to_i
+            when /レビュー：(\d+)/
+              data[:review] = $1.to_i
+            when /感想：(\d+)/
+              data[:impression] = $1.to_i
+            when /評価点：(\d+)/
+              data[:all_point] = $1.to_i
+            when /評価人数：(\d+)/
+              data[:all_hyoka_count] = $1.to_i
+            when /総合評価ポイント：(\d+)/
+              data[:global_point] = $1.to_i
+            end
+          end
+        end
+        data
       end
     end
   end
