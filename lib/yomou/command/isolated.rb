@@ -93,7 +93,7 @@ module Yomou
           genre = ""
           keywords = []
           div.xpath("div[2]").each do |div|
-            div.text.split("\n").each do |entry|
+            div.text.split("\r\n").each do |entry|
               case entry
               when /^ジャンル：(.+)/
                 genre = $1
@@ -103,7 +103,7 @@ module Yomou
             end
           end
           div.xpath("div[3]").each do |div|
-            items = div.text.split("\n").reject do |item|
+            items = div.text.split("\r\n").reject do |item|
               not item.include?("：")
             end
             items.each do |item|

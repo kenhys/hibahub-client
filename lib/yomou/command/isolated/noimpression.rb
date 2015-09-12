@@ -60,7 +60,7 @@ module Yomou
         desc "makecache", ""
         def makecache
           @conf = Yomou::Config.new
-          lists = Pathname.glob("#{@conf.directory}/nopointlist/nopointlist_*.html.gz")
+          lists = Pathname.glob("#{@conf.directory}/noimpressionlist/noimpressionlist_*.html.gz")
           data = {}
           lists.each do |path|
             html_gz(path.to_s) do |doc|
@@ -69,7 +69,7 @@ module Yomou
             end
           end
           group = group_by_sub_directory(data)
-          archive_no_group("noimpression", group)
+          archive_no_group("noimpressionlist", group)
         end
 
         desc "load", ""
