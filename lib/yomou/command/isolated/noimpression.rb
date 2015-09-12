@@ -14,7 +14,10 @@ module Yomou
         include Yomou::Command::Isolated
 
         desc "download", ""
-        def download(options)
+        option :min_page
+        option :max_page
+        option :min_bookmark
+        def download
           min_page = 1
           max_page = 100000
           min_bookmark = 1
