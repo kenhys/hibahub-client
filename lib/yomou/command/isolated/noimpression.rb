@@ -59,44 +59,13 @@ module Yomou
 
         desc "makecache", ""
         def makecache
+          @conf = Yomou::Config.new
           lists = Pathname.glob("#{@conf.directory}/nopointlist/nopointlist_*.html.gz")
           lists.each do |path|
-            # TODO
+            data = {}
             html_gz(path.to_s) do |doc|
-              dat = {}
-              n = 1
-              doc.xpath("//div[@class='newreview']").each do |div|
-                ncode = ""
-                title = ""
-                count = 1
-                div.xpath("div[@class='review_title']/a").each do |a|
-                  ncode = extract_ncode_from_url(a.attribute("href").text)
-                  title, bracket, status, count_label, _ = a.text.split("\n")
-                  count_label =~ /.+?(\d+)/
-                  count = $1.to_i
-                end
-                bookmark = 0
-                div.xpath("div[3]").each do |div|
-                  items = div.text.split("\n").reject do |item|
-                    not item.include?("：")
-                  end
-                  items[1] =~ /.+?(\d+)/
-                  bookmark = $1.to_i
-                end
-                dat[ncode.upcase] = {
-                  :ncode => ncode.upcase,
-                  :title => title,
-                  :bookmark => bookmark,
-                  :count => count
-                }
-                printf("%7d: %s: %s (%d) bookmark:%d\n", n, ncode, title, count, bookmark)
-                n = n + 1
-              end
-              yaml_path  = path.to_s.sub(".html.gz", ".yaml.lz4")
-              p yaml_path
-              open(yaml_path, "w+") do |file|
-                file.puts(LZ4.encode(YAML.dump(dat)))
-              end
+              dat = extract_newreview(doc)
+              data.merge!(dat)
             end
           end
         end
