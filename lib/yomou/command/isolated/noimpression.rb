@@ -61,8 +61,8 @@ module Yomou
         def makecache
           @conf = Yomou::Config.new
           lists = Pathname.glob("#{@conf.directory}/nopointlist/nopointlist_*.html.gz")
+          data = {}
           lists.each do |path|
-            data = {}
             html_gz(path.to_s) do |doc|
               dat = extract_newreview(doc)
               data.merge!(dat)
