@@ -1,3 +1,4 @@
+# coding: utf-8
 module Yomou
   module Narou
 
@@ -66,13 +67,18 @@ module Yomou
             else
               count = 0
               target.each do |ncode|
-                system("narou download --no-convert #{ncode}")
-                if $? == 0
+                if Dir.glob("小説データ/小説家になろう/#{ncode}*").count == 1
                   succeeded << ncode
                   @bookshelf.update_status(ncode, YOMOU_NOVEL_DOWNLOADED)
                 else
-                  failed << ncode
-                  @bookshelf.update_status(ncode, YOMOU_NOVEL_DELETED)
+                  system("narou download --no-convert #{ncode}")
+                  if $? == 0
+                    succeeded << ncode
+                    @bookshelf.update_status(ncode, YOMOU_NOVEL_DOWNLOADED)
+                  else
+                    failed << ncode
+                    @bookshelf.update_status(ncode, YOMOU_NOVEL_DELETED)
+                  end
                 end
               end
             end
