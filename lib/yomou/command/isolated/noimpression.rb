@@ -69,6 +69,7 @@ module Yomou
             end
           end
           group = group_by_sub_directory(data)
+          archive_no_group("noimpression", group)
         end
 
         desc "load", ""
