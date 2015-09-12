@@ -67,18 +67,7 @@ module Yomou
               data.merge!(dat)
             end
           end
-          group = {}
-          data.keys.each do |ncode|
-            ncode =~ /n(\d\d).+/
-            sub_directory = $1
-            if group.has_key?(sub_directory)
-              group[sub_directory][ncode] = data[ncode]
-            else
-              group[sub_directory] = {
-                ncode => data[ncode]
-              }
-            end
-          end
+          group = group_by_sub_directory(data)
           group.keys.sort.each do |key|
             path = pathname_expanded([@conf.directory,
                                       "nopointlist",

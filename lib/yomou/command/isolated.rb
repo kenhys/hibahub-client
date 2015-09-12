@@ -5,6 +5,22 @@ module Yomou
   module Command
     module Isolated
 
+      def group_by_sub_directory(hash)
+        group = {}
+        hash.keys.each do |ncode|
+          ncode =~ /n(\d\d).+/
+          sub_directory = $1
+          if group.has_key?(sub_directory)
+            group[sub_directory][ncode] = hash[ncode]
+          else
+            group[sub_directory] = {
+              ncode => data[ncode]
+            }
+          end
+        end
+        group
+      end
+
       def extract_total_novels_from_each_page(doc)
         total = 0
         doc.xpath("//div[@class='site_h2']").each do |div|
