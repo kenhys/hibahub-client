@@ -122,6 +122,25 @@ module Yomou
         dat
       end
 
+      def extract_nopointlist_properties(div)
+        data = {}
+        div.xpath("div[3]").each do |div|
+          div.text.split("\n").each do |item|
+            case item
+            when /文字数：([0-9,]+)/
+              data[:chars] = $1.delete(',').to_i
+            when /ブックマーク：(\d+)/
+              data[:bookmark] = $1.to_i
+            when /レビュー：(\d+)/
+              data[:review] = $1.to_i
+            when /感想：(\d+)/
+              data[:impression] = $1.to_i
+            end
+          end
+        end
+        data
+      end
+
       def extract_noimpressionlist_properties(div)
         data = {}
         div.xpath("div[3]").each do |div|
