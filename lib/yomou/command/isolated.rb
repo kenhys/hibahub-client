@@ -92,13 +92,6 @@ module Yomou
             mypage = a.attribute("href").text
             writer = a.text
           end
-          bookmark = 0
-          chars = 0
-          review = 0
-          impression = 0
-          global_point = nil
-          all_point = nil
-          all_hyoka_count = nil
           genre = ""
           keywords = []
           div.xpath("div[2]").each do |div|
@@ -119,7 +112,6 @@ module Yomou
             :title => title,
             :mypage => mypage,
             :writer => writer,
-            :bookmark => bookmark,
             :count => count
           }
           entry.merge!(send("extract_#{category}_properties", div))
