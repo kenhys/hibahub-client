@@ -55,7 +55,9 @@ module Yomou
           else
             group = ncode_group["#{i}"] || []
           end
+          next if group.empty?
           target = group - downloaded
+          next if target.empty?
           Dir.chdir(path) do
             system("echo #{target.join(' ')} | narou download --no-convert --backtrace")
             code = $?
