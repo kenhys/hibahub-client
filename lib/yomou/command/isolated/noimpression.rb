@@ -64,7 +64,7 @@ module Yomou
           data = {}
           lists.sort.each do |path|
             html_gz(path.to_s) do |doc|
-              dat = extract_newreview(doc)
+              dat = extract_newreview(doc, "noimpressionlist")
               data.merge!(dat)
             end
           end
