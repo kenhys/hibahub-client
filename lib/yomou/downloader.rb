@@ -50,10 +50,10 @@ module Yomou
           path = "#{@conf.directory}/narou/#{i}"
           group = nil
           if i < 10
-            group = ncode_group["0#{i}"]
+            group = ncode_group["0#{i}"] || []
             path = "#{@conf.directory}/narou/0#{i}"
           else
-            group = ncode_group["#{i}"]
+            group = ncode_group["#{i}"] || []
           end
           target = group - downloaded
           Dir.chdir(path) do
