@@ -70,6 +70,9 @@ module Yomou
           end
           group = group_by_sub_directory(data)
           archive_no_group("noimpressionlist", group)
+          lists.each do |path|
+            path.delete
+          end
         end
 
         desc "load", ""
