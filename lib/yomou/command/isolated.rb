@@ -132,10 +132,7 @@ module Yomou
             end
           end
           div.children.map do |element|
-            p element.text.delete("\r\n")
             case element.text.delete("\r\n")
-            when /文字数：([0-9,]+)/
-              data[:chars] = $1.delete(',').to_i
             when /ブックマーク：(\d+)/
               data[:bookmark] = $1.to_i
             when /レビュー：(\d+)/
