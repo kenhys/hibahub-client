@@ -74,9 +74,15 @@ module Yomou
           title = ""
           count = 1
           status = nil
+          case category
+          when "nopointlist"
+            crlf = "\n"
+          else
+            crlf = "\r\n"
+          end
           div.xpath("div[@class='review_title']/a").each do |a|
             ncode = extract_ncode_from_url(a.attribute("href").text)
-            title, bracket, status, count_label, _ = a.text.split("\r\n")
+            title, bracket, status, count_label, _ = a.text.split(crlf)
             count_label =~ /.+?(\d+)/
             count = $1.to_i
           end
@@ -96,7 +102,7 @@ module Yomou
           genre = ""
           keywords = []
           div.xpath("div[2]").each do |div|
-            div.text.split("\r\n").each do |entry|
+            div.text.split(crlf).each do |entry|
               case entry
               when /^ジャンル：(.+)/
                 genre = $1
