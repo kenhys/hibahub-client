@@ -11,6 +11,7 @@ module Yomou
         attr_accessor :downloader
 
         include Yomou::Helper
+        include Yomou::Command::Helper
 
         desc "", ""
         def download(options)
