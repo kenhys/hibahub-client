@@ -77,8 +77,33 @@ module Yomou
 
         desc "loadcache", ""
         def loadcache
-          unless @bookshelf and @bookshelf.ncode_exist?(ncode)
-            @bookshelf.register_ncode(ncode)
+          @conf = Yomou::Config.new
+          @bookshelf = Bookshelf.new
+          Dir.glob("#{@conf.directory}/noimpressionlist/*.yaml.xz").sort.each do |xz|
+            p xz
+            yaml_xz(xz).each do |entry|
+              ncode = entry[1][:ncode]
+              record = entry[1]
+
+              params = record.select do |key|
+                %i(title writer global_point all_point).include?(key)
+              end
+              translate = {
+                :bookmark => :fav_novel_cnt,
+                :review => :review_cnt,
+                :chars => :length,
+                :count => :general_all_no,
+              }
+              translate.each do |key, value|
+                params[value] = record[key] if record.has_key?(key)
+              end
+              params[:keyword] = record[:keywords]
+              params[:genre] = YOMOU_GENRE_TABLE[record[:genre]]
+              if record[:mypage] =~ /.+\/(\d+)\//
+                 params[:userid] = $1.to_i
+              end
+              @bookshelf.register_ncode(ncode, params)
+            end
           end
         end
 
