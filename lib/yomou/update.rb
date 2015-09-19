@@ -53,7 +53,7 @@ module Yomou
           if bookshelf.ncode_exist?(ncode)
             bookshelf.update_status(ncode, YOMOU_NOVEL_DOWNLOADED)
           else
-            bookshelf.register_ncode(ncode, {:status => YOMOU_NOVEL_DOWNLOADED})
+            bookshelf.register_ncode(ncode, {:yomou_status => YOMOU_NOVEL_DOWNLOADED})
           end
         end
       end

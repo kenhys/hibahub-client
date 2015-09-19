@@ -40,7 +40,7 @@ module Yomou
         unless novels.has_key?(ncode.downcase)
           p "register ncode:#{ncode.downcase}"
           status = YOMOU_NOVEL_NONE
-          status = options[:status] if options.has_key?(:status)
+          status = options[:yomou_status] if options.has_key?(:yomou_status)
           novels.add(ncode.downcase,
                      :yomou_status => status,
                      :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
