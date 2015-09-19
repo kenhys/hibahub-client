@@ -83,7 +83,7 @@ module Yomou
           end
 
           ["Quarter", "Monthly", "Weekly", "Daily"].each do |type|
-            schema.create_table("Narou#{type}Ranking", :type => :array) do |table|
+            schema.create_table("Narou#{type}Ranks", :type => :array) do |table|
               table.reference("ncode", "NarouNovels")
               table.time("date")
               table.int32("pt")
