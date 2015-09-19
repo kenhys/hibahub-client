@@ -1,4 +1,5 @@
 require "thor"
+require "xz"
 require "yomou/version"
 require "yomou/init"
 require "yomou/import"
