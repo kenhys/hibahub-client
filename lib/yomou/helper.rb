@@ -1,9 +1,29 @@
+# coding: utf-8
 require "open-uri"
 require "zlib"
 require "extlz4"
 
 module Yomou
   module Helper
+
+    YOMOU_GENRE_TABLE = {
+      "文学" => 1,
+      "恋愛" => 2,
+      "歴史" => 3,
+      "推理" => 4,
+      "ファンタジー" => 5,
+      "SF" => 6,
+      "ホラー" => 7,
+      "コメディー" => 8,
+      "冒険" => 9,
+      "学園" => 10,
+      "戦記" => 11,
+      "童話" => 12,
+      "詩" => 13,
+      "エッセイ" => 14,
+      "リプレイ" => 16
+      "その他" => 15,
+    }
 
     def quarter_periods
       d = Date.new(2013, 5, 1)
