@@ -75,8 +75,8 @@ module Yomou
           end
         end
 
-        desc "load", ""
-        def load
+        desc "loadcache", ""
+        def loadcache
           unless @bookshelf and @bookshelf.ncode_exist?(ncode)
             @bookshelf.register_ncode(ncode)
           end
