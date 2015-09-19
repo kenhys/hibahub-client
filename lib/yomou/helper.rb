@@ -181,6 +181,12 @@ module Yomou
       end
     end
 
+    def archive_xz(data, path)
+      XZ::StreamWriter.open(path) do |txz|
+        txz.write(YAML.dump(data))
+      end
+    end
+
     def yyyymmdd
       Date.today.strftime("%Y%m%d")
     end
