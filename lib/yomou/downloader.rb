@@ -74,6 +74,12 @@ module Yomou
           target = group - downloaded - deleted_ncodes
           next if target.empty?
           Dir.chdir(path) do
+            open('LOCK', 'w') do |file|
+              puts 'trying to lock.'
+              unless file.flock(File::LOCK_EX | File::LOCK_NB)
+                next
+              end
+            end
             system("echo #{target.join(' ')} | narou download --no-convert --backtrace")
             code = $?
             if code == 0
