@@ -5,6 +5,8 @@ module Yomou
 
     class Atom < Thor
 
+      include Yomou::Helper
+
       desc "allnovel", ""
       def allnovel
         url = "http://api.syosetu.com/allnovel.Atom"
@@ -25,8 +27,22 @@ module Yomou
         end
       end
 
-      private
+      desc "download", ""
+      def download(type = "allnovel")
+        kinds = ["allnovel", "noc_allnovel", "mnlt_allnovel"]
+        @conf = Yomou::Config.new
+        return unless kinds.include?(type)
 
+        url = "http://api.syosetu.com/#{type}.Atom"
+        feed = Feedjira::Feed.fetch_and_parse(url)
+        sub_directory = Time.now.strftime("atomapi/%Y/%m/%d/#{type}-%H%M.Atom.gz")
+        path = pathname_expanded([@conf.directory,
+                                  sub_directory])
+        p path.to_s
+        archive(feed.psych_to_yaml, path)
+      end
+
+      private
       def extract_ncode(item)
         if item =~ /.+\/(n\w+)\/\d+\//
           ncode = $1.upcase
