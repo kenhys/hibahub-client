@@ -98,6 +98,19 @@ module Yomou
       entries
     end
 
+    def yaml_xz(path)
+      entries = []
+      begin
+        if File.exists?(path_or_url)
+          open(path_or_url) do |context|
+            data = XZ.decompress(context.read)
+            entries = YAML.load(data)
+          end
+        end
+      end
+      entries
+    end
+
     def genre_codes
       (1..15).to_a
     end
