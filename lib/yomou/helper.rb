@@ -84,7 +84,7 @@ module Yomou
       entries
     end
 
-    def yaml_lz4(path)
+    def yaml_lz4(path_or_url)
       entries = []
       begin
         if File.exists?(path_or_url)
@@ -98,7 +98,7 @@ module Yomou
       entries
     end
 
-    def yaml_xz(path)
+    def yaml_xz(path_or_url)
       entries = []
       begin
         if File.exists?(path_or_url)
