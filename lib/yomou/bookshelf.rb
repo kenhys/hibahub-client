@@ -39,12 +39,12 @@ module Yomou
       ncodes.each do |ncode|
         unless novels.has_key?(ncode.downcase)
           p "register ncode:#{ncode.downcase}"
-          status = YOMOU_NOVEL_NONE
-          status = options[:yomou_status] if options.has_key?(:yomou_status)
-          novels.add(ncode.downcase,
-                     :yomou_status => status,
-                     :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
-                     :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
+          unless options.has_key?(:yomou_status)
+            options[:yomou_status] = YOMOU_NOVEL_NONE
+          end
+          options[:yomou_sync_interval] = YOMOU_SYNC_INTERVAL
+          options[:yomou_sync_schedule] = Time.now + YOMOU_SYNC_INTERVAL
+          novels.add(ncode.downcase, options)
         else
           print "skip #{ncode.downcase}" if options[:verbose]
         end
