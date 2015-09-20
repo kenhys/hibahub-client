@@ -29,7 +29,7 @@ module Yomou
 
       def quarter_path(genre)
         pathname_expanded([@conf.directory,
-                           "genrelist/#{genre}/quarter/#{yyyymmdd}.yaml.gz"])
+                           "genrelist/#{genre}/quarter/#{yyyymmdd}.yaml.xz"])
       end
 
     end

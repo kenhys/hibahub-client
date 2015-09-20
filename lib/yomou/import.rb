@@ -74,19 +74,19 @@ module Yomou
         ymd = period.strftime("%Y%m%d")
         case term
         when "quarter"
-          relative_path = "rankapi/#{term}/" + period.strftime("#{ymd}-q.yaml.gz")
+          relative_path = "rankapi/#{term}/" + period.strftime("#{ymd}-q.yaml.xz")
         when "monthly"
-          relative_path = "rankapi/#{term}/" + period.strftime("#{ymd}-m.yaml.gz")
+          relative_path = "rankapi/#{term}/" + period.strftime("#{ymd}-m.yaml.xz")
         when "weekly"
-          relative_path = "rankapi/#{term}/" + period.strftime("%Y/#{ymd}-w.yaml.gz")
+          relative_path = "rankapi/#{term}/" + period.strftime("%Y/#{ymd}-w.yaml.xz")
         when "daily"
-          relative_path = "rankapi/#{term}/" + period.strftime("%Y/%m/#{ymd}-d.yaml.gz")
+          relative_path = "rankapi/#{term}/" + period.strftime("%Y/%m/#{ymd}-d.yaml.xz")
         end
         path = Pathname.new(File.join(@conf.directory,
                                       relative_path))
         p path
         next unless path.exist?
-        entries = yaml_gz(path.to_s)
+        entries = yaml_xz(path.to_s)
         next if entries.empty?
 
         records = table.select do |record|

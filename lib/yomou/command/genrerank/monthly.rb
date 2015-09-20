@@ -29,7 +29,7 @@ module Yomou
 
       def monthly_path(genre)
         pathname_expanded([@conf.directory,
-                           "genrelist/#{genre}/monthly/#{yyyymmdd}.yaml.gz"])
+                           "genrelist/#{genre}/monthly/#{yyyymmdd}.yaml.xz"])
       end
     end
   end

@@ -64,7 +64,7 @@ module Yomou
       def weekly_path(date)
         rtype = date.strftime("%Y%m%d-w")
         path = Pathname.new(File.join(@conf.directory, "rankapi",
-                                      date.strftime("weekly/%Y/#{rtype}.yaml.gz")))
+                                      date.strftime("weekly/%Y/#{rtype}.yaml.xz")))
         FileUtils.mkdir_p(path.dirname)
         path
       end

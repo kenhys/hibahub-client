@@ -29,7 +29,7 @@ module Yomou
 
       def weekly_path(genre)
         pathname_expanded([@conf.directory,
-                           "genrelist/#{genre}/weekly/#{yyyymmdd}.yaml.gz"])
+                           "genrelist/#{genre}/weekly/#{yyyymmdd}.yaml.xz"])
       end
     end
   end

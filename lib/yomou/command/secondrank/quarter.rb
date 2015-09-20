@@ -40,7 +40,7 @@ module Yomou
 
       def quarter_path
         pathname_expanded([@conf.directory,
-                           "secondlist/quarter/#{yyyymmdd}.yaml.gz"])
+                           "secondlist/quarter/#{yyyymmdd}.yaml.xz"])
       end
 
     end

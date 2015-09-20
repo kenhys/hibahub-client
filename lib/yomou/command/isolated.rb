@@ -26,11 +26,11 @@ module Yomou
         group.keys.sort.each do |key|
           path = pathname_expanded([@conf.directory,
                                     category,
-                                    "n#{key}.yaml.gz"])
+                                    "n#{key}.yaml.xz"])
           p path
           entries = []
           if path.exist?
-            entries = yaml_gz(path.to_s)
+            entries = yaml_xz(path.to_s)
             entries.merge!(group[key])
           else
             entries = group[key]

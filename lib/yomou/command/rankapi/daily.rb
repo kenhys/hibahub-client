@@ -59,7 +59,7 @@ module Yomou
         path = Pathname.new(File.join(@conf.directory,
                                       "rankapi",
                                       date.strftime("daily/%Y/%m"),
-                                      "#{rtype}.yaml.gz"))
+                                      "#{rtype}.yaml.xz"))
         path
       end
     end

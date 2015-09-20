@@ -68,7 +68,7 @@ module Yomou
       def monthly_path(date)
         rtype = date.strftime("%Y%m%d-m")
         path = Pathname.new(File.join(@conf.directory, "rankapi",
-                                      date.strftime("monthly/%Y%m%d-m.yaml.gz")))
+                                      date.strftime("monthly/%Y%m%d-m.yaml.xz")))
         FileUtils.mkdir_p(path.dirname)
         path
       end

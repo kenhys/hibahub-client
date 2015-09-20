@@ -40,7 +40,7 @@ module Yomou
 
       def monthly_path
         pathname_expanded([@conf.directory,
-                           "secondlist/monthly/#{yyyymmdd}.yaml.gz"])
+                           "secondlist/monthly/#{yyyymmdd}.yaml.xz"])
       end
     end
   end

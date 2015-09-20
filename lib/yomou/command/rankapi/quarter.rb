@@ -67,7 +67,7 @@ module Yomou
       def quarter_path(date)
         rtype = date.strftime("%Y%m%d-q")
         path = Pathname.new(File.join(@conf.directory, "rankapi",
-                                      date.strftime("quarter/%Y%m%d-q.yaml.gz")))
+                                      date.strftime("quarter/%Y%m%d-q.yaml.xz")))
         FileUtils.mkdir_p(path.dirname)
         path
       end

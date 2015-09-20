@@ -39,7 +39,7 @@ module Yomou
 
             path = pathname_expanded([@conf.directory,
                                       "noimpressionlist",
-                                      "noimpressionlist_#{page}.html.gz"])
+                                      "noimpressionlist_#{page}.html.xz"])
             url = sprintf("%s?p=%d",
                           "http://yomou.syosetu.com/nolist/noimpressionlist/index.php",
                           page)
@@ -60,7 +60,7 @@ module Yomou
         desc "makecache", ""
         def makecache
           @conf = Yomou::Config.new
-          lists = Pathname.glob("#{@conf.directory}/noimpressionlist/noimpressionlist_*.html.gz")
+          lists = Pathname.glob("#{@conf.directory}/noimpressionlist/noimpressionlist_*.html.xz")
           data = {}
           lists.sort.each do |path|
             html_gz(path.to_s) do |doc|

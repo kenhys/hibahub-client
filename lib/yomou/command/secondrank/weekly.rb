@@ -41,7 +41,7 @@ module Yomou
       def weekly_path
         yyyymmdd = Date.today.strftime("%Y%m%d")
         pathname_expanded([@conf.directory,
-                           "secondlist/weekly/#{yyyymmdd}.yaml.gz"])
+                           "secondlist/weekly/#{yyyymmdd}.yaml.xz"])
       end
     end
   end

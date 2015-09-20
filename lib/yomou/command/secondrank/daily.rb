@@ -43,7 +43,7 @@ module Yomou
       def daily_path
         yyyymmdd = Date.today.strftime("%Y%m%d")
         pathname_expanded([@conf.directory,
-                           "secondlist/daily/#{yyyymmdd}.yaml.gz"])
+                           "secondlist/daily/#{yyyymmdd}.yaml.xz"])
       end
     end
   end

@@ -31,7 +31,7 @@ module Yomou
 
       def daily_path(genre)
         pathname_expanded([@conf.directory,
-                           "genrelist/#{genre}/daily/#{yyyymmdd}.yaml.gz"])
+                           "genrelist/#{genre}/daily/#{yyyymmdd}.yaml.xz"])
       end
     end
   end
