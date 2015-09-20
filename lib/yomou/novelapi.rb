@@ -82,11 +82,11 @@ module Yomou
                             BASE_URL, code, @conf.gzip, @conf.out, limit, offset, of, order)
               path = pathname_expanded([@conf.directory,
                                          "novelapi",
-                                         "genre_#{code}_#{order}_#{offset}-.yaml.gz"])
+                                         "genre_#{code}_#{order}_#{offset}-.yaml.xz"])
               p url
               p path
               save_as(url, path)
-              yaml = yaml_gz(path.to_s)
+              yaml = yaml_xz(path.to_s)
               if first
                 allcount = yaml.first["allcount"]
               end
