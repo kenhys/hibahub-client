@@ -122,7 +122,7 @@ module Yomou
         @conf = Yomou::Config.new
 
         keywords = []
-        path = pathname_expanded([@conf.directory, "keyword", "classified.html.gz"])
+        path = pathname_expanded([@conf.directory, "keyword", "classified.html.xz"])
         url = "http://yomou.syosetu.com/search/classified/"
         save_as(url, path, {:compress => true})
         open(path.to_s) do |context|
@@ -135,7 +135,7 @@ module Yomou
         downloader = Narou::Downloader.new
         bookshelf = Yomou::Bookshelf.new
 
-        filename = "keywords.yaml.gz"
+        filename = "keywords.yaml.xz"
         keywords_path = pathname_expanded([@conf.directory,
                                             "keyword",
                                             filename])
@@ -152,7 +152,7 @@ module Yomou
                           URI.escape(keyword),
                           page)
             p url if options["verbose"]
-            filename = "#{URI.escape(keyword)}_hyoka_#{page}.html.lz4"
+            filename = "#{URI.escape(keyword)}_hyoka_#{page}.html.xz"
             path = pathname_expanded([@conf.directory,
                                        "keyword",
                                        URI.escape(keyword),
@@ -249,12 +249,12 @@ module Yomou
       def load_keywords_yaml(path, keywords)
         assoc = {}
         if path.exist?
-          assoc = yaml_gz(path.to_s)
+          assoc = yaml_xz(path.to_s)
         else
           keywords.each_with_index do |keyword, index|
             page = 1
             while page <= 100 do
-              filename = "#{URI.escape(keyword)}_hyoka_#{page}.html.gz"
+              filename = "#{URI.escape(keyword)}_hyoka_#{page}.html.xz"
               path = pathname_expanded([@conf.directory,
                                          "keyword",
                                          URI.escape(keyword),

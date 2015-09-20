@@ -47,7 +47,7 @@ module Yomou
             p path
             save_as(url, path, {:compress => true})
             if page == min_page
-              html_gz(path.to_s) do |doc|
+              html_xz(path.to_s) do |doc|
                 total = extract_total_novels_from_each_page(doc)
                 max_page = (total / 20) + 1 unless options[:max_page]
               end
@@ -63,7 +63,7 @@ module Yomou
           lists = Pathname.glob("#{@conf.directory}/noimpressionlist/noimpressionlist_*.html.xz")
           data = {}
           lists.sort.each do |path|
-            html_gz(path.to_s) do |doc|
+            html_xz(path.to_s) do |doc|
               dat = extract_newreview(doc, "noimpressionlist")
               data.merge!(dat)
             end

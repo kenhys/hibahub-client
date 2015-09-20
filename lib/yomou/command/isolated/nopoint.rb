@@ -36,7 +36,7 @@ module Yomou
 
             path = pathname_expanded([@conf.directory,
                                       "nopointlist",
-                                      "nopointlist_#{page}.html.gz"])
+                                      "nopointlist_#{page}.html.xz"])
             url = sprintf("%s?p=%d",
                           "http://yomou.syosetu.com/nolist/nopointlist/index.php",
                           page)
@@ -44,7 +44,7 @@ module Yomou
             p path
             save_as(url, path, {:compress => true})
             if page == min_page
-              html_gz(path.to_s) do |doc|
+              html_xz(path.to_s) do |doc|
                 total = extract_total_novels_from_each_page(doc)
                 max_page = (total / 20) + 1 unless options[:max_page]
               end
@@ -57,12 +57,12 @@ module Yomou
         desc "makecache", ""
         def makecache
           @conf = Yomou::Config.new
-          lists = Pathname.glob("#{@conf.directory}/nopointlist/nopointlist_*.html.gz").sort
+          lists = Pathname.glob("#{@conf.directory}/nopointlist/nopointlist_*.html.xz").sort
           data = {}
           lists.each do |path|
             # TODO
             p path
-            html_gz(path.to_s) do |doc|
+            html_xz(path.to_s) do |doc|
               dat = extract_newreview(doc, "nopointlist")
               data.merge!(dat)
             end

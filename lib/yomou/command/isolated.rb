@@ -50,7 +50,7 @@ module Yomou
 
       def extract_ncode_from_each_page_with_keyword(path, total = nil)
         ncodes = []
-        html_gz(path.to_s) do |context|
+        html_xz(path.to_s) do |context|
           doc = Nokogiri::HTML.parse(context.read)
           unless not total
             doc.xpath("//div[@id='main2']/b").each do |b|
