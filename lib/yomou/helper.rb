@@ -170,6 +170,8 @@ module Yomou
               gz.close
             elsif path.to_s.end_with?(".lz4")
               file.puts(LZ4.encode(context.read))
+            elsif path.to_s.end_with?(".xz")
+              file.puts(XZ.compress(context.read))
             end
           else
             file.puts(context.read)
