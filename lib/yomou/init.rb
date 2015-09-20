@@ -67,7 +67,7 @@ module Yomou
             table.time("yomou_sync_schedule")
           end
 
-          schema.create_table("NarouNovel", :type => :hash) do |table|
+          schema.create_table("NarouNovelEpisodes", :type => :hash) do |table|
             table.int32("index")
             table.text("href")
             table.text("chapter")
