@@ -35,7 +35,7 @@ module Yomou
 
         url = "http://api.syosetu.com/#{type}.Atom"
         feed = Feedjira::Feed.fetch_and_parse(url)
-        sub_directory = Time.now.strftime("atomapi/%Y/%m/%d/#{type}-%H%M.Atom.gz")
+        sub_directory = Time.now.strftime("atomapi/%Y/%m/%d/#{type}-%H%M.Atom.yaml.xz")
         path = pathname_expanded([@conf.directory,
                                   sub_directory])
         p path.to_s
