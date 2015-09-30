@@ -79,7 +79,6 @@ module Yomou
               unless file.flock(File::LOCK_EX | File::LOCK_NB)
                 next
               end
-            end
             system("echo #{target.join(' ')} | narou download --no-convert --backtrace")
             code = $?
             if code == 0
@@ -104,6 +103,7 @@ module Yomou
                   end
                 end
               end
+            end
             end
           end
         end
