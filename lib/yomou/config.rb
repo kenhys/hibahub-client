@@ -1,3 +1,4 @@
+# coding: utf-8
 require "yaml"
 
 module Yomou
@@ -29,6 +30,15 @@ module Yomou
 
     def path
       File.join(directory, YOMOU_CONFIG)
+    end
+
+    def narou_novel_directory(category)
+      path = File.join(directory,
+                       'narou',
+                       sprintf("%02d", category.to_i),
+                       '小説データ',
+                       '小説家になろう')
+      path
     end
 
     def load(arg = nil)
