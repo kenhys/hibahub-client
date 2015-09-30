@@ -32,18 +32,19 @@ module Yomou
 
       desc "download [SUBCOMMAND]", "Download novel data"
       option :ncode
-      def download
+      def download(*ncodes)
         @conf = Yomou::Config.new
         downloader = Narou::Downloader.new
         bookshelf = Yomou::Bookshelf.new
 
-        novels = Groonga["NarouNovels"]
-        records = novels.select("yomou_status:#{YOMOU_NOVEL_NONE}")
-        ncodes = []
-        records.each do |record|
-          ncodes << record._key
+        if ncodes.empty?
+          novels = Groonga["NarouNovels"]
+          records = novels.select("yomou_status:#{YOMOU_NOVEL_NONE}")
+          ncodes = []
+          records.each do |record|
+            ncodes << record._key
+          end
         end
-        p ncodes
         downloader.download(ncodes)
       end
 
