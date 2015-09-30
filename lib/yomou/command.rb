@@ -5,6 +5,7 @@ require "yomou/command/atomapi"
 require "yomou/command/rankapi"
 require "yomou/command/list"
 require "yomou/command/clean"
+require "yomou/command/impression"
 
 module Yomou
   module Command
@@ -42,6 +43,9 @@ module Yomou
 
       desc "noimpression [OPTIONS]", ""
       subcommand "noimpression", Isolated::NoImpression
+
+      desc "impression [OPTIONS]", ""
+      subcommand "impression", Impression
     end
   end
 end
