@@ -33,11 +33,16 @@ module Yomou
     end
 
     def narou_novel_directory(category)
-      path = File.join(directory,
-                       'narou',
-                       sprintf("%02d", category.to_i),
+      path = File.join(narou_category_directory(category),
                        '小説データ',
                        '小説家になろう')
+      path
+    end
+
+    def narou_category_directory(category)
+      path = File.join(directory,
+                       'narou',
+                       sprintf("%02d", category.to_i))
       path
     end
 
