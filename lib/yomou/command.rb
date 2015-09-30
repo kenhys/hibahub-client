@@ -4,6 +4,7 @@ require "yomou/command/genrerank"
 require "yomou/command/atomapi"
 require "yomou/command/rankapi"
 require "yomou/command/list"
+require "yomou/command/clean"
 
 module Yomou
   module Command
