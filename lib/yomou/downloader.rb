@@ -79,31 +79,31 @@ module Yomou
               unless file.flock(File::LOCK_EX | File::LOCK_NB)
                 next
               end
-            system("echo #{target.join(' ')} | narou download --no-convert --backtrace")
-            code = $?
-            if code == 0
-              succeeded = target
-              target.each do |ncode|
-                @bookshelf.update_status(ncode, YOMOU_NOVEL_DOWNLOADED)
-              end
-            else
-              count = 0
-              target.each do |ncode|
-                if Dir.glob("小説データ/小説家になろう/#{ncode}*").count == 1
-                  succeeded << ncode
+              system("echo #{target.join(' ')} | narou download --no-convert --backtrace")
+              code = $?
+              if code == 0
+                succeeded = target
+                target.each do |ncode|
                   @bookshelf.update_status(ncode, YOMOU_NOVEL_DOWNLOADED)
-                else
-                  system("narou download --no-convert #{ncode}")
-                  if $? == 0
+                end
+              else
+                count = 0
+                target.each do |ncode|
+                  if Dir.glob("小説データ/小説家になろう/#{ncode}*").count == 1
                     succeeded << ncode
                     @bookshelf.update_status(ncode, YOMOU_NOVEL_DOWNLOADED)
                   else
-                    failed << ncode
-                    @bookshelf.update_status(ncode, YOMOU_NOVEL_DELETED)
+                    system("narou download --no-convert #{ncode}")
+                    if $? == 0
+                      succeeded << ncode
+                      @bookshelf.update_status(ncode, YOMOU_NOVEL_DOWNLOADED)
+                    else
+                      failed << ncode
+                      @bookshelf.update_status(ncode, YOMOU_NOVEL_DELETED)
+                    end
                   end
                 end
               end
-            end
             end
           end
         end
