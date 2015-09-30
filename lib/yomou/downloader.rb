@@ -104,6 +104,7 @@ module Yomou
                   end
                 end
               end
+              file.flock(File::LOCK_UN)
             end
           end
         end
