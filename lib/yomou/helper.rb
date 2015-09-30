@@ -84,6 +84,15 @@ module Yomou
       end
     end
 
+    def html_xz(path_or_url)
+      if File.exists?(path_or_url)
+        open(path_or_url) do |context|
+          data = XZ.decompress(context.read)
+          yield(Nokogiri::HTML.parse(data))
+        end
+      end
+    end
+
     def yaml_gz(path_or_url)
       entries = []
       begin
