@@ -12,6 +12,13 @@ module Yomou
         @browser.login
         @browser.add_bookmark(ncode, episode)
       end
+
+      desc "delete", ""
+      def delete(ncode, episode = 1)
+        @browser = Yomou::Browser.new
+        @browser.login
+        @browser.delete_bookmark(ncode, episode)
+      end
     end
   end
 end
