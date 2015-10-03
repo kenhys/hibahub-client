@@ -7,6 +7,7 @@ require "yomou/command/list"
 require "yomou/command/clean"
 require "yomou/command/impression"
 require "yomou/command/bookmark"
+require "yomou/command/import"
 
 module Yomou
   module Command
