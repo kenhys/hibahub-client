@@ -29,7 +29,7 @@ module Yomou
       subcommand "novel", Novelapi::Novel
 
       desc "import [SUBCOMMAND]", "Import external data"
-      subcommand "import", Yomou::Import
+      subcommand "import", Import
 
       desc "update [SUBCOMMAND]", "Update external data"
       subcommand "update", Yomou::Update
