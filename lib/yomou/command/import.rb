@@ -4,8 +4,9 @@ require "yomou/helper"
 require "groonga"
 
 module Yomou
+  module Command
 
-  class Import < Thor
+    class Import < Thor
 
     include Yomou::Helper
 
@@ -106,4 +107,5 @@ module Yomou
       end
     end
   end
+end
 end
