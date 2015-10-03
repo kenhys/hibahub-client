@@ -6,6 +6,7 @@ require "yomou/command/rankapi"
 require "yomou/command/list"
 require "yomou/command/clean"
 require "yomou/command/impression"
+require "yomou/command/bookmark"
 
 module Yomou
   module Command
@@ -46,6 +47,9 @@ module Yomou
 
       desc "impression [OPTIONS]", ""
       subcommand "impression", Impression
+
+      desc "bookmark [OPTIONS]", ""
+      subcommand "bookmark", Bookmark
     end
   end
 end
