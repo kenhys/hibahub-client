@@ -1,8 +1,3 @@
-require "yomou/const"
-require "yomou/config"
-require "yomou/helper"
-require "groonga"
-
 module Yomou
   module Command
 
