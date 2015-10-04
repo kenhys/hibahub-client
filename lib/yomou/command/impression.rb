@@ -32,7 +32,7 @@ module Yomou
           skip = false
           n_pages.times do |index|
             next if skip
-            sleep 0.5
+            sleep YOMOU_REQUEST_INTERVAL_MSEC
             url = "#{BASE_URL}#{info[:impression_id]}/"
             unless index == 0
               url += sprintf("index.php?p=%d", index + 1)
