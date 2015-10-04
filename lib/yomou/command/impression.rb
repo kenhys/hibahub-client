@@ -13,10 +13,25 @@ module Yomou
         @conf = Yomou::Config.new
 
         ncodes.each do |ncode|
+
+          sub_directory = ncode[1..2]
+          path = pathname_expanded([@conf.directory,
+                                    "impression",
+                                    sub_directory,
+                                    "#{ncode.downcase}.yaml.xz"])
+          entries = []
+          if path.exist?
+            entries = yaml_xz(path.to_s)
+          end
+
           info = fetch_info_from_ncode(ncode)
           p info
           return if info[:impression_count] == 0
-          (info[:impression_count] / 10 + 1).times do |index|
+          n_pages = info[:impression_count] / 10 + 1
+          n_pages = 1
+          impressions = []
+          n_pages.times do |index|
+            sleep 0.5
             url = "#{BASE_URL}#{info[:impression_id]}/"
             unless index == 0
               url += sprintf("index.php?p=%d", index + 1)
@@ -25,6 +40,8 @@ module Yomou
             open(url) do |context|
               doc = Nokogiri::HTML.parse(context.read)
               doc.xpath("//div[@class='waku']").each do |div|
+                entry = {}
+                label = ""
                 div.xpath('div').each do |child|
                   case child.attribute('class').text
                   when "comment_h2"
@@ -33,15 +50,40 @@ module Yomou
                     body = child.text
                     case label
                     when "良い点"
+                      entry[:good] = body
                     when "悪い点"
+                      entry[:bad] = body
                     when "一言"
+                      entry[:hint] = body
+                    end
+                  when "comment_user"
+                    user = {}
+                    child.xpath('a').each do |a|
+                      user[:mypage] = mypage = a.attribute('href').text
+                      user[:name] = a.text
+                      entry[:user] = user
+                    end
+                    if child.text =~ /.+\[(.+)\].*/
+                      date = DateTime.strptime($1, "%Y年 %m月 %d日 %H時 %M分")
+                      entry[:created_at] = date
                     end
                   when "res"
                   end
                 end
+                printf("%s good:%d bad:%d hint:%d %s\n",
+                       entry[:created_at].to_s,
+                       entry[:good] ? 1 : 0,
+                       entry[:bad] ? 1 : 0,
+                       entry[:hint] ? 1 : 0,
+                       entry[:user][:name])
+                impressions << entry
               end
+              p impressions
             end
           end
+          entries = impressions.concat(entries)
+          p entries
+          archive(entries, path)
         end
       end
 
