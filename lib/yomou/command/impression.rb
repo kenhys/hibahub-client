@@ -41,41 +41,12 @@ module Yomou
             open(url) do |context|
               doc = Nokogiri::HTML.parse(context.read)
               doc.xpath("//div[@class='waku']").each do |div|
-                entry = {}
-                label = ""
-                div.xpath('div').each do |child|
-                  case child.attribute('class').text
-                  when "comment_h2"
-                    label = child.text
-                  when "comment"
-                    body = child.text
-                    case label
-                    when "良い点"
-                      entry[:good] = body
-                    when "悪い点"
-                      entry[:bad] = body
-                    when "一言"
-                      entry[:hint] = body
-                    end
-                  when "comment_user"
-                    user = {}
-                    child.xpath('a').each do |a|
-                      user[:mypage] = mypage = a.attribute('href').text
-                      user[:name] = a.text
-                      entry[:user] = user
-                    end
-                    if child.text =~ /.+\[(.+)\].*/
-                      date = DateTime.strptime($1, "%Y年 %m月 %d日 %H時 %M分")
-                      entry[:created_at] = date
-                    end
-                    unless entries.empty?
-                      unless entry[:created_at] > entries[0][:created_at]
-                        p "skip #{entry[:created_at]} by #{entry[:user][:name]}"
-                        skip = true
-                        next
-                      end
-                    end
-                  when "res"
+                entry = parse_impression_entry(div)
+                unless entries.empty?
+                  unless entry[:created_at] > entries[0][:created_at]
+                    p "skip #{entry[:created_at]} by #{entry[:user][:name]}"
+                    skip = true
+                    next
                   end
                 end
                 printf("%s good:%d bad:%d hint:%d %s\n",
@@ -96,6 +67,40 @@ module Yomou
       private
 
       INFO_URL = 'http://ncode.syosetu.com/novelview/infotop/ncode/'
+
+      def parse_impression_entry(div)
+        entry = {}
+        label = ""
+        div.xpath('div').each do |child|
+          case child.attribute('class').text
+          when "comment_h2"
+            label = child.text
+          when "comment"
+            body = child.text
+            case label
+            when "良い点"
+              entry[:good] = body
+            when "悪い点"
+              entry[:bad] = body
+            when "一言"
+              entry[:hint] = body
+            end
+          when "comment_user"
+            user = {}
+            child.xpath('a').each do |a|
+              user[:mypage] = mypage = a.attribute('href').text
+              user[:name] = a.text
+              entry[:user] = user
+            end
+            if child.text =~ /.+\[(.+)\].*/
+              date = DateTime.strptime($1, "%Y年 %m月 %d日 %H時 %M分")
+              entry[:created_at] = date
+            end
+          when "res"
+          end
+        end
+        entry
+      end
 
       def fetch_info_from_ncode(ncode)
         hash = {}
