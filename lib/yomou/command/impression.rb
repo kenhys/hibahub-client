@@ -28,9 +28,10 @@ module Yomou
           p info
           return if info[:impression_count] == 0
           n_pages = info[:impression_count] / 10 + 1
-          n_pages = 1
           impressions = []
+          skip = false
           n_pages.times do |index|
+            next if skip
             sleep 0.5
             url = "#{BASE_URL}#{info[:impression_id]}/"
             unless index == 0
@@ -70,6 +71,7 @@ module Yomou
                     unless entries.empty?
                       unless entry[:created_at] > entries[0][:created_at]
                         p "skip #{entry[:created_at]} by #{entry[:user][:name]}"
+                        skip = true
                         next
                       end
                     end
