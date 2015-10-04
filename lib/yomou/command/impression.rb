@@ -84,11 +84,9 @@ module Yomou
                        entry[:user][:name])
                 impressions << entry
               end
-              p impressions
             end
           end
           entries = impressions.concat(entries)
-          p entries
           archive(entries, path)
         end
       end
