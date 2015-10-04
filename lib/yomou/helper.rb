@@ -199,6 +199,8 @@ module Yomou
       FileUtils.mkdir_p(path.dirname)
       if path.to_s.end_with?(".gz")
         archive_gzip(data, path.to_s)
+      elsif path.to_s.end_with?(".xz")
+        archive_xz(data, path.to_s)
       else
         File.open(path.to_s, "w+") do |file|
           file.puts(YAML.dump(data))
