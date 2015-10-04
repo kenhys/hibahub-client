@@ -67,6 +67,12 @@ module Yomou
                       date = DateTime.strptime($1, "%Y年 %m月 %d日 %H時 %M分")
                       entry[:created_at] = date
                     end
+                    unless entries.empty?
+                      unless entry[:created_at] > entries[0][:created_at]
+                        p "skip #{entry[:created_at]} by #{entry[:user][:name]}"
+                        next
+                      end
+                    end
                   when "res"
                   end
                 end
