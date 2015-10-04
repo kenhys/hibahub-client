@@ -15,6 +15,7 @@ module Yomou
         ncodes.each do |ncode|
           info = fetch_info_from_ncode(ncode)
           p info
+          return if info[:impression_count] == 0
           (info[:impression_count] / 10 + 1).times do |index|
             url = "#{BASE_URL}#{info[:impression_id]}/"
             unless index == 0
