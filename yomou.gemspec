@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "extlz4", "~> 0.2"
   spec.add_runtime_dependency "feedjira", "~> 1.4.0"
+  spec.add_runtime_dependency "mechanize", "~> 2.7.3"
   spec.add_runtime_dependency "rroonga", "~> 5.0.4"
   spec.add_runtime_dependency "ruby-xz", "~> 0.2.1"
   spec.add_runtime_dependency "thor", "~> 0.19"
