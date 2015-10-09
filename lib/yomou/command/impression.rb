@@ -31,7 +31,8 @@ module Yomou
 
           info = fetch_info_from_ncode(ncode)
           p info
-          return if info[:impression_count] == 0
+          next if info.empty?
+          next if info[:impression_count] == 0
           n_pages = info[:impression_count] / 10 + 1
           impressions = []
           skip = false
