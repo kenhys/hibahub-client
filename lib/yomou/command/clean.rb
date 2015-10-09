@@ -16,6 +16,7 @@ module Yomou
           remove_redundant_files(options[:prefix])
         else
           99.times.each do |i|
+            p "try to clean #{i}"
             remove_redundant_files(sprintf("n%02d", i))
           end
         end
