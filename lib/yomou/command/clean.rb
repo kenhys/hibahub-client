@@ -27,9 +27,18 @@ module Yomou
         category = target.delete('n')
 
         directory = @conf.narou_category_directory(category)
-        if File.exists?("#{directory}/LOCK")
-          p "do not clean #{directory}"
-          return
+        lock_file = "#{directory}/LOCK"
+        if File.exists?(lock_file)
+          locked = false
+          open(lock_file, 'w') do |file|
+            locked = file.flock(File::LOCK_EX | File::LOCK_NB)
+          end
+          if locked
+            p "do not clean #{directory}"
+            return
+          else
+            File.delete(lock_file)
+          end
         end
 
         directory = @conf.narou_novel_directory(category)
