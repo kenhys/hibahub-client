@@ -14,7 +14,7 @@ module Yomou
 
         if ncodes.empty?
           @downloader = Yomou::Narou::Downloader.new
-          ncodes = @donwloader.downloaded_ncodes
+          ncodes = @downloader.downloaded_ncodes
         end
 
         ncodes.each do |ncode|
