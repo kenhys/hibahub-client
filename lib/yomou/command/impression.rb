@@ -12,6 +12,11 @@ module Yomou
       def download(*ncodes)
         @conf = Yomou::Config.new
 
+        if ncodes.empty?
+          @downloader = Yomou::Downloader.new
+          ncodes = @donwloader.downloaded_ncodes
+        end
+
         ncodes.each do |ncode|
 
           sub_directory = ncode[1..2]
