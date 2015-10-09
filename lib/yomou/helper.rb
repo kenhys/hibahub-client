@@ -223,5 +223,26 @@ module Yomou
     def yyyymmdd
       Date.today.strftime("%Y%m%d")
     end
+
+    def guard(&block)
+      open('LOCK', 'w') do |file|
+        begin
+          locked = false
+          while not locked
+            print "w"
+            locked = file.flock(File::LOCK_EX | File::LOCK_NB)
+            sleep 1
+          end
+          p "lock"
+          block.call
+        ensure
+          p "unlock"
+          file.flock(File::LOCK_UN)
+        end
+      end
+      if File.exist?('LOCK')
+        File.delete('LOCK')
+      end
+    end
   end
 end
