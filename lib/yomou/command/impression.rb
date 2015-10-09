@@ -55,12 +55,16 @@ module Yomou
                     next
                   end
                 end
+                user_name = ""
+                if entry[:user] and entry[:user][:name]
+                  user_name = entry[:user][:name]
+                end
                 printf("%s good:%d bad:%d hint:%d %s\n",
                        entry[:created_at].to_s,
                        entry[:good] ? 1 : 0,
                        entry[:bad] ? 1 : 0,
                        entry[:hint] ? 1 : 0,
-                       entry[:user][:name])
+                       user_name)
                 impressions << entry
               end
             end
