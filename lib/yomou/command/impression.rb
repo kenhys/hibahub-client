@@ -115,7 +115,11 @@ module Yomou
                                   "#{ncode.downcase}.html.xz"])
         info_url = INFO_URL + ncode + '/'
         p info_url
-        save_as(info_url, path, {:compress => true})
+        begin
+          save_as(info_url, path, {:compress => true})
+        rescue
+          return hash
+        end
         html_xz(path.to_s) do |doc|
           doc.xpath("//ul[@id='head_nav']/li/a").each do |a|
             case a.text
