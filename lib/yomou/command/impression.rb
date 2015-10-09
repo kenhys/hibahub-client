@@ -13,7 +13,7 @@ module Yomou
         @conf = Yomou::Config.new
 
         if ncodes.empty?
-          @downloader = Yomou::Downloader.new
+          @downloader = Yomou::Narou::Downloader.new
           ncodes = @donwloader.downloaded_ncodes
         end
 
