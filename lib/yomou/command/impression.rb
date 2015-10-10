@@ -26,6 +26,7 @@ module Yomou
                                     "#{ncode.downcase}.yaml.xz"])
           entries = []
           if path.exist?
+            next if path.mtime > Time.now - YOMOU_SYNC_INTERVAL_WEEK
             entries = yaml_xz(path.to_s)
           end
 
