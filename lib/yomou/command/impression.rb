@@ -152,10 +152,14 @@ module Yomou
             when 'レビュー'
               hash[:review_count] = text.gsub(/,|件/, "").to_i
             when 'ポイント評価'
-              hash[:writing_point] = text.split[0].gsub(/,|pt/, "").to_i
-              hash[:story_point] = text.split[2].gsub(/,|pt/, "").to_i
+              unless text.end_with?("非公開")
+                hash[:writing_point] = text.split[0].gsub(/,|pt/, "").to_i
+                hash[:story_point] = text.split[2].gsub(/,|pt/, "").to_i
+              end
             when 'ブックマーク登録'
-              hash[:bookmark_count] = text.gsub(/,|件/, "").to_i
+              unless text.end_with?("非公開")
+                hash[:bookmark_count] = text.gsub(/,|件/, "").to_i
+              end
             end
           end
         end
