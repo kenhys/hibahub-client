@@ -2,7 +2,6 @@
 require "thor"
 require "open3"
 require "fileutils"
-require "yomou/novelapi/ncode"
 require "yomou/bookshelf"
 
 module Yomou

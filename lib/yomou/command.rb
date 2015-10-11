@@ -9,6 +9,7 @@ require "yomou/command/impression"
 require "yomou/command/bookmark"
 require "yomou/command/import"
 require "yomou/command/user"
+require "yomou/command/novel"
 
 module Yomou
   module Command
@@ -27,7 +28,7 @@ module Yomou
       subcommand "genrerank", GenreRank
 
       desc "novel [SUBCOMMAND]", "Get novel data"
-      subcommand "novel", Novelapi::Novel
+      subcommand "novel", Novel
 
       desc "import [SUBCOMMAND]", "Import external data"
       subcommand "import", Import
