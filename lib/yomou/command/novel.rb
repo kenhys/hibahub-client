@@ -14,7 +14,7 @@ module Yomou
 
       include Yomou::Helper
 
-      desc "novel [SUBCOMMAND]", "Get novel data"
+      desc "get [SUBCOMMAND]", "Get novel data"
       option :ncode
       def get
         p options
