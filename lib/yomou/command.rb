@@ -3,7 +3,7 @@ require "yomou/command/secondrank"
 require "yomou/command/genrerank"
 require "yomou/command/atomapi"
 require "yomou/command/rankapi"
-require "yomou/command/ranking"
+require "yomou/command/rankin"
 require "yomou/command/list"
 require "yomou/command/clean"
 require "yomou/command/impression"
@@ -56,7 +56,7 @@ module Yomou
       subcommand "bookmark", Bookmark
 
       desc "rankin [SUBCOMMAND]", ""
-      subcommand "rankin", Rankin
+      subcommand "rankin", RankIn
     end
   end
 end
