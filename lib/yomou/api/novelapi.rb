@@ -5,4 +5,3 @@ module Yomou
     end
   end
 end
-     
