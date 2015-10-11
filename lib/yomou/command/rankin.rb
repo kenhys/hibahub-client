@@ -1,7 +1,7 @@
 module Yomou
   module Command
 
-    class Rankin < Thor
+    class RankIn < Thor
 
       desc "download", ""
       def download(*ncodes)
