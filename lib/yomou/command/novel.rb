@@ -5,7 +5,7 @@ require "fileutils"
 require "yomou/bookshelf"
 
 module Yomou
-  module Novelapi
+  module Command
 
     class Novel < Thor
 
