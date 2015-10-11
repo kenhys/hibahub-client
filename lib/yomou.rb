@@ -8,6 +8,7 @@ require "yomou/helper"
 require "yomou/bookshelf"
 require "yomou/downloader"
 require "yomou/update"
+require "yomou/api"
 require "yomou/command"
 require "yomou/browser"
 
