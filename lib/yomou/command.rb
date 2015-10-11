@@ -55,8 +55,8 @@ module Yomou
       desc "bookmark [OPTIONS]", ""
       subcommand "bookmark", Bookmark
 
-      desc "ranking [SUBCOMMAND]", ""
-      subcommand "ranking", Ranking
+      desc "rankin [SUBCOMMAND]", ""
+      subcommand "rankin", Rankin
     end
   end
 end
