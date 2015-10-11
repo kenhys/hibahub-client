@@ -8,6 +8,7 @@ module Yomou
   module Command
 
     class Novel < Thor
+      namespace :novel
 
       BASE_URL = "http://api.syosetu.com/novelapi/api/"
 
