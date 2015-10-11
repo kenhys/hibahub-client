@@ -83,7 +83,9 @@ module Yomou
         entry = {}
         label = ""
         div.xpath('div').each do |child|
-          case child.attribute('class').text
+          klass = child.attribute('class')
+          next unless klass
+          case klass.text
           when "comment_h2"
             label = child.text
           when "comment"
