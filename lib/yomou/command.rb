@@ -3,6 +3,7 @@ require "yomou/command/secondrank"
 require "yomou/command/genrerank"
 require "yomou/command/atomapi"
 require "yomou/command/rankapi"
+require "yomou/command/ranking"
 require "yomou/command/list"
 require "yomou/command/clean"
 require "yomou/command/impression"
@@ -53,6 +54,9 @@ module Yomou
 
       desc "bookmark [OPTIONS]", ""
       subcommand "bookmark", Bookmark
+
+      desc "ranking [SUBCOMMAND]", ""
+      subcommand "ranking", Ranking
     end
   end
 end
