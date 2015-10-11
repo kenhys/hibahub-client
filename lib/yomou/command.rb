@@ -8,6 +8,7 @@ require "yomou/command/clean"
 require "yomou/command/impression"
 require "yomou/command/bookmark"
 require "yomou/command/import"
+require "yomou/command/user"
 
 module Yomou
   module Command
@@ -35,7 +36,7 @@ module Yomou
       subcommand "update", Yomou::Update
 
       desc "user [SUBCOMMAND]", ""
-      subcommand "user", Userapi::User
+      subcommand "user", User
 
       desc "atom [OPTIONS]", ""
       subcommand "atom", Atom

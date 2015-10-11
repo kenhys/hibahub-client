@@ -1,9 +1,9 @@
 require "open-uri"
-require "yomou/userapi/command"
-require "yomou/userapi/novellist"
+require "yomou/command/user/bookmark"
+require "yomou/command/user/novellist"
 
 module Yomou
-  module Userapi
+  module Command
 
     # This is unofficial dummy api
 
@@ -11,8 +11,11 @@ module Yomou
 
       include Yomou::Helper
 
-      desc "get [SUBCOMMAND]", "Initialize cofiguration"
-      subcommand "get", Yomou::Userapi::Command
+      desc "bookmark USER_ID", ""
+      subcommand "bookmark", Yomou::Userapi::Bookmark
+
+      desc "novellist [SUBCOMMAND]", ""
+      subcommand "novellist", Yomou::Userapi::Novellist
 
       desc "novellist USER_ID", ""
       option :download
