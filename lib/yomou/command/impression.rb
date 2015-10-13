@@ -116,7 +116,7 @@ module Yomou
 
         p @info.url
         begin
-          save_as(@info.url, path, {:compress => true})
+          @info.download
         rescue
           return hash
         end
