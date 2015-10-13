@@ -113,10 +113,8 @@ module Yomou
 
       def fetch_info_from_ncode(ncode)
         hash = {}
-        path = pathname_expanded([@conf.directory,
-                                  'info',
-                                  ncode.slice(1,2),
-                                  "#{ncode.downcase}.html.xz"])
+        @info = NovelInfo:PageParser.new(ncode)
+
         info_url = INFO_URL + ncode + '/'
         p info_url
         begin
