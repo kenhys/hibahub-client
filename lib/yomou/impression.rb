@@ -19,6 +19,14 @@ module Yomou
         @cache_path.exist? and
           @cache_path.mtime > Time.now - YOMOU_SYNC_INTERVAL_WEEK
       end
+
+      def cache
+        data = []
+        if @cache_path.exist?
+          data = yaml_xz(@cache_path.to_s)
+        end
+        data
+      end
     end
   end
 end
