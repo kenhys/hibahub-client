@@ -19,11 +19,11 @@ module Yomou
 
         ncodes.each do |ncode|
 
-          @parser = Impression::PageParser.new(ncode)
+          @impression = Impression::PageParser.new(ncode)
 
-          next if @parser.skip?
+          next if @impression.skip?
 
-          entries = @parser.cache
+          entries = @impression.cache
 
           info = fetch_info_from_ncode(ncode)
           p info
