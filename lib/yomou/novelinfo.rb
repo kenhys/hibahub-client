@@ -17,6 +17,11 @@ module Yomou
                                          "#{ncode.downcase}.html.xz"])
         @url = INFO_URL + ncode.dwoncase + '/'
       end
+
+      def download
+        save_as(@info.url, @cache_path, {:compress => true})
+      end
+
     end
   end
 end
