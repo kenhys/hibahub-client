@@ -19,11 +19,11 @@ module Yomou
 
         ncodes.each do |ncode|
 
-          entries = []
-          if path.exist?
-            next if path.mtime > Time.now - YOMOU_SYNC_INTERVAL_WEEK
-            entries = yaml_xz(path.to_s)
-          end
+          @parser = Impression::PageParser.new(ncode)
+
+          next if @parser.skip?
+
+          entries = @parser.cache
 
           info = fetch_info_from_ncode(ncode)
           p info
