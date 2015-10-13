@@ -115,10 +115,9 @@ module Yomou
         hash = {}
         @info = NovelInfo:PageParser.new(ncode)
 
-        info_url = INFO_URL + ncode + '/'
-        p info_url
+        p @info.url
         begin
-          save_as(info_url, path, {:compress => true})
+          save_as(@info.url, path, {:compress => true})
         rescue
           return hash
         end
