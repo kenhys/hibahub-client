@@ -19,11 +19,6 @@ module Yomou
 
         ncodes.each do |ncode|
 
-          sub_directory = ncode[1..2]
-          path = pathname_expanded([@conf.directory,
-                                    "impression",
-                                    sub_directory,
-                                    "#{ncode.downcase}.yaml.xz"])
           entries = []
           if path.exist?
             next if path.mtime > Time.now - YOMOU_SYNC_INTERVAL_WEEK
