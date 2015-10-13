@@ -3,7 +3,9 @@ module Yomou
 
     class PageParser
 
-      attr_accessor :cache_path
+      INFO_URL = 'http://ncode.syosetu.com/novelview/infotop/ncode/'
+
+      attr_accessor :cache_path, :url
 
       include Yomou::Helper
 
@@ -13,6 +15,7 @@ module Yomou
                                          'info',
                                          ncode.slice(1,2),
                                          "#{ncode.downcase}.html.xz"])
+        @url = INFO_URL + ncode.dwoncase + '/'
       end
     end
   end
