@@ -72,7 +72,6 @@ module Yomou
 
       private
 
-      INFO_URL = 'http://ncode.syosetu.com/novelview/infotop/ncode/'
 
       def parse_impression_entry(div)
         entry = {}
