@@ -112,7 +112,7 @@ module Yomou
 
       def fetch_info_from_ncode(ncode)
         hash = {}
-        @info = NovelInfo:PageParser.new(ncode)
+        @info = NovelInfo::PageParser.new(ncode)
 
         p @info.url
         begin
