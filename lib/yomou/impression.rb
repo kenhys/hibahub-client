@@ -51,6 +51,7 @@ module Yomou
         p url
         html(url) do |doc|
           doc.xpath("//div[@class='waku']").each do |div|
+            next if @skipped
             entry = parse_impression_entry(div)
             unless cache.empty?
               unless entry[:created_at] > cache[0][:created_at]
