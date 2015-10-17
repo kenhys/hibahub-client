@@ -111,7 +111,8 @@ module Yomou
       end
 
       def parse_comment_user(div)
-        label, commenter, date, _ = div.text.strip.split(/\r\n/)
+        label, comment_user, _ = div.text.strip.split(/\r\n/)
+        comment_user
       end
 
       def parse_comment_date(div)
