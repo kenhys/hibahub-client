@@ -50,13 +50,16 @@ module Yomou
         hash
       end
 
+      def parse_novel_table2_label(tr)
+        tr.xpath('th').each do |th|
+          label = th.text
+        end
+      end
+
       def parse_novel_table2(doc)
         doc.xpath("//table[@id='noveltable2']/tr").each_with_index do |tr,i|
-          label = ""
+          label = parse_novel_table2_label(tr)
           text = ""
-          tr.xpath('th').each do |th|
-            label = th.text
-          end
           tr.xpath('td').each do |td|
             text = td.text
           end
