@@ -36,6 +36,7 @@ module Yomou
       end
 
       def parse
+        hash = {}
         html_xz(path.to_s) do |doc|
           doc.xpath("//ul[@id='head_nav']/li/a").each do |a|
             case a.text
@@ -73,6 +74,7 @@ module Yomou
             end
           end
         end
+        hash
       end
     end
   end
