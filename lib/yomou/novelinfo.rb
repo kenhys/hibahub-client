@@ -75,6 +75,8 @@ module Yomou
             hash[:impression_count] = text.gsub(/\n|件/, "").to_i
           when 'レビュー'
             hash[:review_count] = text.gsub(/,|件/, "").to_i
+          when '総合評価'
+            hash[:total_point] = parse_point(text.split[0])
           when 'ポイント評価'
             unless text.end_with?("非公開")
               hash[:writing_point] = parse_point(text.split[0])
