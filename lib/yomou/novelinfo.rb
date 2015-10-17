@@ -38,16 +38,8 @@ module Yomou
       def parse
         hash = {}
         html_xz(@cach_path.to_s) do |doc|
-          doc.xpath("//ul[@id='head_nav']/li/a").each do |a|
-            case a.text
-            when '感想'
-              hash[:impression_url] = a.attribute('href').value
-              hash[:impression_url] =~ /.+\/(\d+)\/$/
-              hash[:impression_id] = $1
-            when 'レビュー'
-              hash[:review_url] = a.attribute('href').value
-            end
-          end
+          header = parse_novel_header(doc)
+          hash.merge(header)
           doc.xpath("//table[@id='noveltable2']/tr").each_with_index do |tr,i|
             label = ""
             text = ""
@@ -72,6 +64,25 @@ module Yomou
                 hash[:bookmark_count] = text.gsub(/,|件/, "").to_i
               end
             end
+          end
+        end
+        hash
+      end
+
+      def parse_novel_header(doc)
+        hash = {}
+        doc.xpath("//ul[@id='head_nav']/li/a").each do |a|
+          case a.text
+          when '感想'
+            hash[:impression_url] = a.attribute('href').value
+            hash[:impression_url] =~ /.+\/(\d+)\/$/
+            hash[:impression_id] = $1
+          when 'レビュー'
+            hash[:review_url] = a.attribute('href').value
+          when '縦書きPDF'
+            hash[:pdfnovel_url] = a.attribute('href').value
+          when 'ブックマーク'
+            hash[:bookmark_url] = a.attribute('href').value
           end
         end
         hash
