@@ -56,13 +56,18 @@ module Yomou
         end
       end
 
+      def parse_novel_table2_text(tr)
+        text = ""
+        tr.xpath('td').each do |td|
+          text = td.text
+        end
+        text
+      end
+
       def parse_novel_table2(doc)
         doc.xpath("//table[@id='noveltable2']/tr").each_with_index do |tr,i|
           label = parse_novel_table2_label(tr)
-          text = ""
-          tr.xpath('td').each do |td|
-            text = td.text
-          end
+          text = parse_novel_table2_text(tr)
           case label
           when '感想'
             hash[:impression_count] = text.gsub(/\n|件/, "").to_i
