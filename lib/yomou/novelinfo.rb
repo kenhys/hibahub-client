@@ -16,7 +16,7 @@ module Yomou
                                          'info',
                                          ncode.slice(1,2),
                                          "#{ncode.downcase}.html.xz"])
-        @url = INFO_URL + ncode.dwoncase + '/'
+        @url = INFO_URL + ncode.downcase + '/'
       end
 
       def download
