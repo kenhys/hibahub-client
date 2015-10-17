@@ -71,12 +71,8 @@ module Yomou
     end
 
     def html(url)
-      begin
-        open(url) do |context|
-          yield(Nokogiri::HTML.parse(context.read))
-        end
-      rescue
-        # TODO:
+      open(url) do |context|
+        yield(Nokogiri::HTML.parse(context.read))
       end
     end
 
