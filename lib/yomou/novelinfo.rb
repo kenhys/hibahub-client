@@ -61,8 +61,8 @@ module Yomou
               hash[:review_count] = text.gsub(/,|件/, "").to_i
             when 'ポイント評価'
               unless text.end_with?("非公開")
-                hash[:writing_point] = text.split[0].gsub(/,|pt/, "").to_i
-                hash[:story_point] = text.split[2].gsub(/,|pt/, "").to_i
+                hash[:writing_point] = parse_point(text.split[0])
+                hash[:story_point] = parse_point(text.split[2])
               end
             when 'ブックマーク登録'
               unless text.end_with?("非公開")
@@ -72,6 +72,10 @@ module Yomou
           end
         end
         hash
+      end
+
+      def parse_point(text)
+        text.gsub(/,|pt/, "").to_i
       end
 
       def parse_novel_header(doc)
