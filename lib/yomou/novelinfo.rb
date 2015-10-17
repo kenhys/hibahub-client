@@ -37,7 +37,7 @@ module Yomou
 
       def parse
         hash = {}
-        html_xz(path.to_s) do |doc|
+        html_xz(@cach_path.to_s) do |doc|
           doc.xpath("//ul[@id='head_nav']/li/a").each do |a|
             case a.text
             when '感想'
