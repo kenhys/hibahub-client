@@ -15,7 +15,7 @@ module Yomou
         @cache_path = pathname_expanded([@conf.directory,
                                          'info',
                                          ncode.slice(1,2),
-                                         "#{ncode.downcase}.html.xz"])
+                                         "#{ncode.downcase}.yaml.xz"])
         @url = INFO_URL + ncode.downcase + '/'
       end
 
@@ -27,8 +27,8 @@ module Yomou
         p @url
         hash = {}
         begin
-          download
           hash = parse
+          archive(hash, @cache_path)
         rescue
           # TODO:
         end
