@@ -102,7 +102,11 @@ module Yomou
               user[:name] = a.text
               entry[:user] = user
             end
-            entry[:comment_user] = parse_comment_user(child)
+            unless entry[:user]
+              comment_user = parse_comment_user(child)
+              entry[:user] = {}
+              entry[:user][:name] = comment_user
+            end
             entry[:created_at] = parse_comment_date(child)
           when "res"
           end
