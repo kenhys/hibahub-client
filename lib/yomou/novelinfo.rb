@@ -44,8 +44,8 @@ module Yomou
         hash = {}
         html(@url) do |doc|
           header = parse_novel_header(doc)
-          hash.merge(header)
-          hash.merge(parse_novel_table2(doc))
+          hash.merge!(header)
+          hash.merge!(parse_novel_table2(doc))
         end
         hash
       end
