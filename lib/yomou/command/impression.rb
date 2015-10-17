@@ -43,45 +43,7 @@ module Yomou
 
       private
 
-
-      def parse_impression_entry(div)
-        entry = {}
-        label = ""
-        div.xpath('div').each do |child|
-          klass = child.attribute('class')
-          next unless klass
-          case klass.text
-          when "comment_h2"
-            label = child.text
-          when "comment"
-            body = child.text
-            case label
-            when "良い点"
-              entry[:good] = body
-            when "悪い点"
-              entry[:bad] = body
-            when "一言"
-              entry[:hint] = body
-            end
-          when "comment_user"
-            user = {}
-            child.xpath('a').each do |a|
-              user[:mypage] = mypage = a.attribute('href').text
-              user[:name] = a.text
-              entry[:user] = user
-            end
-            label, commenter, date, _ = child.text.strip.split(/\r\n/)
-            if date =~ /.+\[(.+)\].*/
-              date = DateTime.strptime($1, "%Y年 %m月 %d日 %H時 %M分")
-              entry[:created_at] = date
-            end
-          when "res"
-          end
-        end
-        entry
-      end
-
-    end
+   end
 
   end
 end
