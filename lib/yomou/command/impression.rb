@@ -5,6 +5,7 @@ module Yomou
       namespace :impression
 
       include Yomou::Helper
+      include Yomou::Impression
 
       BASE_URL = 'http://novelcom.syosetu.com/impression/list/ncode/'
 
@@ -19,7 +20,7 @@ module Yomou
 
         ncodes.each do |ncode|
 
-          @impression = Yomou::Impression::PageParser.new(ncode)
+          @impression = PageParser.new(ncode)
 
           next if @impression.cached?
 
