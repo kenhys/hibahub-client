@@ -21,7 +21,7 @@ module Yomou
 
           @impression = Impression::PageParser.new(ncode)
 
-          next if @impression.skip?
+          next if @impression.cached?
 
           entries = @impression.cache
 
