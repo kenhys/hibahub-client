@@ -37,7 +37,7 @@ module Yomou
 
       def parse
         hash = {}
-        html_xz(@cach_path.to_s) do |doc|
+        html(@url) do |doc|
           header = parse_novel_header(doc)
           hash.merge(header)
           doc.xpath("//table[@id='noveltable2']/tr").each_with_index do |tr,i|
