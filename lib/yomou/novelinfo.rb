@@ -67,7 +67,7 @@ module Yomou
       end
 
       def parse_novel_table2(doc)
-        doc.xpath("//table[@id='noveltable2']/tr").each_with_index do |tr,i|
+        doc.xpath("//table[@id='noveltable2']/tr").each do |tr|
           label = parse_novel_table2_label(tr)
           text = parse_novel_table2_text(tr)
           case label
