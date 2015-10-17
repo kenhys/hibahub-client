@@ -101,17 +101,25 @@ module Yomou
               user[:name] = a.text
               entry[:user] = user
             end
-            label, commenter, date, _ = child.text.strip.split(/\r\n/)
-            if date =~ /.+\[(.+)\].*/
-              date = DateTime.strptime($1, "%Y年 %m月 %d日 %H時 %M分")
-              entry[:created_at] = date
-            end
+            entry[:comment_user] = parse_comment_user(child.text)
+            entry[:created_at] = parse_comment_date(child.text)
           when "res"
           end
         end
         entry
       end
 
+      def parse_comment_user(text)
+        label, commenter, date, _ = child.text.strip.split(/\r\n/)
+      end
+
+      def parse_comment_date(text)
+        label, commenter, date, _ = child.text.strip.split(/\r\n/)
+        if date =~ /.+\[(.+)\].*/
+          date = DateTime.strptime($1, "%Y年 %m月 %d日 %H時 %M分")
+        end
+        date
+      end
     end
   end
 end
