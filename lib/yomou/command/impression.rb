@@ -25,7 +25,8 @@ module Yomou
 
           entries = @impression.cache
 
-          info = fetch_info_from_ncode(ncode)
+          @info = NovelInfo::PageParser.new(ncode)
+          info = @info.fetch_info
           p info
           next if info.empty?
           next if info[:impression_count] == 0
@@ -110,19 +111,6 @@ module Yomou
         entry
       end
 
-      def fetch_info_from_ncode(ncode)
-        hash = {}
-        @info = NovelInfo::PageParser.new(ncode)
-
-        p @info.url
-        begin
-          @info.download
-        rescue
-          return hash
-        end
-        hash = @info.parse
-        hash
-      end
     end
 
   end
