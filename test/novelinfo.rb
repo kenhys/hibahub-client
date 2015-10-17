@@ -12,13 +12,16 @@ class NovelInfoTest < Test::Unit::TestCase
     test "valid" do
       ncode = "x12345"
       info = Yomou::NovelInfo::PageParser.new(ncode)
-      assert(info.cache_path.to_s, "/tmp/info/12/x12345.html.xz")
+      expected = "/tmp/info/12/x12345.html.xz"
+      assert_equal(expected, info.cache_path.to_s)
     end
 
     test "downcase ncode" do
       ncode = "X12345"
       info = Yomou::NovelInfo::PageParser.new(ncode)
-      assert(info.cache_path.to_s, "/tmp/info/12/x12345.html.xz")
+      expected = "/tmp/info/12/x12345.html.xz"
+      assert_equal(expected, info.cache_path.to_s)
     end
   end
+
 end
