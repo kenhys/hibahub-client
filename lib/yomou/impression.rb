@@ -34,18 +34,23 @@ module Yomou
         data
       end
 
+      def skipped?
+        @skipped
+      end
+
       def fetch(impression_id)
         url = "#{BASE_URL}#{impression_id}/"
         unless @current_page == 1
           url += sprintf("index.php?p=%d", @current_page + 1)
         end
+        p url
         html(url) do |doc|
           doc.xpath("//div[@class='waku']").each do |div|
             entry = parse_impression_entry(div)
             unless cache.empty?
               unless entry[:created_at] > cache[0][:created_at]
                 p "skip #{entry[:created_at]} by #{entry[:user][:name]}"
-                skip = true
+                @skipped = true
                 next
               end
             end
