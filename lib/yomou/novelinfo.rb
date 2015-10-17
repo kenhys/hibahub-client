@@ -51,9 +51,11 @@ module Yomou
       end
 
       def parse_novel_table2_label(tr)
+        label = ""
         tr.xpath('th').each do |th|
           label = th.text
         end
+        label
       end
 
       def parse_novel_table2_text(tr)
