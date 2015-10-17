@@ -9,7 +9,7 @@ class NovelInfoTest < Test::Unit::TestCase
   end
 
   sub_test_case "cache_path" do
-    expected = "/tmp/info/12/x12345.html.xz"
+    expected = "/tmp/info/12/x12345.yaml.xz"
     data(
       'valid' => ["x12345", expected],
       'unified to downcase?' => ["X12345", expected]
