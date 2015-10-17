@@ -67,6 +67,7 @@ module Yomou
       end
 
       def parse_novel_table2(doc)
+        hash = {}
         doc.xpath("//table[@id='noveltable2']/tr").each do |tr|
           label = parse_novel_table2_label(tr)
           text = parse_novel_table2_text(tr)
@@ -88,6 +89,7 @@ module Yomou
             end
           end
         end
+        hash
       end
 
       def parse_point(text)
