@@ -5,6 +5,8 @@ module Yomou
 
       attr_accessor :cache_path
 
+      include Yomou::Helper
+
       def initialize(ncode)
         @conf = Yomou::Config.new
         sub_directory = ncode[1..2]
