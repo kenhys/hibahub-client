@@ -4,6 +4,7 @@ module Yomou
     class PageParser
 
       attr_accessor :cache_path
+      attr_reader :current_page
 
       include Yomou::Helper
 
@@ -14,6 +15,7 @@ module Yomou
                                          "impression",
                                          sub_directory,
                                          "#{ncode.downcase}.yaml.xz"])
+        @current_page = 1
       end
 
       def cached?
