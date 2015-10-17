@@ -46,7 +46,7 @@ module Yomou
       def fetch(impression_id)
         url = "#{BASE_URL}#{impression_id}/"
         unless @current_page == 1
-          url += sprintf("index.php?p=%d", @current_page + 1)
+          url += sprintf("index.php?p=%d", @current_page)
         end
         p url
         html(url) do |doc|
@@ -72,6 +72,7 @@ module Yomou
             @impressions << entry
           end
         end
+        @current_page += 1
       end
 
 
