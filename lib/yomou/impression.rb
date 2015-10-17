@@ -15,7 +15,7 @@ module Yomou
                                          "#{ncode.downcase}.yaml.xz"])
       end
 
-      def skip?
+      def cached?
         @cache_path.exist? and
           @cache_path.mtime > Time.now - YOMOU_SYNC_INTERVAL_WEEK
       end
