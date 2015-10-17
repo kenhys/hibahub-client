@@ -38,7 +38,7 @@ module Yomou
             sleep YOMOU_REQUEST_INTERVAL_MSEC
             @impression.fetch(info[:impression_id])
           end
-          entries = @impression.concat(entries)
+          entries = @impression.append(entries)
           archive(entries, path)
         end
       end

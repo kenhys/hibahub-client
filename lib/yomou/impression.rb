@@ -38,6 +38,10 @@ module Yomou
         @skipped
       end
 
+      def append(entries)
+        @impressions.concat(entries)
+      end
+
       def fetch(impression_id)
         url = "#{BASE_URL}#{impression_id}/"
         unless @current_page == 1
