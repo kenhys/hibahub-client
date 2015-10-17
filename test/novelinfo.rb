@@ -9,7 +9,6 @@ class NovelInfoTest < Test::Unit::TestCase
   end
 
   sub_test_case "cache_path" do
-
     test "valid" do
       ncode = "x12345"
       info = Yomou::NovelInfo::PageParser.new(ncode)
