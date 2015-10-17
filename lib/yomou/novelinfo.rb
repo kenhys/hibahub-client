@@ -23,6 +23,18 @@ module Yomou
         save_as(@info.url, @cache_path, {:compress => true})
       end
 
+      def fetch_info
+        p @url
+        hash = {}
+        begin
+          download
+          hash = parse
+        rescue
+          # TODO:
+        end
+        hash
+      end
+
       def parse
         html_xz(path.to_s) do |doc|
           doc.xpath("//ul[@id='head_nav']/li/a").each do |a|
