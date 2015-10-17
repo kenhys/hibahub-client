@@ -6,6 +6,7 @@ module Yomou
       attr_accessor :cache_path
 
       def initialize(ncode)
+        @conf = Yomou::Config.new
         sub_directory = ncode[1..2]
         @cache_path = pathname_expanded([@conf.directory,
                                          "impression",
