@@ -19,7 +19,7 @@ module Yomou
 
         ncodes.each do |ncode|
 
-          @impression = Impression::PageParser.new(ncode)
+          @impression = Yomou::Impression::PageParser.new(ncode)
 
           next if @impression.cached?
 
