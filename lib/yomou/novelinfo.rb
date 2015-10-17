@@ -45,6 +45,12 @@ module Yomou
         html(@url) do |doc|
           header = parse_novel_header(doc)
           hash.merge(header)
+          hash.merge(parse_novel_table2(doc))
+        end
+        hash
+      end
+
+      def parse_novel_table2
           doc.xpath("//table[@id='noveltable2']/tr").each_with_index do |tr,i|
             label = ""
             text = ""
@@ -70,8 +76,6 @@ module Yomou
               end
             end
           end
-        end
-        hash
       end
 
       def parse_point(text)
