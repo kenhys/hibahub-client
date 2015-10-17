@@ -70,6 +70,16 @@ module Yomou
       path
     end
 
+    def html(url)
+      begin
+        open(url) do |context|
+          yield(Nokogiri::HTML.parse(context.read))
+        end
+      rescue
+        # TODO:
+      end
+    end
+
     def html_gz(path_or_url)
       if File.exists?(path_or_url)
         if path_or_url.end_with?(".gz")
