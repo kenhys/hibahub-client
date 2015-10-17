@@ -38,7 +38,7 @@ module Yomou
             @impression.fetch(info[:impression_id])
           end
           entries = @impression.append(entries)
-          archive(entries, path)
+          archive(entries, @impression.cache_path)
         end
       end
 
