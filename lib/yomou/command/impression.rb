@@ -28,7 +28,6 @@ module Yomou
 
           @info = NovelInfo::PageParser.new(ncode)
           info = @info.fetch_info
-          p info
           next if info.empty?
           next if info[:impression_count] == 0
           n_pages = info[:impression_count] / 10 + 1
