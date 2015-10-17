@@ -34,39 +34,11 @@ module Yomou
           impressions = []
           skip = false
           n_pages.times do |index|
-            next if skip
+            next if @impression.skipped?
             sleep YOMOU_REQUEST_INTERVAL_MSEC
-            url = "#{BASE_URL}#{info[:impression_id]}/"
-            unless index == 0
-              url += sprintf("index.php?p=%d", index + 1)
-            end
-            p url
-            open(url) do |context|
-              doc = Nokogiri::HTML.parse(context.read)
-              doc.xpath("//div[@class='waku']").each do |div|
-                entry = parse_impression_entry(div)
-                unless entries.empty?
-                  unless entry[:created_at] > entries[0][:created_at]
-                    p "skip #{entry[:created_at]} by #{entry[:user][:name]}"
-                    skip = true
-                    next
-                  end
-                end
-                user_name = ""
-                if entry[:user] and entry[:user][:name]
-                  user_name = entry[:user][:name]
-                end
-                printf("%s good:%d bad:%d hint:%d %s\n",
-                       entry[:created_at].to_s,
-                       entry[:good] ? 1 : 0,
-                       entry[:bad] ? 1 : 0,
-                       entry[:hint] ? 1 : 0,
-                       user_name)
-                impressions << entry
-              end
-            end
+            @impression.fetch(info[:impression_id])
           end
-          entries = impressions.concat(entries)
+          entries = @impression.concat(entries)
           archive(entries, path)
         end
       end
