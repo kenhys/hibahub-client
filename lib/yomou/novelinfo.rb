@@ -23,6 +23,11 @@ module Yomou
         save_as(@info.url, @cache_path, {:compress => true})
       end
 
+      def cached?
+        @cache_path.exist? and
+          @cache_path.mtime > Time.now - YOMOU_SYNC_INTERVAL_WEEK
+      end
+
       def fetch_info
         p @url
         hash = {}
