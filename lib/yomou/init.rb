@@ -35,6 +35,7 @@ module Yomou
             table.time("date")
           end
 
+          # See http://dev.syosetu.com/man/api/
           schema.create_table("NarouNovels", :type => :hash) do |table|
             table.text("title")
             table.int32("userid")
