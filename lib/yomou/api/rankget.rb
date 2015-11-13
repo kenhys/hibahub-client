@@ -1,6 +1,7 @@
 module Yomou
   module Api
-    class RankGet
+    module RankGet
+
     end
   end
 end
