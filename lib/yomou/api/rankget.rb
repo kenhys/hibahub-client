@@ -85,6 +85,36 @@ module Yomou
           end
         end
       end
+
+      class MonthlyDownloader < RankDownloader
+        attr_accessor :since
+
+        def initialize
+          super
+          @type = "m"
+          @type_name = "monthly"
+        end
+
+        def downloads
+          date = @since
+          if date.day != 1
+            date = date.next_month
+            date = Date.new(date.year, date.month, 1)
+          end
+          while date < Date.today
+            url = download_url(@type, date)
+            path = download_path(@type, @type_name, date)
+            unless path.exist?
+              if date >= Date.new(2013, 5, 1)
+                p url
+                p path
+                archive(yaml_gz(url), path)
+              end
+            end
+            date = date.next_month
+          end
+        end
+      end
     end
   end
 end
