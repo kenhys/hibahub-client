@@ -89,6 +89,7 @@ module Yomou
             table.text("data_type")
           end
 
+          # See http://dev.syosetu.com/man/rankapi/
           ["Quarter", "Monthly", "Weekly", "Daily"].each do |type|
             schema.create_table("Narou#{type}Ranks", :type => :array) do |table|
               table.reference("ncode", "NarouNovels")
