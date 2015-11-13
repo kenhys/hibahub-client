@@ -36,6 +36,7 @@ module Yomou
           end
 
           # See http://dev.syosetu.com/man/api/
+          # _key:ncode(downcase)
           schema.create_table("NarouNovels", :type => :hash) do |table|
             table.text("title")
             table.int32("userid")
@@ -68,6 +69,7 @@ module Yomou
             table.time("yomou_sync_schedule")
           end
 
+          # See narou toc.yaml
           schema.create_table("NarouNovelEpisodes",
                               :type => :patricia_trie) do |table|
             table.int32("index")
