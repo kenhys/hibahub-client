@@ -47,7 +47,7 @@ module Yomou
             if date >= Date.new(2013, 5, 1)
               p url
               p path.to_s
-              save_as(url, path)
+              archive(yaml_gz(url), path)
             end
           end
           date = date.next_month
