@@ -56,6 +56,35 @@ module Yomou
           end
         end
       end
+
+      class WeeklyDownloader < RankDownloader
+        attr_accessor :since
+
+        def initialize
+          super
+          @type = "w"
+          @type_name = "weekly"
+        end
+
+        def downloads
+          date = @since
+          until date.tuesday?
+            date = date.next_day(1)
+          end
+          while date < Date.today
+            url = download_url(@type, date)
+            path = download_path(@type, @type_name, date)
+            unless path.exist?
+              if date >= Date.new(2013, 5, 1)
+                p url
+                p path
+                archive(yaml_gz(url), path)
+              end
+            end
+            date = date.next_day(7)
+          end
+        end
+      end
     end
   end
 end

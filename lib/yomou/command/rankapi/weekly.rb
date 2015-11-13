@@ -25,48 +25,11 @@ module Yomou
       desc "download [--since YYYYMMDD]", ""
       option :since
       def download
-        @conf = Yomou::Config.new
-        date = nil
+        @agent = Yomou::Api::RankGet::WeeklyDownloader.new
         if options.has_key?("since")
-          date = Date.parse(options["since"])
-          until date.tuesday?
-            date = date.next_day(1)
-          end
-        else
-          date = Date.new(2013, 5, 1)
+          @agent.since = Date.parse(options["since"])
         end
-        while date < Date.today
-          rtype = date.strftime("%Y%m%d-w")
-          url = weekly_url(date)
-          path = weekly_path(date)
-          unless path.exist?
-            if date >= Date.new(2013, 5, 1)
-              p url
-              p path
-              archive(yaml_gz(url), path)
-            end
-          end
-          date = date.next_day(7)
-        end
-      end
-
-      private
-
-      def weekly_url(date)
-        rtype = date.strftime("%Y%m%d-w")
-        [
-          "#{BASE_URL}/?rtype=#{rtype}",
-          "gzip=#{@conf.gzip}",
-          "out=#{@conf.out}"
-        ].join("&")
-      end
-
-      def weekly_path(date)
-        rtype = date.strftime("%Y%m%d-w")
-        path = Pathname.new(File.join(@conf.directory, "rankapi",
-                                      date.strftime("weekly/%Y/#{rtype}.yaml.xz")))
-        FileUtils.mkdir_p(path.dirname)
-        path
+        @agent.downloads
       end
 
     end
