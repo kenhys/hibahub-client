@@ -9,8 +9,6 @@ require "yomou/command/rankapi/quarter"
 module Yomou
   module Rankapi
 
-    BASE_URL = "http://api.syosetu.com/rank/rankget"
-
     class Rank < Thor
       namespace :rank
 
