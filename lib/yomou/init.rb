@@ -1,3 +1,4 @@
+# coding: utf-8
 require "yomou/config"
 
 module Yomou
@@ -70,6 +71,7 @@ module Yomou
           end
 
           # See narou toc.yaml
+          # _key:ncode(downcase)/index
           schema.create_table("NarouNovelEpisodes",
                               :type => :patricia_trie) do |table|
             table.int32("index")
@@ -80,6 +82,7 @@ module Yomou
             table.time("subdate")
             table.time("subupdate")
             table.time("download_time")
+            # See narou element in 本文/*.yaml
             table.text("introduction")
             table.text("body")
             table.text("postscript")
