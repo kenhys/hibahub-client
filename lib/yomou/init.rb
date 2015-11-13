@@ -99,15 +99,14 @@ module Yomou
             end
           end
 
-          schema.create_table("NarouNovelUpdateEvents", :type => :array) do |table|
+          # See http://dev.syosetu.com/man/atom/
+          # _key:id from atom entry
+          schema.create_table("NarouNovelAllNovelAtoms", :type => :hash) do |table|
             table.reference("ncode", "NarouNovels")
-            table.time("date")
-            table.int32("global_point")
-            table.int32("fav_novel_cnt")
-            table.int32("review_cnt")
-            table.int32("all_point")
-            table.int32("all_hyoka_cnt")
-            table.time("novelupdated_at")
+            table.time("updated")
+            table.int32("title")
+            table.int32("link")
+            table.int32("summary")
           end
 
           schema.create_table("YomouUsers", :type => :hash) do |table|
