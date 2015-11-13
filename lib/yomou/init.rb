@@ -109,6 +109,16 @@ module Yomou
             table.int32("summary")
           end
 
+          # See http://novelcom.syosetu.com/impression/list/ncode/NCODE
+          schema.create_table("NarouNovelImpressions", :type => :hash) do |table|
+            table.reference("user", "NarouUsers")
+            table.text("name")
+            table.int32("good")
+            table.text("bad")
+            table.text("comment")
+            table.time("comment_at")
+          end
+
           schema.create_table("YomouUsers", :type => :hash) do |table|
             table.text("name")
             table.text("mail")
