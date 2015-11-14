@@ -199,6 +199,8 @@ module Yomou
           succeed = true
         rescue OpenURI::HTTPError
           p "wait to retry"
+        rescue Errno::ETIMEDOUT
+          p "wait to retry"
         ensure
           sleep YOMOU_REQUEST_INTERVAL_MSEC
         end
