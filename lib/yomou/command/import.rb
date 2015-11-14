@@ -101,6 +101,20 @@ module Yomou
           end
         end
       end
+
+      desc "novel", "Import novel data"
+      def novel(ncode = nil)
+        @agent = NovelImporter.new
+        ncodes = []
+        if ncode
+          ncodes = [ncode]
+        else
+          @downloader = Downloader.new
+          ncodes = @downloader.downloaded_ncodes
+        end
+        p ncodes.size
+        @agent.import(ncodes)
+      end
     end
   end
 end
