@@ -74,7 +74,7 @@ module Yomou
           end
 
           # See narou toc.yaml
-          # _key:ncode(downcase)/index
+          # _key:ncode(downcase)/index/revision
           schema.create_table("NarouNovelEpisodes",
                               :type => :patricia_trie) do |table|
             table.int32("index")
@@ -90,6 +90,8 @@ module Yomou
             table.text("body")
             table.text("postscript")
             table.text("data_type")
+            # for proofreading
+            table.int32("revision")
           end
 
           # See http://dev.syosetu.com/man/rankapi/
@@ -120,6 +122,22 @@ module Yomou
             table.text("bad")
             table.text("comment")
             table.time("comment_at")
+          end
+
+          schema.create_table("YomouProofReadings", :type => :hash) do |table|
+            table.text("comment")
+            table.reference("ncode", "NarouNovels")
+            table.reference("episode", "NarouNovelEpisodes")
+            table.reference("user", "NarouUsers")
+            table.text("line")
+            table.text("original")
+            table.text("revised")
+            table.time("created_at")
+            table.int32("fixme")
+            table.int32("incorrect")
+            # post as bad impression
+            table.boolean("post")
+            table.time("posted_at")
           end
 
           schema.create_table("YomouUsers", :type => :hash) do |table|
