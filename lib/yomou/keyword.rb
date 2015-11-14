@@ -74,7 +74,9 @@ module Yomou
             total = b.text.delete(',').to_i
             @last_page = (total - 1) / 20 + 1
           end
-          p @last_page
+          if @last_page > 100
+            @last_page = 100
+          end
         end
       end
 
