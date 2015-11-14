@@ -48,7 +48,6 @@ module Yomou
           "id" => index
         }
         @agent = KeywordSearcher.new(params)
-        @agent.last_page = 10
         @agent.crawl
         @agent.makecache
       end
