@@ -105,6 +105,7 @@ module Yomou
                                     "keyword",
                                     @id.to_s,
                                     "#{page}.html.xz"])
+          p "load #{path.to_s} to make cache"
           html_xz(path) do |doc|
             doc.xpath("//div[@class='searchkekka_box']").each do |div|
               title, meta, status, count, *rest = div.text.split("\n").reject(&:empty?)
