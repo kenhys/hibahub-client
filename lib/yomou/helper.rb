@@ -176,6 +176,9 @@ module Yomou
         end
       end
       FileUtils.mkdir_p(path.dirname)
+      succeed = false
+      until succeed
+      begin
       open(url) do |context|
         File.open(path.to_s, "w+") do |file|
           if options[:compress]
@@ -193,7 +196,13 @@ module Yomou
           end
         end
       end
-      sleep YOMOU_REQUEST_INTERVAL_MSEC
+      succeed = true
+      rescue OpenURI::HTTPError
+        p "wait to retry"
+      ensure
+        sleep YOMOU_REQUEST_INTERVAL_MSEC
+      end
+      end
     end
 
     def open_database(path)
