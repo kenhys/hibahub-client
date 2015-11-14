@@ -92,7 +92,6 @@ module Yomou
           p path
           save_as(url, path, {:compress => true})
           page = page + 1
-          sleep YOMOU_REQUEST_INTERVAL_MSEC
         end
       end
 
