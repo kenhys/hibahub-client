@@ -126,8 +126,7 @@ module Yomou
         path = pathname_expanded([@conf.directory, "keyword", "classified.html.xz"])
         url = "http://yomou.syosetu.com/search/classified/"
         save_as(url, path, {:compress => true})
-        open(path.to_s) do |context|
-          doc = Nokogiri::HTML.parse(context.read)
+        html_xz(path.to_s) do |doc|
           doc.xpath("//div[@class='word']/a").each do |a|
             keywords << a.text
           end
