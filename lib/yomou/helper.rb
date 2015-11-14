@@ -178,30 +178,30 @@ module Yomou
       FileUtils.mkdir_p(path.dirname)
       succeed = false
       until succeed
-      begin
-      open(url) do |context|
-        File.open(path.to_s, "w+") do |file|
-          if options[:compress]
-            if path.to_s.end_with?(".gz")
-              gz = Zlib::GzipWriter.new(file, Zlib::BEST_COMPRESSION)
-              gz.puts(context.read)
-              gz.close
-            elsif path.to_s.end_with?(".lz4")
-              file.puts(LZ4.encode(context.read))
-            elsif path.to_s.end_with?(".xz")
-              file.puts(XZ.compress(context.read))
+        begin
+          open(url) do |context|
+            File.open(path.to_s, "w+") do |file|
+              if options[:compress]
+                if path.to_s.end_with?(".gz")
+                  gz = Zlib::GzipWriter.new(file, Zlib::BEST_COMPRESSION)
+                  gz.puts(context.read)
+                  gz.close
+                elsif path.to_s.end_with?(".lz4")
+                  file.puts(LZ4.encode(context.read))
+                elsif path.to_s.end_with?(".xz")
+                  file.puts(XZ.compress(context.read))
+                end
+              else
+                file.puts(context.read)
+              end
             end
-          else
-            file.puts(context.read)
           end
+          succeed = true
+        rescue OpenURI::HTTPError
+          p "wait to retry"
+        ensure
+          sleep YOMOU_REQUEST_INTERVAL_MSEC
         end
-      end
-      succeed = true
-      rescue OpenURI::HTTPError
-        p "wait to retry"
-      ensure
-        sleep YOMOU_REQUEST_INTERVAL_MSEC
-      end
       end
     end
 
