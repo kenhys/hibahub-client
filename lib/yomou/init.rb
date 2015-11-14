@@ -34,6 +34,7 @@ module Yomou
             table.int32("uid")
           end
 
+          # _key:keyword
           schema.create_table("NarouNovelKeywords") do |table|
             table.time("date")
           end
