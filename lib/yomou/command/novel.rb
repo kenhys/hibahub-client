@@ -137,10 +137,7 @@ module Yomou
           p word
           p index
           @agent.novels_with_keyword(word)
-          exit
         end
-        exit
-        assoc = load_keywords_yaml(keywords_path, keywords)
       end
 
       desc "nopointlist [--download|--makecache]", ""
