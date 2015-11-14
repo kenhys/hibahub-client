@@ -133,59 +133,14 @@ module Yomou
         downloader = Narou::Downloader.new
         bookshelf = Yomou::Bookshelf.new
 
-        filename = "keywords.yaml.xz"
-        keywords_path = pathname_expanded([@conf.directory,
-                                            "keyword",
-                                            filename])
-        assoc = load_keywords_yaml(keywords_path, keywords)
-        keywords.each_with_index do |keyword, index|
-          page = 1
-          total = nil
-          next if options["nth"].to_i > index + 1
-          puts "#{index+1}/#{keywords.size} #{keyword}"
-          all_ncodes = []
-          while page <= 100 do
-            url = sprintf("%s?word=%s&order=hyoka&p=%d",
-                          "http://yomou.syosetu.com/search.php",
-                          URI.escape(keyword),
-                          page)
-            p url if options["verbose"]
-            filename = "#{URI.escape(keyword)}_hyoka_#{page}.html.xz"
-            path = pathname_expanded([@conf.directory,
-                                       "keyword",
-                                       URI.escape(keyword),
-                                       filename])
-            ncodes = []
-            save_as(url, path, {:compress => true})
-            ncodes = extract_ncode_from_each_page_with_keyword(path)
-            if options["verbose"]
-              p keyword
-            else
-              if page == 100
-                puts page
-              elsif page % 10 == 0
-                print page
-              else
-                print "."
-              end
-            end
-            if options["download"]
-              downloader.download(ncodes)
-            else
-              bookshelf.register_ncode(ncodes)
-            end
-
-            all_ncodes.concat(ncodes)
-            break if page >= 100
-            page = page + 1
-          end
-
-          assoc[keyword] = all_ncodes
-          open(keywords_path.to_s, "w+") do |file|
-            file.puts(YAML.dump(assoc))
-          end
+        @agent.load_keywords.each do |word,index|
+          p word
+          p index
+          @agent.novels_with_keyword(word)
+          exit
         end
-
+        exit
+        assoc = load_keywords_yaml(keywords_path, keywords)
       end
 
       desc "nopointlist [--download|--makecache]", ""
