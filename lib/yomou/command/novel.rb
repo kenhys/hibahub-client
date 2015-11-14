@@ -132,6 +132,11 @@ module Yomou
           end
         end
 
+        if keywords.empty?
+          p "no keywords"
+          return
+        end
+
         downloader = Narou::Downloader.new
         bookshelf = Yomou::Bookshelf.new
 
