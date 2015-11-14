@@ -1,9 +1,12 @@
 # coding: utf-8
 require "yomou/config"
+require "yomou/helper"
 
 module Yomou
 
   class Init < Thor
+
+    include Yomou::Helper
 
     desc "config", "Initialize configuration"
     def config
@@ -14,11 +17,10 @@ module Yomou
     option :force
     def database
       @conf = Yomou::Config.new
-      path = ""
+      path = pathname_expanded([@conf.database])
       if options.has_key?("force")
         p @conf.database
         p File.expand_path(@conf.database)
-        path = Pathname.new(File.expand_path(@conf.database))
         FileUtils.rm_rf(path.dirname)
         FileUtils.mkdir_p(path.dirname)
       end
