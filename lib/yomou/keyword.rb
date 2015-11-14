@@ -1,3 +1,4 @@
+# coding: utf-8
 module Yomou
   module Keyword
 
@@ -49,6 +50,7 @@ module Yomou
         @agent = KeywordSearcher.new(params)
         @agent.last_page = 10
         @agent.crawl
+        @agent.makecache
       end
     end
 
@@ -97,8 +99,53 @@ module Yomou
 
       def makecache
         page = 1
+        data = {}
         until page > @last_page
+          path = pathname_expanded([@conf.directory,
+                                    "keyword",
+                                    @id.to_s,
+                                    "#{page}.html.xz"])
+          html_xz(path) do |doc|
+            doc.xpath("//div[@class='searchkekka_box']").each do |div|
+              title, meta, status, count, *rest = div.text.split("\n").reject(&:empty?)
+              global_point = rest[-9].delete(',').to_i
+              hyoka_cnt = rest[-6].delete(',').to_i
+              hyoka_point = rest[-3].delete(',').to_i
+              bookmark = rest[-1].split[-1].delete(',').to_i
+              meta =~ /作者：(.+)／.+／Nコード：(.+)$/
+              author = $1
+              ncode = $2.downcase
+              entry = {
+                :title => title,
+                :author => author,
+                :ncode => ncode,
+                :global_point => global_point,
+                :hyoka_count => hyoka_cnt,
+                :hyoka_point => hyoka_point,
+                :bookmark => bookmark
+              }
+              div.xpath("div[@class='novel_h']").each do |novel_h|
+                #p novel_h
+              end
+              div.xpath("table").each do |table|
+                table.xpath("tr/td[@class='left']").each do |td|
+                  status, rest = td.text.split("\n").reject(&:empty?)
+                  rest =~ /.+?(\d+).+/
+                  count = $1
+                  entry[:status] = status
+                  entry[:count] = count.to_i
+                end
+              end
+              data[ncode] = entry
+            end
+          end
+          page += 1
         end
+        path = pathname_expanded([@conf.directory,
+                                  "keyword",
+                                  @id.to_s,
+                                  "cache.yaml.xz"])
+        archive(data, path)
       end
     end
   end
