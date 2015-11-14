@@ -122,17 +122,10 @@ module Yomou
       def keywordlist
         @conf = Yomou::Config.new
 
-        keywords = []
-        path = pathname_expanded([@conf.directory, "keyword", "classified.html.xz"])
-        url = "http://yomou.syosetu.com/search/classified/"
-        save_as(url, path, {:compress => true})
-        html_xz(path.to_s) do |doc|
-          doc.xpath("//div[@class='word']/a").each do |a|
-            keywords << a.text
-          end
-        end
+        @agent = Yomou::Keyword::KeywordList.new
+        @agent.download
 
-        if keywords.empty?
+        if @agent.keywords.empty?
           p "no keywords"
           return
         end
