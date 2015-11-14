@@ -109,7 +109,7 @@ module Yomou
         if ncode
           ncodes = [ncode]
         else
-          @downloader = Downloader.new
+          @downloader = Yomou::Narou::Downloader.new
           ncodes = @downloader.downloaded_ncodes
         end
         p ncodes.size
