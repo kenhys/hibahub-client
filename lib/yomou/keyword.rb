@@ -29,6 +29,12 @@ module Yomou
         archive(@keywords, @keywords_path)
       end
 
+      def load_keywords
+        unless @keywords_path.exist?
+          download
+        end
+        @keywords = yaml_xz(@keywords_path)
+      end
     end
   end
 end
