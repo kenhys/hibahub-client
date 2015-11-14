@@ -83,7 +83,7 @@ module Yomou
       def crawl
         page = @page
         until page > @last_page
-          url = sprintf("%s?word=%s&order=hyoka&p=#{page}",
+          url = sprintf("%s?word=%s&order=new&p=#{page}",
                         "http://yomou.syosetu.com/search.php",
                         URI.escape(@keyword))
           path = pathname_expanded([@conf.directory,
