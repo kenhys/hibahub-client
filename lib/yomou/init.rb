@@ -108,10 +108,10 @@ module Yomou
           schema.create_table("NarouNovelAllNovelAtoms",
                               :type => :array) do |table|
             table.reference("ncode", "NarouNovels")
-            table.time("updated")
-            table.int32("title")
-            table.int32("link")
-            table.int32("summary")
+            table.text("title")
+            table.time("updated_at")
+            table.text("link")
+            table.text("summary")
           end
 
           # See http://novelcom.syosetu.com/impression/list/ncode/NCODE
