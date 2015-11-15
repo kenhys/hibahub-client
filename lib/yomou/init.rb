@@ -105,9 +105,8 @@ module Yomou
           end
 
           # See http://dev.syosetu.com/man/atom/
-          # _key:id from atom entry
           schema.create_table("NarouNovelAllNovelAtoms",
-                              :type => :hash) do |table|
+                              :type => :array) do |table|
             table.reference("ncode", "NarouNovels")
             table.time("updated")
             table.int32("title")
