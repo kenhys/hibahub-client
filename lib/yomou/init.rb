@@ -46,7 +46,7 @@ module Yomou
             table.text("story")
             table.int32("genre")
             table.text("gensaku")
-            table.reference("keyword", "NarouNovelKeywords")
+            table.reference("keywords", "NarouNovelKeywords", :type => :vector)
             table.time("general_firstup")
             table.time("general_lastup")
             table.int32("novel_type")
