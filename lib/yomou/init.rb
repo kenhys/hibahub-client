@@ -145,7 +145,7 @@ module Yomou
           end
 
           schema.create_table("YomouUsers",
-                              :type => :hash
+                              :type => :hash,
                               :key_type => 'UInt32') do |table|
             table.text("name")
             table.text("mail")
