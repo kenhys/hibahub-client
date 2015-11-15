@@ -106,7 +106,8 @@ module Yomou
 
           # See http://dev.syosetu.com/man/atom/
           # _key:id from atom entry
-          schema.create_table("NarouNovelAllNovelAtoms", :type => :hash) do |table|
+          schema.create_table("NarouNovelAllNovelAtoms",
+                              :type => :hash) do |table|
             table.reference("ncode", "NarouNovels")
             table.time("updated")
             table.int32("title")
@@ -115,7 +116,9 @@ module Yomou
           end
 
           # See http://novelcom.syosetu.com/impression/list/ncode/NCODE
-          schema.create_table("NarouNovelImpressions", :type => :hash) do |table|
+          schema.create_table("NarouNovelImpressions",
+                              :type => :hash,
+                              :key_type => 'UInt32') do |table|
             table.reference("user", "NarouUsers")
             table.text("name")
             table.int32("good")
@@ -124,7 +127,9 @@ module Yomou
             table.time("comment_at")
           end
 
-          schema.create_table("YomouProofReadings", :type => :hash) do |table|
+          schema.create_table("YomouProofReadings",
+                              :type => :hash,
+                              :key_type => 'UInt32') do |table|
             table.text("comment")
             table.reference("ncode", "NarouNovels")
             table.reference("episode", "NarouNovelEpisodes")
@@ -140,7 +145,9 @@ module Yomou
             table.time("posted_at")
           end
 
-          schema.create_table("YomouUsers", :type => :hash) do |table|
+          schema.create_table("YomouUsers",
+                              :type => :hash
+                              :key_type => 'UInt32') do |table|
             table.text("name")
             table.text("mail")
             table.text("password")
@@ -150,7 +157,9 @@ module Yomou
             table.text("login_from")
           end
 
-          schema.create_table("NarouUsers", :type => :hash) do |table|
+          schema.create_table("NarouUsers",
+                              :type => :hash,
+                              :key_type => 'UInt32') do |table|
             table.text("name")
             table.reference("novel", "NarouNovels", :type => :vector)
             table.reference("bookmark", "NarouNovels", :type => :vector)
