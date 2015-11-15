@@ -30,13 +30,11 @@ module Yomou
       else
         Groonga::Database.create(:path => path.to_s)
         Groonga::Schema.define do |schema|
-          schema.create_table("NarouMaster") do |table|
-            table.int32("uid")
-          end
-
           # _key:keyword
-          schema.create_table("NarouNovelKeywords") do |table|
+          schema.create_table("NarouNovelKeywords",
+                              :type => :hash) do |table|
             table.time("date")
+            table.reference("synonyms", "NarouNovelKeywords", :type => :vector)
           end
 
           # See http://dev.syosetu.com/man/api/
