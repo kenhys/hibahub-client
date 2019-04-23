@@ -6,10 +6,10 @@ require 'yomou/version'
 Gem::Specification.new do |spec|
   spec.name          = "yomou"
   spec.version       = Yomou::VERSION
-  spec.authors       = ["HAYASHI Kentaro"]
+  spec.authors       = ["Kentaro Hayashi"]
   spec.email         = ["kenhys@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Command line utility to fetch narou novels.}
+  spec.description   = %q{Command line utility to fetch narou novels and manage favorite ones.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
