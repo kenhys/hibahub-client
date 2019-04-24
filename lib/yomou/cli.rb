@@ -18,6 +18,9 @@ module Yomou
     end
     map %w(--version -v) => :version
 
+    require_relative 'commands/rank'
+    register Yomou::Commands::Rank, 'rank', 'rank [SUBCOMMAND]', 'List daily ranking'
+
     require_relative 'commands/init'
     register Yomou::Commands::Init, 'init', 'init [SUBCOMMAND]', 'Initialize configuration'
   end
