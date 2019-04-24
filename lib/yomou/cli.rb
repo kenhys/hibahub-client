@@ -17,5 +17,8 @@ module Yomou
       puts "v#{Yomou::VERSION}"
     end
     map %w(--version -v) => :version
+
+    require_relative 'commands/init'
+    register Yomou::Commands::Init, 'init', 'init [SUBCOMMAND]', 'Initialize configuration'
   end
 end
