@@ -8,6 +8,18 @@ module Yomou
 
       namespace :init
 
+      desc 'database', 'Initialize database'
+      method_option :help, aliases: '-h', type: :boolean,
+                           desc: 'Display usage information'
+      def database(*)
+        if options[:help]
+          invoke :help, ['database']
+        else
+          require_relative 'init/database'
+          Yomou::Commands::Init::Database.new(options).execute
+        end
+      end
+
       desc 'config', 'Initialize configuration'
       method_option :help, aliases: '-h', type: :boolean,
                            desc: 'Display usage information'
