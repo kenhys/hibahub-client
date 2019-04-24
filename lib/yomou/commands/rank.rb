@@ -8,6 +8,18 @@ module Yomou
 
       namespace :rank
 
+      desc 'list [PERIOD]', 'Command description...'
+      method_option :help, aliases: '-h', type: :boolean,
+                           desc: 'Display usage information'
+      def list(period=nil)
+        if options[:help]
+          invoke :help, ['list']
+        else
+          require_relative 'rank/list'
+          Yomou::Commands::Rank::List.new(period, options).execute
+        end
+      end
+
       desc 'download [PERIOD][SINCE]', 'Command description...'
       method_option :help, aliases: '-h', type: :boolean,
                            desc: 'Display usage information'
