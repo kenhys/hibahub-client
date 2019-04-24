@@ -1,62 +1,121 @@
-require "yomou/command/isolated"
-require "yomou/command/secondrank"
-require "yomou/command/genrerank"
-require "yomou/command/atomapi"
-require "yomou/command/rankapi"
-require "yomou/command/rankin"
-require "yomou/command/list"
-require "yomou/command/clean"
-require "yomou/command/impression"
-require "yomou/command/bookmark"
-require "yomou/command/import"
-require "yomou/command/user"
-require "yomou/command/novel"
+# frozen_string_literal: true
+
+require 'forwardable'
 
 module Yomou
-  module Command
-    class Bootstrap < Thor
+  class Command
+    extend Forwardable
 
-      desc "init [SUBCOMMAND]", "Initialize cofiguration"
-      subcommand "init", Yomou::Init
+    def_delegators :command, :run
 
-      desc "rank [SUBCOMMAND]", "Get rank data"
-      subcommand "rank", Rankapi::Rank
+    # Execute this command
+    #
+    # @api public
+    def execute(*)
+      raise(
+        NotImplementedError,
+        "#{self.class}##{__method__} must be implemented"
+      )
+    end
 
-      desc "secondrank [SUBCOMMAND]", ""
-      subcommand "secondrank", SecondRank
+    # The external commands runner
+    #
+    # @see http://www.rubydoc.info/gems/tty-command
+    #
+    # @api public
+    def command(**options)
+      require 'tty-command'
+      TTY::Command.new(options)
+    end
 
-      desc "genrerank [SUBCOMMAND]", ""
-      subcommand "genrerank", GenreRank
+    # The cursor movement
+    #
+    # @see http://www.rubydoc.info/gems/tty-cursor
+    #
+    # @api public
+    def cursor
+      require 'tty-cursor'
+      TTY::Cursor
+    end
 
-      desc "novel [SUBCOMMAND]", "Get novel data"
-      subcommand "novel", Novel
+    # Open a file or text in the user's preferred editor
+    #
+    # @see http://www.rubydoc.info/gems/tty-editor
+    #
+    # @api public
+    def editor
+      require 'tty-editor'
+      TTY::Editor
+    end
 
-      desc "import [SUBCOMMAND]", "Import external data"
-      subcommand "import", Import
+    # File manipulation utility methods
+    #
+    # @see http://www.rubydoc.info/gems/tty-file
+    #
+    # @api public
+    def generator
+      require 'tty-file'
+      TTY::File
+    end
 
-      desc "update [SUBCOMMAND]", "Update external data"
-      subcommand "update", Yomou::Update
+    # Terminal output paging
+    #
+    # @see http://www.rubydoc.info/gems/tty-pager
+    #
+    # @api public
+    def pager(**options)
+      require 'tty-pager'
+      TTY::Pager.new(options)
+    end
 
-      desc "user [SUBCOMMAND]", ""
-      subcommand "user", User
+    # Terminal platform and OS properties
+    #
+    # @see http://www.rubydoc.info/gems/tty-pager
+    #
+    # @api public
+    def platform
+      require 'tty-platform'
+      TTY::Platform.new
+    end
 
-      desc "atom [OPTIONS]", ""
-      subcommand "atom", Atom
+    # The interactive prompt
+    #
+    # @see http://www.rubydoc.info/gems/tty-prompt
+    #
+    # @api public
+    def prompt(**options)
+      require 'tty-prompt'
+      TTY::Prompt.new(options)
+    end
 
-      desc "nopoint [OPTIONS]", ""
-      subcommand "nopoint", Isolated::NoPoint
+    # Get terminal screen properties
+    #
+    # @see http://www.rubydoc.info/gems/tty-screen
+    #
+    # @api public
+    def screen
+      require 'tty-screen'
+      TTY::Screen
+    end
 
-      desc "noimpression [OPTIONS]", ""
-      subcommand "noimpression", Isolated::NoImpression
+    # The unix which utility
+    #
+    # @see http://www.rubydoc.info/gems/tty-which
+    #
+    # @api public
+    def which(*args)
+      require 'tty-which'
+      TTY::Which.which(*args)
+    end
 
-      desc "impression [OPTIONS]", ""
-      subcommand "impression", Impression
-
-      desc "bookmark [OPTIONS]", ""
-      subcommand "bookmark", Bookmark
-
-      desc "rankin [SUBCOMMAND]", ""
-      subcommand "rankin", RankIn
+    # Check if executable exists
+    #
+    # @see http://www.rubydoc.info/gems/tty-which
+    #
+    # @api public
+    def exec_exist?(*args)
+      require 'tty-which'
+      TTY::Which.exist?(*args)
     end
   end
 end
