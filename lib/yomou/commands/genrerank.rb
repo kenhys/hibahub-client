@@ -8,6 +8,18 @@ module Yomou
 
       namespace :genrerank
 
+      desc 'download [PERIOD]', 'Command description...'
+      method_option :help, aliases: '-h', type: :boolean,
+                           desc: 'Display usage information'
+      def download(period=nil)
+        if options[:help]
+          invoke :help, ['download']
+        else
+          require_relative 'genrerank/download'
+          Yomou::Commands::Genrerank::Download.new(period, options).execute
+        end
+      end
+
       desc 'list [PERIOD]', 'Command description...'
       method_option :help, aliases: '-h', type: :boolean,
                            desc: 'Display usage information'
