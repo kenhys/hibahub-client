@@ -8,6 +8,18 @@ module Yomou
 
       namespace :import
 
+      desc 'novel [NCODE]', 'Command description...'
+      method_option :help, aliases: '-h', type: :boolean,
+                           desc: 'Display usage information'
+      def novel(ncode=nil)
+        if options[:help]
+          invoke :help, ['novel']
+        else
+          require_relative 'import/novel'
+          Yomou::Commands::Import::Novel.new(ncode, options).execute
+        end
+      end
+
       desc 'rank [PERIOD]', 'Command description...'
       method_option :help, aliases: '-h', type: :boolean,
                            desc: 'Display usage information'
