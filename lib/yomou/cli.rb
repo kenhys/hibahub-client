@@ -18,6 +18,9 @@ module Yomou
     end
     map %w(--version -v) => :version
 
+    require_relative 'commands/import'
+    register Yomou::Commands::Import, 'import', 'import [SUBCOMMAND]', 'Command description...'
+
     require_relative 'commands/genrerank'
     register Yomou::Commands::Genrerank, 'genrerank', 'genrerank [SUBCOMMAND]', 'Command description...'
 
