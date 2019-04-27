@@ -8,6 +8,18 @@ module Yomou
 
       namespace :import
 
+      desc 'rank [PERIOD]', 'Command description...'
+      method_option :help, aliases: '-h', type: :boolean,
+                           desc: 'Display usage information'
+      def rank(period=nil)
+        if options[:help]
+          invoke :help, ['rank']
+        else
+          require_relative 'import/rank'
+          Yomou::Commands::Import::Rank.new(period, options).execute
+        end
+      end
+
       desc 'blacklist [PATH]', 'Command description...'
       method_option :help, aliases: '-h', type: :boolean,
                            desc: 'Display usage information'
