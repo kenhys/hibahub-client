@@ -18,6 +18,9 @@ module Yomou
     end
     map %w(--version -v) => :version
 
+    require_relative 'commands/avgranklist'
+    register Yomou::Commands::Avgranklist, 'avgranklist', 'avgranklist [SUBCOMMAND]', 'Command description...'
+
     require_relative 'commands/noimpressionlist'
     register Yomou::Commands::Noimpressionlist, 'noimpressionlist', 'noimpressionlist [SUBCOMMAND]', 'Command description...'
 
