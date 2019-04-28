@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../../command'
+require_relative '../../atom'
 
 module Yomou
   module Commands
@@ -13,7 +14,8 @@ module Yomou
 
         def execute(input: $stdin, output: $stdout)
           # Command logic goes here ...
-          output.puts "OK"
+          downloader = Yomou::Atom::Downloader.new
+          downloader.download
         end
       end
     end
