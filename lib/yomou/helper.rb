@@ -2,6 +2,7 @@
 require "open-uri"
 require "zlib"
 require "extlz4"
+require "xz"
 
 module Yomou
   module Helper
