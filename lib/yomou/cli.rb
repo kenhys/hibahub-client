@@ -18,6 +18,9 @@ module Yomou
     end
     map %w(--version -v) => :version
 
+    require_relative 'commands/nopointlist'
+    register Yomou::Commands::Nopointlist, 'nopointlist', 'nopointlist [SUBCOMMAND]', 'Command description...'
+
     require_relative 'commands/atom'
     register Yomou::Commands::Atom, 'atom', 'atom [SUBCOMMAND]', 'Command description...'
 
