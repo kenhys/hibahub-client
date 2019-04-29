@@ -233,8 +233,9 @@ module Yomou
     end
 
     def archive_xz(data, path)
-      XZ::StreamWriter.open(path) do |txz|
-        txz.write(YAML.dump(data))
+      Tempfile.create("raw") do |f|
+        f.write(YAML.dump(data))
+        XZ.compress_file(f.path, path)
       end
     end
 
