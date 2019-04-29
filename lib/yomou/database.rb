@@ -1,6 +1,10 @@
 # coding: utf-8
+require 'yomou/helper'
+require 'rroonga'
+
 module Yomou
   class Database
+    include Yomou::Helper
     def initialize(options={})
       @conf = Yomou::Config.new
       @options = options
@@ -13,9 +17,8 @@ module Yomou
         @output.puts(@conf.database)
         @output.puts(File.expand_path(@conf.database))
         FileUtils.rm_rf(path.dirname)
-        FileUtils.mkdir_p(path.dirname)
       end
-
+      FileUtils.mkdir_p(path.dirname)
       if path.exist?
         Groonga::Database.open(path.to_s)
       else
