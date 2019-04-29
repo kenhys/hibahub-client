@@ -9,12 +9,19 @@ module Yomou
     DOT_YOMOU = ".yomou"
 
     def initialize
+      @keys = []
       unless File.exist?(path)
         src = File.dirname(__FILE__) + "/../../examples/#{YOMOU_CONFIG}"
         FileUtils.cp(src, path)
+        load
+        if ENV['YOMOU_HOME']
+          path = File.join(ENV['YOMOU_HOME'], 'db/yomou.db')
+          instance_variable_set("@database", path)
+        end
+        save
+      else
+        load
       end
-      @keys = []
-      load
     end
 
     def directory
