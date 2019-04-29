@@ -11,8 +11,8 @@ module Yomou
         end
 
         def execute(input: $stdin, output: $stdout)
-          # Command logic goes here ...
-          output.puts "OK"
+          blacklist = Yomou::Blacklist.new
+          blacklist.init
         end
       end
     end
