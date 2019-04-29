@@ -1,8 +1,8 @@
 # coding: utf-8
-require "open-uri"
-require "zlib"
-require "extlz4"
-require "xz"
+require 'open-uri'
+require 'zlib'
+require 'extlz4'
+require 'xz'
 require 'tempfile'
 
 module Yomou
