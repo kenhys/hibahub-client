@@ -8,8 +8,8 @@ module Yomou
 
       namespace :atom
 
-      desc 'download [TYPE]', 'Command description...'
-      method_option :help, aliases: '-h', type: :boolean,
+      desc 'download TYPE', 'Command description...'
+      method_option :help, aliases: '-h', type: :string,
                            desc: 'Display usage information'
       def download(type=nil)
         if options[:help]
