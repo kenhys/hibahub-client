@@ -11,8 +11,7 @@ module Yomou
         end
 
         def execute(input: $stdin, output: $stdout)
-          # Command logic goes here ...
-          output.puts "OK"
+          Yomou::Config.new
         end
       end
     end
