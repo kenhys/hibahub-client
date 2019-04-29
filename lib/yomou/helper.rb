@@ -3,6 +3,7 @@ require "open-uri"
 require "zlib"
 require "extlz4"
 require "xz"
+require 'tempfile'
 
 module Yomou
   module Helper
@@ -233,7 +234,7 @@ module Yomou
     end
 
     def archive_xz(data, path)
-      Tempfile.create("raw") do |f|
+      ::Tempfile.create("raw") do |f|
         f.write(YAML.dump(data))
         XZ.compress_file(f.path, path)
       end
