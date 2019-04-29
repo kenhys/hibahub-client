@@ -11,8 +11,8 @@ module Yomou
         end
 
         def execute(input: $stdin, output: $stdout)
-          # Command logic goes here ...
-          output.puts "OK"
+          @database = Yomou::Database.new
+          @database.init(@options)
         end
       end
     end
