@@ -8,6 +8,18 @@ module Yomou
 
       namespace :blacklist
 
+      desc 'import', 'Command description...'
+      method_option :help, aliases: '-h', type: :boolean,
+                           desc: 'Display usage information'
+      def import(*)
+        if options[:help]
+          invoke :help, ['import']
+        else
+          require_relative 'blacklist/import'
+          Yomou::Commands::Blacklist::Import.new(options).execute
+        end
+      end
+
       desc 'init', 'Command description...'
       method_option :help, aliases: '-h', type: :boolean,
                            desc: 'Display usage information'
