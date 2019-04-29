@@ -13,9 +13,8 @@ module Yomou
         end
 
         def execute(input: $stdin, output: $stdout)
-          # Command logic goes here ...
           downloader = Yomou::Atom::Downloader.new
-          downloader.download
+          downloader.download(@type)
         end
       end
     end
