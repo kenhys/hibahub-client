@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../../command'
+require 'yomou/config'
+require 'yomou/blacklist'
 
 module Yomou
   module Commands
@@ -11,8 +13,8 @@ module Yomou
         end
 
         def execute(input: $stdin, output: $stdout)
-          # Command logic goes here ...
-          output.puts "OK"
+          blacklist = Yomou::Blacklist.new
+          blacklist.import
         end
       end
     end
