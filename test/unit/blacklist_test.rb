@@ -53,6 +53,7 @@ class BlacklistTest < Test::Unit::TestCase
   end
 
   private
+
   def blacklist_path
     File.join(ENV['YOMOU_HOME'], 'blacklist.yaml')
   end
