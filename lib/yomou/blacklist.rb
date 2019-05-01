@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yomou/helper'
 require 'rroonga'
 require 'find'
