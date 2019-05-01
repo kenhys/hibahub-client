@@ -43,6 +43,7 @@ module Yomou
     end
 
     private
+
     def extract_ncode(toc_url)
       ncode = ""
       if toc_url =~ /.+\/(n.+)\/$/
