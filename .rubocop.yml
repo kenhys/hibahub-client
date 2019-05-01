@@ -34,3 +34,5 @@ Style/Documentation:
 Style/WordArray:
   Enabled: false
 
+Lint/UnusedMethodArgument:
+  Enabled: false
