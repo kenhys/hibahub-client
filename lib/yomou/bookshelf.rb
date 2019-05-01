@@ -11,7 +11,7 @@ module Yomou
 
     def ncode_exist?(ncode)
       novels = Groonga["NarouNovels"]
-      novels.has_key?(ncode.downcase)
+      novels.key?(ncode.downcase)
     end
 
     def ncodes_from_realpath
@@ -31,15 +31,15 @@ module Yomou
     def register_ncode(ncode, options = {})
       novels = Groonga["NarouNovels"]
       ncodes = []
-      if ncode.kind_of?(String)
+      if ncode.is_a?(String)
         ncodes = [ncode]
       else
         ncodes = ncode
       end
       ncodes.each do |ncode|
-        unless novels.has_key?(ncode.downcase)
+        unless novels.key?(ncode.downcase)
           p "register ncode:#{ncode.downcase}"
-          unless options.has_key?(:yomou_status)
+          unless options.key?(:yomou_status)
             options[:yomou_status] = YOMOU_NOVEL_NONE
           end
           options[:yomou_sync_interval] = YOMOU_SYNC_INTERVAL
@@ -54,7 +54,7 @@ module Yomou
     def update_status(ncode, status)
       p "update #{ncode}"
       novels = Groonga["NarouNovels"]
-      if novels.has_key?(ncode)
+      if novels.key?(ncode)
         novels[ncode.downcase].yomou_status = status
         novels[ncode.downcase].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
       else
