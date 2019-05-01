@@ -6,8 +6,9 @@ module Yomou
   module Atom
     class Downloader
       include Yomou::Helper
-      def initialize
+      def initialize(options={})
         @conf = Yomou::Config.new
+        @output = options[:output] || $stdout
       end
 
       def download(type="allnovel")
