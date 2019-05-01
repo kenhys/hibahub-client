@@ -26,11 +26,12 @@ module Yomou
       base_dir = File.join(@conf.directory, 'narou')
       path = File.join(@conf.directory, 'blacklist.yaml')
       yaml = YAML.load_file(path)
-      ncodes = yaml['ncodes']
+      ncodes = yaml[:ncodes]
       99.times.each do |i|
         seq = format("%02d", i)
         database_path = File.join(base_dir, seq, '.narou', 'database.yaml')
         next unless File.exist?(database_path)
+        @output.puts("load #{database_path}...")
         YAML.load_file(database_path).each do |_, entry|
           if entry.key?('tags') and entry['tags'].include?('404')
             ncode = extract_ncode(entry['toc_url'])
@@ -38,8 +39,9 @@ module Yomou
           end
         end
       end
+      @output.puts("save blacklist to #{path}...")
       File.open(path, 'w+') do |file|
-        file.puts(YAML.dump('ncodes': ncodes.sort.uniq))
+        file.puts(YAML.dump(ncodes: ncodes.sort.uniq))
       end
     end
 

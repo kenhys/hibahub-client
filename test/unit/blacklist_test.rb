@@ -4,7 +4,7 @@ require_relative '../../lib/yomou/blacklist'
 class BlacklistTest < Test::Unit::TestCase
   setup do
     @empty_ncodes = {
-      'ncodes' => [
+      'ncodes': [
         'n12345'
       ]
     }
@@ -41,7 +41,7 @@ class BlacklistTest < Test::Unit::TestCase
         save_to_yaml(database_path('narou/00/.narou'), @deleted_database)
         blacklist.import
         expected = {
-          'ncodes' => [
+          'ncodes': [
             'n12345', 'n98765'
           ]
         }
