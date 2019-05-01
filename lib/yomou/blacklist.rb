@@ -38,7 +38,7 @@ module Yomou
         end
       end
       File.open(path, 'w+') do |file|
-        file.puts(YAML.dump({'ncodes' => ncodes.uniq}))
+        file.puts(YAML.dump('ncodes': ncodes.uniq))
       end
     end
 
