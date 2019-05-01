@@ -31,7 +31,7 @@ module Yomou
         seq = format("%02d", i)
         database_path = File.join(base_dir, seq, '.narou', 'database.yaml')
         next unless File.exist?(database_path)
-        YAML.load_file(database_path).each do |index, entry|
+        YAML.load_file(database_path).each do |_, entry|
           if entry.key?('tags') and entry['tags'].include?('404')
             ncode = extract_ncode(entry['toc_url'])
             ncodes << ncode unless ncode.empty?
