@@ -59,11 +59,10 @@ module Yomou
         novels[ncode.downcase].yomou_sync_schedule = Time.now + YOMOU_SYNC_INTERVAL
       else
         novels.add(ncode.downcase,
-                   :yomou_status => status,
-                   :yomou_sync_interval => YOMOU_SYNC_INTERVAL,
-                   :yomou_sync_schedule => Time.now + YOMOU_SYNC_INTERVAL)
+                   yomou_status: status,
+                   yomou_sync_interval: YOMOU_SYNC_INTERVAL,
+                   yomou_sync_schedule: Time.now + YOMOU_SYNC_INTERVAL)
       end
     end
-
   end
 end
