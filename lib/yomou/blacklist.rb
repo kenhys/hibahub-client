@@ -1,4 +1,3 @@
-# coding: utf-8
 require 'yomou/helper'
 require 'rroonga'
 require 'find'
