@@ -47,7 +47,7 @@ module Yomou
     def narou_category_directory(category)
       path = File.join(directory,
                        'narou',
-                       sprintf("%02d", category.to_i))
+                       format("%02d", category.to_i))
       path
     end
 
