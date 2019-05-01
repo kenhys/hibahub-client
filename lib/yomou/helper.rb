@@ -1,7 +1,6 @@
 # coding: utf-8
 require 'open-uri'
 require 'zlib'
-require 'extlz4'
 require 'xz'
 require 'tempfile'
 
@@ -121,20 +120,6 @@ module Yomou
       entries
     end
 
-    def yaml_lz4(path_or_url)
-      entries = []
-      begin
-        if File.exists?(path_or_url)
-          open(path_or_url) do |context|
-            LZ4.decode(context) do |lz4|
-              entries = YAML.load(lz4.read)
-            end
-          end
-        end
-      end
-      entries
-    end
-
     def yaml_xz(path_or_url)
       entries = []
       begin
@@ -188,8 +173,6 @@ module Yomou
                   gz = Zlib::GzipWriter.new(file, Zlib::BEST_COMPRESSION)
                   gz.puts(context.read)
                   gz.close
-                elsif path.to_s.end_with?(".lz4")
-                  file.puts(LZ4.encode(context.read))
                 elsif path.to_s.end_with?(".xz")
                   file.puts(XZ.compress(context.read))
                 end

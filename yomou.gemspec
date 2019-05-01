@@ -58,7 +58,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tty-which", "~> 0.4"
   spec.add_dependency "pastel", "~> 0.7.2"
 
-  spec.add_runtime_dependency "extlz4", "~> 0.3"
   spec.add_runtime_dependency "feedjira", "~> 1.4.0"
   spec.add_runtime_dependency "mechanize", "~> 2.7.6"
   spec.add_runtime_dependency "rroonga", "~> 7.1.1"
