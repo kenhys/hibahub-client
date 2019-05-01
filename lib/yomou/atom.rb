@@ -21,7 +21,7 @@ module Yomou
         sub_directory = Time.now.strftime("atomapi/%Y/%m/%d/#{type}-%H%M.Atom.yaml.xz")
         path = pathname_expanded([@conf.directory,
                                   sub_directory])
-        p path.to_s
+        @output.puts("download #{path.to_s}")
         archive(feed.to_yaml, path)
       end
     end
