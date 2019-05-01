@@ -47,7 +47,7 @@ module Yomou
       path
     end
 
-    def load(arg = nil)
+    def load
       YAML.load_file(path).each do |key, value|
         @keys << key
         instance_variable_set("@#{key}", value)
