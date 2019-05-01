@@ -28,7 +28,7 @@ module Yomou
       yaml = YAML.load_file(path)
       ncodes = yaml['ncodes']
       99.times.each do |i|
-        seq = sprintf("%02d", i)
+        seq = format("%02d", i)
         database_path = File.join(base_dir, seq, '.narou', 'database.yaml')
         next unless File.exist?(database_path)
         YAML.load_file(database_path).each do |index, entry|
