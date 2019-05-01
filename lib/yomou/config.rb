@@ -9,7 +9,9 @@ module Yomou
 
     def initialize
       @keys = []
-      unless File.exist?(path)
+      if File.exist?(path)
+        load
+      else
         src = File.dirname(__FILE__) + "/../../examples/#{YOMOU_CONFIG}"
         FileUtils.cp(src, path)
         load
@@ -18,8 +20,6 @@ module Yomou
           instance_variable_set('@database', path)
         end
         save
-      else
-        load
       end
     end
 
