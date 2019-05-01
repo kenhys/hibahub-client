@@ -1,7 +1,7 @@
+# frozen_string_literal: true
+
 module Yomou
-
   class Bookshelf
-
     def initialize
       @conf = Yomou::Config.new
 
