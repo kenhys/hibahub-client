@@ -25,12 +25,8 @@ module Yomou
 
     def directory
       directory = File.join(ENV['HOME'], DOT_YOMOU)
-      if ENV['YOMOU_HOME']
-        directory = ENV['YOMOU_HOME']
-      end
-      unless Dir.exist?(directory)
-        Dir.mkdir(directory)
-      end
+      directory = ENV['YOMOU_HOME'] if ENV['YOMOU_HOME']
+      Dir.mkdir(directory) unless Dir.exist?(directory)
       directory
     end
 
@@ -62,9 +58,7 @@ module Yomou
       config = {}
       instance_variables.each do |var|
         key = var.to_s.sub(/^@/, '')
-        unless key == 'keys'
-          config[key] = instance_variable_get(var.to_s)
-        end
+        config[key] = instance_variable_get(var.to_s) unless key == 'keys'
       end
       File.open(path, 'w+') do |file|
         file.puts(YAML.dump(config))
