@@ -5,7 +5,7 @@ module Yomou
     def initialize
       @conf = Yomou::Config.new
 
-      Groonga::Context.default_options = {:encoding => :utf8}
+      Groonga::Context.default_options = { encoding: :utf8 }
       Groonga::Database.open(File.expand_path(@conf.database))
     end
 
