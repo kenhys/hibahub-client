@@ -11,7 +11,7 @@ module Yomou
       desc 'download TYPE', 'Command description...'
       method_option :help, aliases: '-h', type: :string,
                            desc: 'Display usage information'
-      def download(type=nil)
+      def download(type='allnovel')
         if options[:help]
           invoke :help, ['download']
         else
