@@ -4,8 +4,8 @@ module Yomou
 
   class Config
 
-    YOMOU_CONFIG = "yomou.yaml"
-    DOT_YOMOU = ".yomou"
+    YOMOU_CONFIG = 'yomou.yaml'
+    DOT_YOMOU = '.yomou'
 
     def initialize
       @keys = []
@@ -15,7 +15,7 @@ module Yomou
         load
         if ENV['YOMOU_HOME']
           path = File.join(ENV['YOMOU_HOME'], 'db/yomou.db')
-          instance_variable_set("@database", path)
+          instance_variable_set('@database', path)
         end
         save
       else
@@ -62,18 +62,18 @@ module Yomou
       config = {}
       instance_variables.each do |var|
         key = var.to_s.sub(/^@/, '')
-        unless key == "keys"
+        unless key == 'keys'
           config[key] = instance_variable_get(var.to_s)
         end
       end
-      File.open(path, "w+") do |file|
+      File.open(path, 'w+') do |file|
         file.puts(YAML.dump(config))
       end
     end
 
     def method_missing(method, *args)
       method_name = method.to_s
-      if method_name.end_with?("=")
+      if method_name.end_with?('=')
         property = method_name.sub(/=$/, '')
         @keys << property
         instance_variable_set("@#{property}", *args)
