@@ -22,13 +22,13 @@ module Yomou
       if path.exist?
         Groonga::Database.open(path.to_s)
       else
-        Groonga::Database.create(:path => path.to_s)
+        Groonga::Database.create(path: path.to_s)
         Groonga::Schema.define do |schema|
           # _key:keyword
           schema.create_table("NarouNovelKeywords",
-                              :type => :hash) do |table|
+                              type: :hash) do |table|
             table.time("date")
-            table.reference("synonyms", "NarouNovelKeywords", :type => :vector)
+            table.reference("synonyms", "NarouNovelKeywords", type: :vector)
           end
 
           narou_novels_schema(schema)
@@ -49,14 +49,14 @@ module Yomou
     def narou_novels_schema(schema)
       # See http://dev.syosetu.com/man/api/
       # _key:ncode(downcase)
-      schema.create_table("NarouNovels", :type => :hash) do |table|
+      schema.create_table("NarouNovels", type: :hash) do |table|
         table.text("title")
         table.int32("userid")
         table.text("writer")
         table.text("story")
         table.int32("genre")
         table.text("gensaku")
-        table.reference("keywords", "NarouNovelKeywords", :type => :vector)
+        table.reference("keywords", "NarouNovelKeywords", type: :vector)
         table.time("general_firstup")
         table.time("general_lastup")
         table.int32("novel_type")
@@ -86,7 +86,7 @@ module Yomou
       # See narou toc.yaml
       # _key:ncode(downcase)/index/revision
       schema.create_table("NarouNovelEpisodes",
-                          :type => :patricia_trie) do |table|
+                          type: :patricia_trie) do |table|
         table.int32("index")
         table.text("href")
         table.text("chapter")
@@ -107,8 +107,8 @@ module Yomou
 
     def yomou_proof_readings_schema(schema)
       schema.create_table("YomouProofReadings",
-                          :type => :hash,
-                          :key_type => 'UInt32') do |table|
+                          type: :hash,
+                          key_type: 'UInt32') do |table|
         table.text("comment")
         table.reference("ncode", "NarouNovels")
         table.reference("episode", "NarouNovelEpisodes")
@@ -128,7 +128,7 @@ module Yomou
     def narou_ranks_schema(schema)
       # See http://dev.syosetu.com/man/rankapi/
       ["Quarter", "Monthly", "Weekly", "Daily"].each do |type|
-        schema.create_table("Narou#{type}Ranks", :type => :array) do |table|
+        schema.create_table("Narou#{type}Ranks", type: :array) do |table|
           table.reference("ncode", "NarouNovels")
           table.time("date")
           table.int32("pt")
@@ -140,7 +140,7 @@ module Yomou
     def narou_novel_all_novel_atoms_schema(schema)
       # See http://dev.syosetu.com/man/atom/
       schema.create_table("NarouNovelAllNovelAtoms",
-                          :type => :array) do |table|
+                          type: :array) do |table|
         table.reference("ncode", "NarouNovels")
         table.text("title")
         table.time("updated_at")
@@ -152,8 +152,8 @@ module Yomou
     def narou_novel_impressions_schema(schema)
       # See http://novelcom.syosetu.com/impression/list/ncode/NCODE
       schema.create_table("NarouNovelImpressions",
-                          :type => :hash,
-                          :key_type => 'UInt32') do |table|
+                          type: :hash,
+                          key_type: 'UInt32') do |table|
         table.reference("user", "NarouUsers")
         table.text("name")
         table.int32("good")
@@ -165,20 +165,20 @@ module Yomou
 
     def narou_users_schema(schema)
       schema.create_table("NarouUsers",
-                          :type => :hash,
-                          :key_type => 'UInt32') do |table|
+                          type: :hash,
+                          key_type: 'UInt32') do |table|
         table.text("name")
-        table.reference("novels", "NarouNovels", :type => :vector)
-        table.reference("bookmarks", "NarouNovels", :type => :vector)
-        table.reference("favusers", "NarouUsers", :type => :vector)
+        table.reference("novels", "NarouNovels", type: :vector)
+        table.reference("bookmarks", "NarouNovels", type: :vector)
+        table.reference("favusers", "NarouUsers", type: :vector)
       end
     end
 
     def narou_novel_reviews_schema(schema)
-      schema.create_table("NarouNovelReviews", :type => :hash) do |table|
+      schema.create_table("NarouNovelReviews", type: :hash) do |table|
         table.reference("user", "NarouUsers")
         table.int32("point")
-        table.reference("favorite_keywords", "NarouNovelKeywords", :type => :vector)
+        table.reference("favorite_keywords", "NarouNovelKeywords", type: :vector)
         table.text("memo")
         table.time("update_time")
       end
@@ -186,8 +186,8 @@ module Yomou
 
     def yomou_users_schema(schema)
       schema.create_table("YomouUsers",
-                          :type => :hash,
-                          :key_type => 'UInt32') do |table|
+                          type: :hash,
+                          key_type: 'UInt32') do |table|
         table.text("name")
         table.text("mail")
         table.text("password")
