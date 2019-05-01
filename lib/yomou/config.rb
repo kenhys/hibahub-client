@@ -1,4 +1,3 @@
-# coding: utf-8
 require "yaml"
 
 module Yomou
@@ -41,8 +40,7 @@ module Yomou
 
     def narou_novel_directory(category)
       path = File.join(narou_category_directory(category),
-                       '小説データ',
-                       '小説家になろう')
+                       @narou_novel)
       path
     end
 
