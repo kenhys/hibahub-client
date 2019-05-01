@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 require "yaml"
 
 module Yomou
-
   class Config
-
     YOMOU_CONFIG = 'yomou.yaml'
     DOT_YOMOU = '.yomou'
 
