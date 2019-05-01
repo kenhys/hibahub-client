@@ -22,13 +22,17 @@ module Yomou
       end
     end
 
-    def import
+    def import(directories = [])
       base_dir = File.join(@conf.directory, 'narou')
       path = File.join(@conf.directory, 'blacklist.yaml')
       yaml = YAML.load_file(path)
       ncodes = yaml[:ncodes]
-      99.times.each do |i|
-        seq = format("%02d", i)
+      if directories.empty?
+        directories = 99.times.collect do |i|
+          format("%02d", i)
+        end
+      end
+      directories.each do |seq|
         database_path = File.join(base_dir, seq, '.narou', 'database.yaml')
         next unless File.exist?(database_path)
         @output.puts("load #{database_path}...")

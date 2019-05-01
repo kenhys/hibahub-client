@@ -8,13 +8,14 @@ module Yomou
   module Commands
     class Blacklist
       class Import < Yomou::Command
-        def initialize(options)
+        def initialize(options, args)
           @options = options
+          @sub_directories = args
         end
 
         def execute(input: $stdin, output: $stdout)
           blacklist = Yomou::Blacklist.new
-          blacklist.import
+          blacklist.import(@sub_directories)
         end
       end
     end
