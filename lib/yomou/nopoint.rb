@@ -21,20 +21,16 @@ module Yomou
 
       page = @min_page
       n = 1
-      until page > @max_page
+      loop do
+        break if page > @max_page
         next if page < @min_page
-
         path = pathname_expanded([@conf.directory,
                                    "nopointlist",
                                    "nopointlist_#{page}.html.xz"])
         url = format("%<url>s?p=%<page>d", url: NOPOINTLIST_URL, page: page)
-        @output.puts("fetch nopoint list page: #{url}")
-        @output.puts("save nopoint list page: #{path}")
+        @output.puts("fetch nopoint list page[#{page}]: #{url}")
+        @output.puts("save nopoint list page[#{page}]: #{path}")
         save_as(url, path)
-        if page == @min_page
-          data = parse(path)
-          @max_page = data[:max_page]
-        end
         n += NOVELS_PER_PAGE
         page += 1
       end
