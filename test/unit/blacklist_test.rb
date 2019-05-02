@@ -31,6 +31,16 @@ class BlacklistTest < Test::Unit::TestCase
         assert_equal(true, File.exist?(path))
       end
     end
+
+    def test_non_initialized_directory
+      Dir.mktmpdir do |dir|
+        ENV['YOMOU_HOME'] = File.join(dir, '.yomou')
+        path = File.join(ENV['YOMOU_HOME'], 'blacklist.yaml')
+        output = StringIO.new
+        blacklist = Yomou::Blacklist.new(output: output)
+        assert_equal(false, blacklist.import)
+      end
+    end
   end
 
   sub_test_case "merge ncodes" do
