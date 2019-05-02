@@ -1,60 +1,53 @@
 # frozen_string_literal: true
 
+require "yomou/config"
 require "yomou/helper"
 require "yomou/crawler/base"
 
 module Yomou
   class NoimpressionCrawler < BaseCrawler
     include Yomou::Helper
-    include Yomou::Command::Isolated
 
-    desc "download", ""
-    option :min_page
-    option :max_page
-    option :min_bookmark
-    def download
+    NOIMPRESSIONLIST_URL = "http://yomou.syosetu.com/nolist/noimpressionlist/index.php"
+
+    def initialize(options={})
+      @options = options
+      @output = options[:output] || $stdout
       @conf = Yomou::Config.new
-      min_page = 1
-      max_page = 100000
-      min_bookmark = 1
+    end
 
-      min_page = options[:min_page] if options[:min_page]
-      max_page = options[:max_page] if options[:max_page]
-      min_bookmark = options[:min_bookmark] if options[:min_bookmark]
+    def download(options)
+      @min_page = options[:min_page] || 1
+      @max_page = options[:max_page] || 9999
+      @min_bookmark = options[:min_bookmark] || 1
 
-      p options
-
-      page = min_page
+      page = @min_page
       n = 1
-      total = 20
       bookmark = 0
 
-      until n > total or page > max_page
-        next if page < min_page
-
-        path = pathname_expanded([@conf.directory,
-                                   "noimpressionlist",
-                                   "noimpressionlist_#{page}.html.xz"])
-        url = sprintf("%s?p=%d",
-                      "http://yomou.syosetu.com/nolist/noimpressionlist/index.php",
-                      page)
-        p url
+      loop do
+        next if page < @min_page
+        break if page > @max_page
+        path = noimpressionlist_path(page)
+        url = noimpressionlist_url(page)
         p path
-        save_as(url, path, {:compress => true})
-        if page == min_page
-          html_xz(path.to_s) do |doc|
-            total = extract_total_novels_from_each_page(doc)
-            max_page = (total / 20) + 1 unless options[:max_page]
-          end
-        end
+        save_as(url, path)
         n = n + 20
-        page = page + 1
+        page += 1
       end
     end
 
-    desc "makecache", ""
+    def noimpressionlist_url(page)
+      format("%<url>s?p=%<page>d", url: NOIMPRESSIONLIST_URL, page: page)
+    end
+
+    def noimpressionlist_path(page)
+      pathname_expanded([@conf.directory,
+                         "noimpressionlist",
+                         "noimpressionlist_#{page}.html.xz"])
+    end
+
     def makecache
-      @conf = Yomou::Config.new
       lists = Pathname.glob("#{@conf.directory}/noimpressionlist/noimpressionlist_*.html.xz")
       data = {}
       lists.sort.each do |path|
@@ -70,9 +63,7 @@ module Yomou
       end
     end
 
-    desc "loadcache", ""
     def loadcache
-      @conf = Yomou::Config.new
       @bookshelf = Bookshelf.new
       Dir.glob("#{@conf.directory}/noimpressionlist/*.yaml.xz").sort.each do |xz|
         p xz

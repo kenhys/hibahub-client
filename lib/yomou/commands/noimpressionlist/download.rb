@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../../command'
+require "yomou/crawler/noimpression"
 
 module Yomou
   module Commands
