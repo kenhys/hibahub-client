@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require "yomou/helper"
+
 module Yomou
   class BaseCrawler
     include Yomou::Helper

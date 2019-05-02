@@ -2,7 +2,7 @@
 
 require "yomou/helper"
 require "yomou/config"
-require "yomou/crawler"
+require "yomou/crawler/base"
 
 module Yomou
   class NopointCrawler < BaseCrawler
