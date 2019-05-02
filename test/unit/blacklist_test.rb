@@ -38,7 +38,8 @@ class BlacklistTest < Test::Unit::TestCase
       Dir.mktmpdir do |dir|
         ENV['YOMOU_HOME'] = File.join(dir, '.yomou')
         save_to_yaml(blacklist_path, @empty_ncodes)
-        blacklist = Yomou::Blacklist.new
+        output = StringIO.new
+        blacklist = Yomou::Blacklist.new(output: output)
         blacklist.init
         save_to_yaml(database_path('narou/00/.narou'), @deleted_database)
         blacklist.import
