@@ -68,8 +68,9 @@ module Yomou
     def parse(path)
       data = {}
       html_xz(path.to_s) do |doc|
+        total = extract_total_novels(doc)
         data = {
-          total: extract_total_novels(doc),
+          total: total,
           max_page: (total / NOVELS_PER_PAGE) + 1
         }
       end
