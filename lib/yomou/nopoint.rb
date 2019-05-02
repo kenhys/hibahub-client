@@ -18,9 +18,9 @@ module Yomou
           next if page < min_page
 
           path = pathname_expanded([@conf.directory,
-                                     "nopointlist",
-                                     "nopointlist_#{page}.html.xz"])
-          url = format("%s?p=%d", NOPOINTLIST_URL, page)
+                                    "nopointlist",
+                                    "nopointlist_#{page}.html.xz"])
+          url = format("%<url>s?p=%<page>d", url: NOPOINTLIST_URL, page: page)
           p url
           p path
           save_as(url, path, {:compress => true})
