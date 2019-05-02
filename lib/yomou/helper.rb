@@ -3,6 +3,7 @@ require 'open-uri'
 require 'zlib'
 require 'xz'
 require 'tempfile'
+require 'nokogiri'
 
 require 'yomou/const'
 
