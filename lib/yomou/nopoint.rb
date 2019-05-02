@@ -20,6 +20,7 @@ module Yomou
       @min_bookmark = options[:min_bookmark] || 1
 
       page = @min_page
+      n = 1
       until page > @max_page
         next if page < @min_page
 
