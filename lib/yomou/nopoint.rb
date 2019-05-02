@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "crawler"
+require "yomou/helper"
+require "yomou/config"
+require "yomou/crawler"
 
 module Yomou
   class NopointCrawler < BaseCrawler
