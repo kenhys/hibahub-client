@@ -164,18 +164,19 @@ module Yomou
       end
       FileUtils.mkdir_p(path.dirname)
       succeed = false
+      if path.to_s.end_with?(".gz") or path.to_s.end_with?(".xz")
+        options[:compress] = true
+      end
       until succeed
         begin
           open(url) do |context|
             File.open(path.to_s, "w+") do |file|
-              if options[:compress]
-                if path.to_s.end_with?(".gz")
-                  gz = Zlib::GzipWriter.new(file, Zlib::BEST_COMPRESSION)
-                  gz.puts(context.read)
-                  gz.close
-                elsif path.to_s.end_with?(".xz")
-                  file.puts(XZ.compress(context.read))
-                end
+              if path.to_s.end_with?(".gz")
+                gz = Zlib::GzipWriter.new(file, Zlib::BEST_COMPRESSION)
+                gz.puts(context.read)
+                gz.close
+              elsif path.to_s.end_with?(".xz")
+                file.puts(XZ.compress(context.read))
               else
                 file.puts(context.read)
               end
