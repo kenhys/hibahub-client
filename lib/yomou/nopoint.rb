@@ -4,6 +4,7 @@ module Yomou
   module Crawler
     class NopointCrawler < BaseCrawler
       NOPOINTLIST_URL = 'http://yomou.syosetu.com/nolist/nopointlist/index.php'
+      NOVELS_PER_PAGE = 20
       def initialize(options={})
         @options = options
         @output = options[:output] || $stdout
@@ -14,23 +15,22 @@ module Yomou
         @max_page = options[:max_page] || 10000
         @min_bookmark = options[:min_bookmark] || 1
 
-        until n > total or page > max_page
-          next if page < min_page
+        page = @min_page
+        until page > @max_page
+          next if page < @min_page
 
           path = pathname_expanded([@conf.directory,
                                     "nopointlist",
                                     "nopointlist_#{page}.html.xz"])
           url = format("%<url>s?p=%<page>d", url: NOPOINTLIST_URL, page: page)
-          p url
-          p path
-          save_as(url, path, {:compress => true})
-          if page == min_page
-            html_xz(path.to_s) do |doc|
-              total = extract_total_novels_from_each_page(doc)
-              max_page = (total / 20) + 1 unless options[:max_page]
-            end
+          @output.puts("fetch nopoint list page: #{url}")
+          @output.puts("save nopoint list page: #{path}")
+          save_as(url, path)
+          if page == @min_page
+            data = parse(path)
+            @max_page = data[:max_page]
           end
-          n += 20
+          n += NOVELS_PER_PAGE
           page += 1
         end
       end
@@ -59,6 +59,17 @@ module Yomou
         unless @bookshelf and @bookshelf.ncode_exist?(ncode)
           @bookshelf.register_ncode(ncode)
         end
+      end
+
+      def parse(path)
+        data = {}
+        html_xz(path.to_s) do |doc|
+          data = {
+            total: extract_total_novels(doc),
+            max_page: (total / NOVELS_PER_PAGE) + 1
+          }
+        end
+        data
       end
     end
   end
