@@ -70,4 +70,15 @@ class BlacklistTest < Test::Unit::TestCase
       file.puts(YAML.dump(data))
     end
   end
+
+  def database(id, ncode, deleted=true)
+    data = {
+      id => {
+        'id' => id,
+        'toc_url' => "http://ncode.syosetu.com/#{ncode}/"
+      }
+    }
+    data[id]['tags'] = ['404'] if deleted
+    data
+  end
 end
