@@ -6,14 +6,15 @@ module Yomou
   module Commands
     class Noimpressionlist
       class Download < Yomou::Command
-        def initialize(min, options)
-          @min = min
+        def initialize(min, max, options)
+          @min = min.to_i
+          @max = max.to_i
           @options = options
         end
 
         def execute(input: $stdin, output: $stdout)
-          # Command logic goes here ...
-          output.puts "OK"
+          crawler = Yomou::NoimpressionCrawler.new
+          crawler.download(min_page: @min, max_page: @max)
         end
       end
     end
