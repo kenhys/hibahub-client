@@ -30,6 +30,7 @@ module Yomou
         return false
       end
 
+      @output.puts("load #{blacklist_path}...")
       yaml = YAML.load_file(blacklist_path)
       ncodes = yaml[:ncodes]
       directories = sub_directories(min, max)
@@ -38,6 +39,7 @@ module Yomou
           format("%02d", i)
         end
       end
+      base_dir = File.join(@conf.directory, 'narou')
       directories.each do |seq|
         database_path = File.join(base_dir, seq, '.narou', 'database.yaml')
         next unless File.exist?(database_path)
@@ -49,8 +51,8 @@ module Yomou
           end
         end
       end
-      @output.puts("save blacklist to #{path}...")
-      File.open(path, 'w+') do |file|
+      @output.puts("save blacklist to #{blacklist_path}...")
+      File.open(blacklist_path, 'w+') do |file|
         file.puts(YAML.dump(ncodes: ncodes.sort.uniq))
       end
     end
