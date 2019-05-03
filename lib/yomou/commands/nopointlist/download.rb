@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../../command'
-require_relative '../../nopoint'
+require_relative '../../crawler/nopoint'
 
 module Yomou
   module Commands
