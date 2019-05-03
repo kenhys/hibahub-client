@@ -9,8 +9,7 @@ class DatabaseTest < Test::Unit::TestCase
 
   sub_test_case "directory" do
     def test_db_file
-      Dir.mktmpdir do |dir|
-        ENV['YOMOU_HOME'] = File.join(dir, '.yomou')
+      sandbox do
         database = Yomou::Database.new
         database.init
         path = File.join(ENV['YOMOU_HOME'], 'db/yomou.db')

@@ -9,8 +9,7 @@ class AtomTest < Test::Unit::TestCase
 
   sub_test_case "type" do
     def test_directory
-      Dir.mktmpdir do |dir|
-        ENV['YOMOU_HOME'] = File.join(dir, '.yomou')
+      sandbox do
         output = StringIO.new
         atom_path = allnovel_path
         downloader = Yomou::Atom::Downloader.new(output: output)

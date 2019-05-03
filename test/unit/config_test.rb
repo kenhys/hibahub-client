@@ -9,8 +9,7 @@ class ConfigTest < Test::Unit::TestCase
 
   sub_test_case "directory" do
     def test_directory
-      Dir.mktmpdir do |dir|
-        ENV['YOMOU_HOME'] = File.join(dir, '.yomou')
+      sandbox do
         config = Yomou::Config.new
         expected = ENV['YOMOU_HOME']
         assert_equal(expected, config.directory)
@@ -18,8 +17,7 @@ class ConfigTest < Test::Unit::TestCase
     end
 
     def test_path
-      Dir.mktmpdir do |dir|
-        ENV['YOMOU_HOME'] = File.join(dir, '.yomou')
+      sandbox do
         config = Yomou::Config.new
         expected = File.join(ENV['YOMOU_HOME'], 'yomou.yaml')
         assert_equal(expected, config.path)

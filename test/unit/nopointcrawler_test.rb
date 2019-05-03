@@ -19,10 +19,4 @@ class NopointCrawlerTest < Test::Unit::TestCase
 
   private
 
-  def sandbox
-    Dir.mktmpdir do |dir|
-      ENV['YOMOU_HOME'] = File.join(dir, '.yomou')
-      yield
-    end
-  end
 end

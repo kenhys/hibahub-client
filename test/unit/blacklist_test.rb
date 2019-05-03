@@ -23,8 +23,7 @@ class BlacklistTest < Test::Unit::TestCase
 
   sub_test_case "directory" do
     def test_directory
-      Dir.mktmpdir do |dir|
-        ENV['YOMOU_HOME'] = File.join(dir, '.yomou')
+      sandbox do
         path = File.join(ENV['YOMOU_HOME'], 'blacklist.yaml')
         blacklist = Yomou::Blacklist.new
         blacklist.init
@@ -33,8 +32,7 @@ class BlacklistTest < Test::Unit::TestCase
     end
 
     def test_non_initialized_directory
-      Dir.mktmpdir do |dir|
-        ENV['YOMOU_HOME'] = File.join(dir, '.yomou')
+      sandbox do
         path = File.join(ENV['YOMOU_HOME'], 'blacklist.yaml')
         output = StringIO.new
         blacklist = Yomou::Blacklist.new(output: output)
@@ -45,8 +43,7 @@ class BlacklistTest < Test::Unit::TestCase
 
   sub_test_case "merge ncodes" do
     def test_merge_ncode
-      Dir.mktmpdir do |dir|
-        ENV['YOMOU_HOME'] = File.join(dir, '.yomou')
+      sandbox do
         save_to_yaml(blacklist_path, @empty_ncodes)
         output = StringIO.new
         blacklist = Yomou::Blacklist.new(output: output)
@@ -63,8 +60,7 @@ class BlacklistTest < Test::Unit::TestCase
     end
 
     def test_specified_directory
-      Dir.mktmpdir do |dir|
-        ENV['YOMOU_HOME'] = File.join(dir, '.yomou')
+      sandbox do
         save_to_yaml(blacklist_path, @empty_ncodes)
         output = StringIO.new
         blacklist = Yomou::Blacklist.new(output: output)
