@@ -8,6 +8,18 @@ module Yomou
 
       namespace :nopointlist
 
+      desc 'makecache', 'Command description...'
+      method_option :help, aliases: '-h', type: :boolean,
+                           desc: 'Display usage information'
+      def makecache(*)
+        if options[:help]
+          invoke :help, ['makecache']
+        else
+          require_relative 'nopointlist/makecache'
+          Yomou::Commands::Nopointlist::Makecache.new(options).execute
+        end
+      end
+
       desc 'download [MIN]', 'Command description...'
       method_option :help, aliases: '-h', type: :boolean,
                            desc: 'Display usage information'
