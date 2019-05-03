@@ -3,12 +3,14 @@
 require "yomou/config"
 require "yomou/helper"
 require "yomou/crawler/base"
+#require "tty-progressbar"
 
 module Yomou
   class NoimpressionCrawler < BaseCrawler
     include Yomou::Helper
 
     NOIMPRESSIONLIST_URL = "http://yomou.syosetu.com/nolist/noimpressionlist/index.php"
+    NOIMPRESSION_PER_PAGE = 20
 
     def initialize(options={})
       @options = options
@@ -25,14 +27,18 @@ module Yomou
       n = 1
       bookmark = 0
 
+      total = @max_page - @min_page + 1
+      #progress = TTY::ProgressBar.new("download :title [:bar]", total: total)
       loop do
         next if page < @min_page
         break if page > @max_page
         path = noimpressionlist_path(page)
         url = noimpressionlist_url(page)
-        p path
+        #progress.advance(title: "#{url}")
+        @output.puts("download #{url}")
         save_as(url, path)
-        n = n + 20
+        @output.puts("save #{path}")
+        n += NOIMPRESSION_PER_PAGE
         page += 1
       end
     end
