@@ -23,14 +23,12 @@ module Yomou
     end
 
     def import(directories = [])
-      base_dir = File.join(@conf.directory, 'narou')
-      path = File.join(@conf.directory, 'blacklist.yaml')
-      unless File.exist?(path)
+      unless File.exist?(blacklist_path)
         @output.puts("#{YOMOU_BLACKLIST} not found, execute yomou blacklist init.")
         return false
       end
 
-      yaml = YAML.load_file(path)
+      yaml = YAML.load_file(blacklist_path)
       ncodes = yaml[:ncodes]
       if directories.empty?
         directories = 99.times.collect do |i|
@@ -62,6 +60,11 @@ module Yomou
         ncode = $1
       end
       ncode
+    end
+
+    def blacklist_path
+      base_dir = File.join(@conf.directory, 'narou')
+      File.join(@conf.directory, YOMOU_BLACKLIST)
     end
   end
 end
