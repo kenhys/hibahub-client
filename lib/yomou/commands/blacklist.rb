@@ -11,12 +11,12 @@ module Yomou
       desc 'import', 'Command description...'
       method_option :help, aliases: '-h', type: :boolean,
                            desc: 'Display usage information'
-      def import(*args)
+      def import(min=0, max=99, *args)
         if options[:help]
           invoke :help, ['import']
         else
           require_relative 'blacklist/import'
-          Yomou::Commands::Blacklist::Import.new(options, args).execute
+          Yomou::Commands::Blacklist::Import.new(min, max, options).execute
         end
       end
 

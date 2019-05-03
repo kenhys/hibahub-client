@@ -22,7 +22,9 @@ module Yomou
       end
     end
 
-    def import(directories = [])
+    def import(options={})
+      min = options[:min]
+      max = options[:max]
       unless File.exist?(blacklist_path)
         @output.puts("#{YOMOU_BLACKLIST} not found, execute yomou blacklist init.")
         return false
