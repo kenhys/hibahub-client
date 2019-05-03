@@ -67,7 +67,7 @@ class BlacklistTest < Test::Unit::TestCase
         blacklist.init
         save_to_yaml(database_path('narou/00/.narou'), database(0, 'n00000'))
         save_to_yaml(database_path('narou/01/.narou'), database(1, 'n11111'))
-        blacklist.import(['00', '01'])
+        blacklist.import(min: 0, max: 1)
         expected = {
           'ncodes': [
             'n00000', 'n11111', 'n12345'
