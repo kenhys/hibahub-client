@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 require 'tmpdir'
-require_relative '../../lib/yomou/crawler'
-require_relative '../../lib/yomou/nopoint'
+require_relative '../../lib/yomou/crawler/nopoint'
 
 class NopointCrawlerTest < Test::Unit::TestCase
   setup do
