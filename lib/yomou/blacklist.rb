@@ -30,6 +30,7 @@ module Yomou
 
       yaml = YAML.load_file(blacklist_path)
       ncodes = yaml[:ncodes]
+      directories = sub_directories(min, max)
       if directories.empty?
         directories = 99.times.collect do |i|
           format("%02d", i)
@@ -65,6 +66,19 @@ module Yomou
     def blacklist_path
       base_dir = File.join(@conf.directory, 'narou')
       File.join(@conf.directory, YOMOU_BLACKLIST)
+    end
+
+    def sub_directories(min, max)
+      n = 0
+      directories = []
+      loop do
+        break if n > max
+        if n >= min
+          directories << format("%<number>02d", number: n)
+        end
+        n += 1
+      end
+      directories
     end
   end
 end
