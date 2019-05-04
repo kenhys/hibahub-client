@@ -11,12 +11,12 @@ module Yomou
       desc 'download [PERIOD]', 'Command description...'
       method_option :help, aliases: '-h', type: :boolean,
                            desc: 'Display usage information'
-      def download(period=nil)
+      def download(period=nil, genre=nil)
         if options[:help]
           invoke :help, ['download']
         else
           require_relative 'genrerank/download'
-          Yomou::Commands::Genrerank::Download.new(period, options).execute
+          Yomou::Commands::Genrerank::Download.new(period, genre, options).execute
         end
       end
 
