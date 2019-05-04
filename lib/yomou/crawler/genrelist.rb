@@ -23,17 +23,24 @@ module Yomou
                                 period: period, genre: genre)
           url = format("%<base>s/%<period_genre>s",
                        base: GENRELIST_URL, period_genre: period_genre)
-          yyyymmdd = Time.now.strftime("%Y%m%d")
-          path = pathname_expanded([@conf.directory,
-                                    "genrelist",
-                                    genre,
-                                    period,
-                                    "#{yyyymmdd}.html.xz"])
           @output.puts("download #{url}")
+          path = html_path(period, genre)
           save_as(url, path)
           @output.puts("save #{path}")
         end
       end
+    end
+
+    def base_path
+      pathname_expanded([@conf.directory, "genrelist"])
+    end
+
+    def html_path(period, genre, yyyymmdd=nil)
+      yyyymmdd = Time.now.strftime("%Y%m%d") unless yyyymmdd
+      pathname_expanded([base_path,
+                         genre,
+                         period,
+                         "#{yyyymmdd}.html.xz"])
     end
 
     private
