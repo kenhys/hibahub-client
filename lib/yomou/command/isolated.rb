@@ -6,39 +6,6 @@ module Yomou
   module Command
     module Isolated
 
-      def group_by_sub_directory(hash)
-        group = {}
-        hash.keys.each do |ncode|
-          ncode =~ /n(\d\d).+/
-          sub_directory = $1
-          if group.has_key?(sub_directory)
-            group[sub_directory][ncode] = hash[ncode]
-          else
-            group[sub_directory] = {
-              ncode => hash[ncode]
-            }
-          end
-        end
-        group
-      end
-
-      def archive_no_group(category, group)
-        group.keys.sort.each do |key|
-          path = pathname_expanded([@conf.directory,
-                                    category,
-                                    "n#{key}.yaml.xz"])
-          p path
-          entries = []
-          if path.exist?
-            entries = yaml_xz(path.to_s)
-            entries.merge!(group[key])
-          else
-            entries = group[key]
-          end
-          archive(entries, path)
-        end
-      end
-
       def extract_total_novels_from_each_page(doc)
         total = 0
         doc.xpath("//div[@class='site_h2']").each do |div|

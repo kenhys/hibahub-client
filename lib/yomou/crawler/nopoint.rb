@@ -37,22 +37,73 @@ module Yomou
     end
 
     def makecache
-      @conf = Yomou::Config.new
       pattern = "#{@conf.directory}/nopointlist/nopointlist_*.html.xz"
       lists = Pathname.glob(pattern).sort
       data = {}
       lists.each do |path|
         @output.puts("Extract #{path}...")
         html_xz(path.to_s) do |doc|
-          dat = extract_newreview(doc, "nopointlist")
-          data.merge!(dat)
+          data.merge!(parse_no_list(doc))
         end
       end
       group = group_by_sub_directory(data)
-      archive_no_group("nopointlist", group)
+      archive_group(group)
       lists.each do |path|
         @output.puts("Remove already cached: <#{path}>")
-        path.delete
+        #path.delete
+      end
+    end
+
+    private
+
+    def parse_no_list(doc)
+      data = {}
+      doc.xpath("//div[@class='no_list clearfix']").each_with_index do |div, index|
+        entry = {}
+        ncode = ""
+        div.xpath("div[@class='no_list_head']/a[@class='novel_title']").each do |a|
+          ncode = extract_ncode_from_url(a.attribute("href").text)
+          entry = {
+            ncode: ncode,
+            title: a.text
+          }
+        end
+        data[ncode.downcase] = entry
+      end
+      data
+    end
+
+    def group_by_sub_directory(hash)
+      group = {}
+      hash.keys.each do |ncode|
+        ncode =~ /n(\d\d).+/
+        sub_directory = $1
+        if group.key?(sub_directory)
+          group[sub_directory][ncode] = hash[ncode]
+        else
+          group[sub_directory] = {
+            ncode => hash[ncode]
+          }
+        end
+      end
+      group
+    end
+
+    def archive_group(group)
+      group.keys.sort.each do |key|
+        path = pathname_expanded([@conf.directory,
+                                  "nopointlist",
+                                  "n#{key}.yaml.xz"])
+        entries = []
+        if path.exist?
+          entries = yaml_xz(path.to_s)
+          entries.merge!(group[key])
+        else
+          entries = group[key]
+        end
+        pp entries
+        exit
+        #archive(entries, path)
       end
     end
 
