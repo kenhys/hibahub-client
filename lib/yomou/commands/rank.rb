@@ -20,10 +20,10 @@ module Yomou
         end
       end
 
-      desc 'download [PERIOD][SINCE]', 'Command description...'
+      desc 'download [PERIOD]', 'Command description...'
       method_option :help, aliases: '-h', type: :boolean,
                            desc: 'Display usage information'
-      def download(period=nil,since=nil)
+      def download(period=nil)
         if options[:help]
           invoke :help, ['download']
         else
