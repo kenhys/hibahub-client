@@ -8,13 +8,13 @@ module Yomou
     class Isekairank
       class Download < Yomou::Command
         def initialize(period, options)
-          @period = period
+          @periods = [period]
           @options = options
         end
 
         def execute(input: $stdin, output: $stdout)
           crawler = Yomou::IsekailistCrawler.new
-          crawler.download(period: @period)
+          crawler.download(periods: @periods)
         end
       end
     end

@@ -15,7 +15,7 @@ module Yomou
     end
 
     def download(options={})
-      periods = options[:period] || all_periods
+      periods = options[:periods] || all_periods
       periods.each do |period|
         ['1', '2', 'o'].each do |genre|
           period_genre = format("%<period>s_%<genre>s",
