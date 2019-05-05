@@ -9,7 +9,7 @@ module Yomou
       class Download < Yomou::Command
         def initialize(min, max, options)
           @min = min.to_i
-          @max = min.to_i
+          @max = max.to_i
           @options = options
         end
 
