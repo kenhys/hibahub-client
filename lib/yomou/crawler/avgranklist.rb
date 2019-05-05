@@ -22,7 +22,6 @@ module Yomou
       @max_page = options[:max_page] || 9999
 
       page = @min_page
-      n = 1
 
       total = @max_page - @min_page + 1
       loop do
