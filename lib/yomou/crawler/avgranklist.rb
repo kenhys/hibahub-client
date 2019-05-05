@@ -28,8 +28,8 @@ module Yomou
       loop do
         next if page < @min_page
         break if page > @max_page
-        path = noimpressionlist_path(page)
-        url = noimpressionlist_url(page)
+        path = avgranklist_path(page)
+        url = avgranklist_url(page)
         @output.puts("download #{url}")
         save_as(url, path)
         @output.puts("save #{path}")
