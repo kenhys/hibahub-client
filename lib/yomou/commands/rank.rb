@@ -28,7 +28,7 @@ module Yomou
           invoke :help, ['download']
         else
           require_relative 'rank/download'
-          Yomou::Commands::Rank::Download.new(daily, options).execute
+          Yomou::Commands::Rank::Download.new(period, options).execute
         end
       end
     end
