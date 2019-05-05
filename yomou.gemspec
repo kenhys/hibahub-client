@@ -63,6 +63,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "rroonga", "~> 7.1.1"
   spec.add_runtime_dependency "ruby-xz", "~> 1.0.0"
   spec.add_runtime_dependency "thor", "~> 0.20.3"
+  spec.add_runtime_dependency "narou", "~> 3.4.2"
 
   spec.add_development_dependency "bundler", "~> 1.17"
   spec.add_development_dependency "rake", "~> 10.0"
