@@ -16,7 +16,7 @@ module Yomou
           invoke :help, ['download']
         else
           require_relative 'avgranklist/download'
-          Yomou::Commands::Avgranklist::Download.new(min, options).execute
+          Yomou::Commands::Avgranklist::Download.new(min, max, options).execute
         end
       end
     end

@@ -6,14 +6,15 @@ module Yomou
   module Commands
     class Avgranklist
       class Download < Yomou::Command
-        def initialize(min, options)
+        def initialize(min, max, options)
           @min = min
+          @max = min
           @options = options
         end
 
         def execute(input: $stdin, output: $stdout)
-          # Command logic goes here ...
-          output.puts "OK"
+          crawler = AvgranklistCrawler.new
+          crawler.download
         end
       end
     end
