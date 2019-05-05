@@ -22,7 +22,10 @@ class IsekailistCrawlerTest < Test::Unit::TestCase
         expected = []
         ['yearly_1', 'yearly_2', 'yearly_o'].each do |entry|
           expected << File.join(crawler.base_path,
-                                entry, now.year.to_s, now.strftime("%Y%m%d.html.xz"))
+                                entry,
+                                now.year.to_s,
+                                now.month.to_s,
+                                now.strftime("%Y%m%d.html.xz"))
         end
         assert_equal(expected, paths)
       end
