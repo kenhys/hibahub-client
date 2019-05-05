@@ -50,31 +50,6 @@ module Yomou
     def all_periods
       ['daily', 'weekly', 'monthly', 'quarter', 'yearly']
     end
-
-    def all_genres
-      [
-        '101',
-        '102',
-        '201',
-        '202',
-        '301',
-        '302',
-        '303',
-        '304',
-        '305',
-        '306',
-        '307',
-        '401',
-        '402',
-        '403',
-        '404',
-        '9901',
-        '9902',
-        '9903',
-        '9999'
-      ]
-    end
-
   end
 end
   
