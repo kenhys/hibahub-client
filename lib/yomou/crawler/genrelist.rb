@@ -36,10 +36,13 @@ module Yomou
     end
 
     def html_path(period, genre, yyyymmdd=nil)
-      yyyymmdd = Time.now.strftime("%Y%m%d") unless yyyymmdd
+      now = Time.now
+      yyyymmdd = now.strftime("%Y%m%d") unless yyyymmdd
       pathname_expanded([base_path,
                          genre,
                          period,
+                         now.year.to_s,
+                         now.month.to_s,
                          "#{yyyymmdd}.html.xz"])
     end
 

@@ -42,6 +42,7 @@ module Yomou
       pathname_expanded([base_path,
                          path_to_period,
                          now.year.to_s,
+                         now.month.to_s,
                          "#{yyyymmdd}.html.xz"])
     end
 
